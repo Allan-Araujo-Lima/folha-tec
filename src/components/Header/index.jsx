@@ -11,11 +11,13 @@ export const Header = () => {
             <Link to="/">
                 <img className="header-img" src={LogoMarca} />
             </Link>
-            <nav>
-                <Link to="/sobre">Sobre Nós</Link>
-                <Link to="/calculadoras">Calculadoras</Link>
-                <Link to="/contato">Contato</Link>
-            </nav>
+            <div className='nav'>
+                <nav>
+                    <Link to="/sobre">Sobre Nós</Link>
+                    <Link to="/calculadoras">Calculadoras</Link>
+                    <Link to="/contato">Contato</Link>
+                </nav>
+            </div>
         </div>
     );
 }
