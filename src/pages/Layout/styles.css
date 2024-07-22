@@ -4,3 +4,9 @@
     min-height: 100vh;
     flex-direction: column;
 }
+
+
+.content {
+    display: flex;
+    height: calc(100vh - 65px);
+}

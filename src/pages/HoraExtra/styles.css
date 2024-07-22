@@ -1,4 +1,4 @@
-h1 {
+/* h1 {
     font-size: 3.2em;
     line-height: 1.1;
     margin-bottom: 4px;
@@ -94,4 +94,14 @@ button:focus-visible {
     font: 'Calibre';
     font-size: large;
     color: black;
+} */
+
+
+.content-hora-extra {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    flex-direction: column;
+    justify-content: center;
 }

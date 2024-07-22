@@ -1,109 +1,87 @@
 import { useState, useRef } from 'react'
+import { Form, Input, Radio, Select, Card, Button } from 'antd'
 import './styles.css'
+import { useForm } from 'antd/es/form/Form'
 
 export const HoraExtra = () => {
-    const [selectedOption, setSelectecOption] = useState("")
-    const [horaExtraResult, setHoraExtraResult] = useState(null)
-    const [horas, setHoras] = useState(null)
-    const [dias, setDias] = useState(25)
-    const [dsr, setDsr] = useState(0)
+    const [selectedOption, setSelectecOption] = useState("");
+    const [horaExtraResult, setHoraExtraResult] = useState(null);
+    const [horas, setHoras] = useState(null);
+    const setDias = (value) => {
+        form.setFieldValue({ naouteis: 30 - value })
+    }
+    const [dsr, setDsr] = useState(0);
+    const [form] = Form.useForm();
 
-    const submit = (e) => {
-        e.preventDefault()
+    const submit = (values) => {
 
-        const formData = Object.fromEntries(new FormData(e.target))
+        let salarioTotal = values.salario;
 
-        let insalubridadeValue = 0;
-        let periculosidadeValue = 0;
-        let salarioTotal = Number(formData.salario)
-
-        if (formData.adicionais == 'insalubridade') {
-            insalubridadeValue = formData.salario * formData.insalubridade / 100;
-            salarioTotal += Number(insalubridadeValue)
-        } else if (formData.adicionais == 'periculosidade') {
-            periculosidadeValue = formData.salario * formData.periculosidade / 100;
-            salarioTotal += Number(periculosidadeValue)
+        if (values.insalubridade) {
+            salarioTotal += (values.salario * values.insalubridade / 100)
+        } else if (values.periculosidade) {
+            salarioTotal += Number(values.salario * values.periculosidade / 100)
         }
 
-        let result = salarioTotal / formData.cargahoraria * (formData.horaextra / 100 + 1) * formData.quantidadehoras;
-        let dsr = result / formData.quantidadediasuteis * formData.quantidadediasnaouteis
+        let result = salarioTotal / values.cargahoraria * (values.horaextra / 100 + 1) * values.quantidadehoras;
+        let dsr = result / values.quantidadediasuteis * values.quantidadediasnaouteis
 
         setHoraExtraResult(result)
-        setHoras(formData.quantidadehoras)
+        setHoras(values.quantidadehoras)
         setDsr(dsr)
+
+        console.log(result)
 
     }
 
     return (
-        <div style={{ height: '100%' }}>
-            <div className="hora-extra">
-                <form className="container-hora-extra" id="container-hora-extra" onSubmit={submit}>
-                    <h1>Hora Extra</h1>
-                    <div className="form-item">
-                        <label htmlFor="salario">Salário base: </label>
-                        <input type="number" placeholder="Digite seu salário atual" id="salario" name="salario" required="True" />
-                    </div>
-
-                    <div className="form-item">
-                        <label htmlFor="adicionais">Adicionais: </label>
-                        <select id="adicionais" name="adicionais" className="adicionais" onChange={(e) => setSelectecOption(e.target.value)}>
-                            <option value="">Nenhum</option>
-                            <option value="insalubridade">Insalubridade</option>
-                            <option value="periculosidade">Periculosidade</option>
-                        </select>
-                    </div>
-
+        <div className='content-hora-extra'>
+            <Card title="Hora Extra" style={{ maxWidth: 600 }}>
+                <Form layout="vertical" onSubmit={submit} onFinish={submit} form={form} type="number">
+                    <Form.Item label="Salário base: " name="salario" rules={[{ required: true }]}>
+                        <Input type='number' placeholder="Digite seu salário atual" />
+                    </Form.Item>
+                    <Form.Item label="Adicionais" required>
+                        <Select defaultValue={"Nenhum"} id="adicionais" className="adicionais" onChange={(e) => setSelectecOption(e)}>
+                            <Select.Option value="">Nenhum</Select.Option>
+                            <Select.Option value="insalubridade">Insalubridade</Select.Option>
+                            <Select.Option value="periculosidade">Periculosidade</Select.Option>
+                        </Select>
+                    </Form.Item>
                     {
                         selectedOption == 'insalubridade' ?
-                            <div id="insalubridade" className="insalubridade form-item">
-                                <label htmlFor="insalubridade">Adicional de Insalubridade: </label>
-                                <input defaultValue={20} type="number" name="insalubridade" required="True" />
-                                <label>%</label>
-                            </div>
+                            <Form.Item label="Adicional de Insalubridade" name="insalubridade" required initialValue={20}>
+                                <Input type="number" />
+                            </Form.Item>
                             :
                             null
                     }
-
                     {
                         selectedOption == 'periculosidade' ?
-                            <div id="periculosidade" className="periculosidade form-item">
-                                <label htmlFor="periculosidade">Adicional de Perirculosidade: </label>
-                                <input defaultValue={30} type="number" name="periculosidade" required="True" />
-                                <label>%</label>
-                            </div>
+                            <Form.Item label="Adicional de Perirculosidade" name="periculosidade" required initialValue={30}>
+                                <Input type="number" />
+                            </Form.Item>
                             :
                             null
                     }
-
-                    <div className="form-item">
-                        <label htmlFor="cargahoraria">Horas Mensais: </label>
-                        <input type="number" placeholder="Hora(s)" name="cargahoraria" required="True" defaultValue={220} />
-                        <label> hora(s)</label>
-                    </div>
-
-                    <div className="form-item">
-                        <label htmlFor="horaextra">Adicional Hora Extra: </label>
-                        <input type="number" defaultValue={50} name="horaextra" required="True" />
-                        <label>%</label>
-                    </div>
-
-                    <div className="form-item">
-                        <label htmlFor="quantidadehoras">Horas extras: </label>
-                        <input type="number" placeholder="Hora(s)" name="quantidadehoras" required="True" defaultValue={1} />
-                        <label> hora(s)</label>
-                    </div>
-
-                    <div className="form-item">
-                        <label htmlFor="quantidadediasuteis">Dias úteis: </label>
-                        <input type="number" placeholder="dias" name="quantidadediasuteis" required="True" max={30} min={0} defaultValue={25} onChange={(e) => setDias(e.target.value)} style={{ width: '30px', textAlign: 'center', marginRight: '10px' }} />
-                        <label htmlFor="quantidadediasnaouteis">Não úteis: </label>
-                        <input type="number" placeholder="dias" name="quantidadediasnaouteis" required="True" readOnly value={(30 - dias)} style={{ width: '30px', textAlign: 'center' }} />
-                    </div>
-
-                    <div className="calculate">
-                        <button className="calculate-btn" id="calculate-btn" type="submit">Calcular</button>
-                    </div>
-                </form>
+                    <Form.Item label="Horas mês: " name="horas-mes" required initialValue={220}>
+                        <Input type="number" placeholder="Hora(s)" />
+                    </Form.Item>
+                    <Form.Item label="Horas extras: " name="horas-extras" rules={[{ required: true }]} initialValue={50}>
+                        <Input type="number" />
+                    </Form.Item>
+                    <Form.Item label="Dias úteis" name='uteis' initialValue={20} rules={[{ max: 25 }, { required: true }]}
+                        style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}
+                        onChange={console.log("oiii")}>
+                        <Input type="number" />
+                    </Form.Item>
+                    <Form.Item label="Dias não úteis" name='naouteis' initialValue={5} style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 8px' }} >
+                        <Input type="number" />
+                    </Form.Item>
+                    <Button type='primary' htmlType='submit' className="calculate-btn">
+                        Calcular
+                    </Button>
+                </Form>
                 {horaExtraResult !== null && (
                     <div className="result">
                         <h1>Resultado</h1>
@@ -114,7 +92,7 @@ export const HoraExtra = () => {
                         <p><b>Total geral: R${(horaExtraResult + dsr).toFixed(2)}</b>.</p>
                     </div>
                 )}
-            </div>
+            </Card>
         </div>
     )
 }

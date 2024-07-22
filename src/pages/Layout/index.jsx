@@ -9,7 +9,9 @@ export const Layout = () => {
     return (
         <div className="layout-container">
             <Header />
-            <Outlet />
+            <div className="content">
+                <Outlet />
+            </div>
         </div>
     )
 }

@@ -55,7 +55,7 @@ export const Home = () => {
                     <div className='carrossel-inner'>
                         <div className='carrossel-item item'>
                             <h1 className='carrossel-h1'>Missão</h1>
-                            <p className='carrossel-p'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus sint veniam explicabo, eveniet doloribus fugiat eos distinctio numquam obcaecati doloremque minima mollitia assumenda odio enim ut vel dolor dolorum fuga?</p>
+                            <p className='carrossel-p'>Tornar o mercado de departamento pessoal Brasileiro mais ágil e simples.</p>
                         </div>
                         <div className='carrossel-item item active'>
                             <h1 className='carrossel-h1'>Visão</h1>
