@@ -99,9 +99,15 @@ button:focus-visible {
 
 .content-hora-extra {
     width: 100%;
+    align-self: center;
+    justify-self: center;
     display: flex;
     align-items: center;
     justify-items: center;
     flex-direction: column;
     justify-content: center;
+}
+
+Form {
+    width: 500px;
 }

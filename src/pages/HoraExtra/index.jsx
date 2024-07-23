@@ -1,15 +1,19 @@
 import { useState, useRef } from 'react'
-import { Form, Input, Radio, Select, Card, Button } from 'antd'
+import { Form, Input, Radio, Select, Card, Button, InputNumber, Space } from 'antd'
 import './styles.css'
-import { useForm } from 'antd/es/form/Form'
 
 export const HoraExtra = () => {
     const [selectedOption, setSelectecOption] = useState("");
     const [horaExtraResult, setHoraExtraResult] = useState(null);
     const [horas, setHoras] = useState(null);
-    const setDias = (value) => {
-        form.setFieldValue({ naouteis: 30 - value })
-    }
+
+    const setDias = (e) => {
+        switch (e) {
+            default:
+                form.setFieldsValue({ naouteis: (30 - e) });
+        }
+    };
+
     const [dsr, setDsr] = useState(0);
     const [form] = Form.useForm();
 
@@ -20,26 +24,34 @@ export const HoraExtra = () => {
         if (values.insalubridade) {
             salarioTotal += (values.salario * values.insalubridade / 100)
         } else if (values.periculosidade) {
-            salarioTotal += Number(values.salario * values.periculosidade / 100)
+            salarioTotal += (values.salario * values.periculosidade / 100)
         }
 
-        let result = salarioTotal / values.cargahoraria * (values.horaextra / 100 + 1) * values.quantidadehoras;
-        let dsr = result / values.quantidadediasuteis * values.quantidadediasnaouteis
+        let result = salarioTotal / values.horasmes * (values.percentualhorasextras / 100 + 1) * values.horasextras;
+        let dsr = result / values.uteis * values.naouteis
 
         setHoraExtraResult(result)
-        setHoras(values.quantidadehoras)
+        setHoras(values.horasextras)
         setDsr(dsr)
 
+        console.log(values.naouteis)
         console.log(result)
 
+    }
+
+    const clear = () => {
+        form.resetFields();
     }
 
     return (
         <div className='content-hora-extra'>
             <Card title="Hora Extra" style={{ maxWidth: 600 }}>
-                <Form layout="vertical" onSubmit={submit} onFinish={submit} form={form} type="number">
-                    <Form.Item label="Salário base: " name="salario" rules={[{ required: true }]}>
-                        <Input type='number' placeholder="Digite seu salário atual" />
+                <Form layout="vertical" onSubmit={submit} onFinish={submit} form={form}>
+                    <Form.Item label="Salário base: " name="salario"
+                        rules={[{ required: true }]}>
+                        <InputNumber type='number' placeholder="Digite seu salário atual"
+                            addonBefore="R$"
+                            style={{ width: '100%' }} />
                     </Form.Item>
                     <Form.Item label="Adicionais" required>
                         <Select defaultValue={"Nenhum"} id="adicionais" className="adicionais" onChange={(e) => setSelectecOption(e)}>
@@ -50,46 +62,74 @@ export const HoraExtra = () => {
                     </Form.Item>
                     {
                         selectedOption == 'insalubridade' ?
-                            <Form.Item label="Adicional de Insalubridade" name="insalubridade" required initialValue={20}>
-                                <Input type="number" />
+                            <Form.Item label="Adicional de Insalubridade" name="insalubridade" required initialValue={20}
+                                style={{ marginLeft: '25px' }}>
+                                <InputNumber type="number"
+                                    addonBefore="I"
+                                    addonAfter="%"
+                                    style={{ width: '100%' }} />
                             </Form.Item>
                             :
                             null
                     }
                     {
                         selectedOption == 'periculosidade' ?
-                            <Form.Item label="Adicional de Perirculosidade" name="periculosidade" required initialValue={30}>
-                                <Input type="number" />
+                            <Form.Item label="Adicional de Perirculosidade" name="periculosidade" required initialValue={30}
+                                style={{ marginLeft: '25px' }}>
+                                <InputNumber type="number"
+                                    addonBefore="I"
+                                    addonAfter="%"
+                                    style={{ width: '100%' }} />
                             </Form.Item>
                             :
                             null
                     }
-                    <Form.Item label="Horas mês: " name="horas-mes" required initialValue={220}>
-                        <Input type="number" placeholder="Hora(s)" />
+                    <Form.Item label="Horas mês: " name="horasmes" required initialValue={220}>
+                        <InputNumber type="number" placeholder="Hora(s)"
+                            addonAfter="Horas"
+                            style={{ width: '100%' }} />
                     </Form.Item>
-                    <Form.Item label="Horas extras: " name="horas-extras" rules={[{ required: true }]} initialValue={50}>
-                        <Input type="number" />
+                    <Form.Item label="Percentual horas extras: " name="percentualhorasextras" initialValue={50}
+                        rules={[{ required: true }]}>
+                        <InputNumber type="number" addonAfter="%"
+                            style={{ width: '100%' }} />
                     </Form.Item>
-                    <Form.Item label="Dias úteis" name='uteis' initialValue={20} rules={[{ max: 25 }, { required: true }]}
-                        style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}
-                        onChange={console.log("oiii")}>
-                        <Input type="number" />
+                    <Form.Item label="Dias úteis" name='uteis' initialValue={25}
+                        style={{ display: 'inline-block', width: '50%' }}
+                        rules={[{ required: true }, { type: 'number', max: 30, min: 0 }]}
+                        onChange={(e) => setDias(e.target.value)}>
+                        <InputNumber type="number"
+                            style={{ display: 'inline-block', width: 'calc(100% - 16px' }} />
                     </Form.Item>
-                    <Form.Item label="Dias não úteis" name='naouteis' initialValue={5} style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 8px' }} >
-                        <Input type="number" />
+                    <Form.Item label="Dias não úteis" name='naouteis' initialValue={5}
+                        style={{ display: 'inline-block', width: '50%' }}>
+                        <InputNumber disabled type="number"
+                            style={{ width: '100%' }} />
                     </Form.Item>
-                    <Button type='primary' htmlType='submit' className="calculate-btn">
-                        Calcular
-                    </Button>
+                    <Form.Item label="Quantidade de horas extras: " name='horasextras'
+                        rules={[{ required: true }]}>
+                        <InputNumber type="number"
+                            addonAfter="Horas"
+                            style={{ width: '100%' }} />
+                    </Form.Item>
+                    <Space>
+                        <Button type='primary' htmlType='submit' className="calculate-btn">
+                            Calcular
+                        </Button>
+                        <Button htmlType='button' onClick={clear}>
+                            Limpar
+                        </Button>
+                    </Space>
                 </Form>
+                <Space> </Space>
                 {horaExtraResult !== null && (
                     <div className="result">
-                        <h1>Resultado</h1>
-                        <p>O colaborador receberia <b>R$ {horaExtraResult.toFixed(2)}</b> referente a(s) {horas} hora(s) extra trabalhadas.</p>
-                        <></>
-                        <p>Além disso, o colaborador receberá <b>R$ {dsr.toFixed(2)}</b> sobre os dias não úteis.</p>
-                        <></>
-                        <p><b>Total geral: R${(horaExtraResult + dsr).toFixed(2)}</b>.</p>
+                        <Card title="Resultado" style={{ maxWidth: 600 }}>
+                            <p>O colaborador receberá <b>R$ {horaExtraResult.toFixed(2)}</b> referente a(s) {horas} hora(s) extra trabalhada(s).</p>
+                            <p>Além disso, o colaborador receberá <b>R$ {dsr.toFixed(2)}</b> sobre os dias não úteis.</p>
+                            <Space> </Space>
+                            <h2 style={{ backgroundColor: 'lightgrey' }}><b>Total geral: R${(horaExtraResult + dsr).toFixed(2)}</b></h2>
+                        </Card>
                     </div>
                 )}
             </Card>
