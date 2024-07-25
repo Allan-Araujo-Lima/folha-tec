@@ -1,23 +1,32 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
+import { Link, redirect } from 'react-router-dom';
+import { Layout, Menu } from 'antd';
 import LogoMarca from "../../assets/Logomarca.svg"
+
+const { Header } = Layout
+
+const items = ['Sobre', 'Calculadoras', 'Contato'].map((key) => ({
+    key,
+    label: <Link to={`/${key}`}>{key}</Link>,
+}));
+
 
 import './styles.css'
 
-export const Header = () => {
+export const HeaderExp = () => {
     return (
-        <div className="header">
-            <Link to="/">
-                <img className="header-img" src={LogoMarca} />
-            </Link>
-            <div className='nav'>
-                <nav>
-                    <Link to="/sobre">Sobre Nós</Link>
-                    <Link to="/calculadoras">Calculadoras</Link>
-                    <Link to="/contato">Contato</Link>
-                </nav>
-            </div>
-        </div>
+        <Layout>
+            <Header style={{ display: 'flex', alignItems: 'center' }}>
+                <div className="header">
+                    <Link to='/' style={{ display: 'flex', alignSelf: 'center' }}><img className="header-img" src={LogoMarca} /></Link>
+                    <Menu
+                        theme="dark"
+                        mode="horizontal"
+                        style={{ flex: 1, minWidth: 0 }}
+                        items={items}>
+                    </Menu>
+                </div>
+            </Header >
+        </Layout >
     );
 }

@@ -6,6 +6,7 @@ import { Sobre } from "./pages/Sobre";
 import { Layout } from './pages/Layout';
 import { HoraExtra } from './pages/HoraExtra';
 import { Calculadoras } from './pages/Calculadoras';
+import { Contato } from './pages/Contato';
 
 import './globals/styles.css'
 
@@ -31,6 +32,10 @@ function App() {
                 {
                     path: "/sobre",
                     element: <Sobre />
+                },
+                {
+                    path: "contato",
+                    element: <Contato />
                 }
             ]
         },
