@@ -45,10 +45,10 @@ export const HoraExtra = () => {
 
     return (
         <div className='content-hora-extra'>
-            <Card title="Hora Extra" style={{ maxWidth: 600 }}>
+            <Card title="Hora Extra" style={{ maxWidth: 800 }}>
                 <Form layout="vertical" onSubmit={submit} onFinish={submit} form={form}>
                     <Form.Item label="Salário base: " name="salario"
-                        rules={[{ required: true }]}>
+                        rules={[{ required: true }, { type: 'number', min: 1 }]}>
                         <InputNumber type='number' placeholder="Digite seu salário atual"
                             addonBefore="R$"
                             style={{ width: '100%' }} />
@@ -121,18 +121,18 @@ export const HoraExtra = () => {
                         </Button>
                     </Space>
                 </Form>
-                <Space> </Space>
-                {horaExtraResult !== null && (
-                    <div className="result">
-                        <Card title="Resultado" style={{ maxWidth: 600 }}>
-                            <p>O colaborador receberá <b>R$ {horaExtraResult.toFixed(2)}</b> referente a(s) {horas} hora(s) extra trabalhada(s).</p>
-                            <p>Além disso, o colaborador receberá <b>R$ {dsr.toFixed(2)}</b> sobre os dias não úteis.</p>
-                            <Space> </Space>
-                            <h2 style={{ backgroundColor: 'lightgrey' }}><b>Total geral: R${(horaExtraResult + dsr).toFixed(2)}</b></h2>
-                        </Card>
-                    </div>
-                )}
             </Card>
+            {horaExtraResult !== null && (
+                <div className="result">
+                    <Space> </Space>
+                    <Card title="Resultado" style={{ maxWidth: 800 }}>
+                        <p>O colaborador receberá <b>R$ {horaExtraResult.toFixed(2)}</b> referente a(s) {horas} hora(s) extra trabalhada(s).</p>
+                        <p>Além disso, o colaborador receberá <b>R$ {dsr.toFixed(2)}</b> sobre os dias não úteis.</p>
+                        <Space> </Space>
+                        <h2 style={{ backgroundColor: 'lightgrey' }}><b>Total geral: R${(horaExtraResult + dsr).toFixed(2)}</b></h2>
+                    </Card>
+                </div>
+            )}
         </div>
     )
 }

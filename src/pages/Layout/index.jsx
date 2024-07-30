@@ -1,10 +1,10 @@
-import { Outlet } from "react-router-dom";
-
+import { Outlet } from 'react-router-dom';
 import { HeaderExp } from '../../components/Header'
+import { FooterExp } from "../../components/Footer";
 
 import './styles.css'
 
-export const Layout = () => {
+export const LayoutExp = () => {
 
     return (
         <div className="layout-container">
@@ -12,6 +12,7 @@ export const Layout = () => {
             <div className="content">
                 <Outlet />
             </div>
+            <FooterExp />
         </div>
     )
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import LogoMarca from "../../assets/Logomarca.svg"
 
@@ -18,7 +18,9 @@ export const HeaderExp = () => {
         <Layout>
             <Header style={{ display: 'flex', alignItems: 'center' }}>
                 <div className="header">
-                    <Link to='/' style={{ display: 'flex', alignSelf: 'center' }}><img className="header-img" src={LogoMarca} /></Link>
+                    <Link to='/'
+                        style={{ display: 'flex', alignSelf: 'center' }}>
+                        <img className="header-img" src={LogoMarca} /></Link>
                     <Menu
                         theme="dark"
                         mode="horizontal"

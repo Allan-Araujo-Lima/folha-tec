@@ -3,10 +3,12 @@
     display: flex;
     min-height: 100vh;
     flex-direction: column;
+    overflow-y: hidden;
 }
 
 
 .content {
     display: flex;
     height: calc(100vh - 65px);
+    overflow-y: auto;
 }

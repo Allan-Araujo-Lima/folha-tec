@@ -3,19 +3,21 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { Home } from './pages/Home';
 import { Sobre } from "./pages/Sobre";
-import { Layout } from './pages/Layout';
+import { LayoutExp } from './pages/Layout';
 import { HoraExtra } from './pages/HoraExtra';
 import { Calculadoras } from './pages/Calculadoras';
 import { Contato } from './pages/Contato';
+import { Folha } from './pages/Folha';
 
 import './globals/styles.css'
+import { AdicionalNoturno } from './pages/AdicionalNoturno';
 
 function App() {
 
     const pages = createBrowserRouter([
         {
             path: "/",
-            element: <Layout />,
+            element: <LayoutExp />,
             children: [
                 {
                     path: "/",
@@ -30,11 +32,19 @@ function App() {
                     element: <HoraExtra />
                 },
                 {
+                    path: "/calculadoras/folha",
+                    element: <Folha />
+                },
+                {
+                    path: "/calculadoras/adicional-noturno",
+                    element: <AdicionalNoturno />
+                },
+                {
                     path: "/sobre",
                     element: <Sobre />
                 },
                 {
-                    path: "contato",
+                    path: "/contato",
                     element: <Contato />
                 }
             ]

@@ -97,15 +97,14 @@ button:focus-visible {
 } */
 
 
-.content-hora-extra {
+.content-hora-extra,
+.result {
     width: 100%;
-    align-self: center;
-    justify-self: center;
     display: flex;
     align-items: center;
-    justify-items: center;
-    flex-direction: column;
     justify-content: center;
+    padding: 15px;
+    flex-direction: column;
 }
 
 Form {

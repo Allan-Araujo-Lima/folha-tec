@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Layout } from 'antd';
+import { Layout, List } from 'antd';
 import './styles.css';
 
 const { Content } = Layout;
@@ -47,38 +47,45 @@ export const Home = () => {
     }, [currentItem]);
 
     return (
-        <Content>
-            <div className='introducao'
-                style={{
-                    background: '#ffffff',
-                    minHeight: 280,
-                    padding: 24,
-                    borderRadius: '30px',
-                }}>
-                <h1 className='h1'>Bem-vindo(a) à <b>FolhaTec!</b></h1>
-                <p className='p'>Olá, somos a <b style={{ color: 'red' }}>Folhatec</b>, uma nova empresa que está preparada para revolucionar o mercado
-                    de <b>departamento pessoal</b> do <b>Brasil!</b></p>
-                <div className='carrossel' data-ride='carrossel'>
-                    <button className='arrow-left control' aria-label='Previous' onClick={left}>◀︎</button>
-                    <button className='arrow-right control' aria-label='Next' onClick={right}>▶︎</button>
-                    <div className='carrossel-wrapper'>
-                        <div className='carrossel-inner'>
-                            <div className='carrossel-item item'>
-                                <h1 className='carrossel-h1'>Missão</h1>
-                                <p className='carrossel-p'>Tornar o mercado de departamento pessoal Brasileiro mais ágil e simples.</p>
-                            </div>
-                            <div className='carrossel-item item active'>
-                                <h1 className='carrossel-h1'>Visão</h1>
-                                <p className='carrossel-p'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio ex nemo cum fugit doloremque nisi hic autem veritatis delectus, natus sunt eligendi voluptas sint, dolorum doloribus veniam dolores earum omnis.</p>
-                            </div>
-                            <div className='carrossel-item item'>
-                                <h1 className='carrossel-h1'>Valores</h1>
-                                <p className='carrossel-p'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quaerat est sapiente ipsam. Atque repellendus itaque mollitia corporis consectetur. Et amet molestias officia similique necessitatibus natus repellat tempora. Nulla, nesciunt libero.</p>
+        <Layout>
+            <Content style={{ padding: '0 48px' }}>
+                <div className='introducao'
+                    style={{
+                        background: '#ffffff',
+                        minHeight: 280,
+                        padding: 24,
+                        borderRadius: '30px',
+                    }}>
+                    <h1 className='h1'>Bem-vindo(a) à <b>FolhaTec!</b></h1>
+                    <p className='p'>Olá, somos a <b style={{ color: 'red' }}>Folhatec</b>, uma nova empresa que está preparada para revolucionar o mercado
+                        de <b>departamento pessoal</b> do <b>Brasil!</b></p>
+                    <div className='carrossel' data-ride='carrossel'>
+                        <button className='arrow-left control' aria-label='Previous' onClick={left}>◀︎</button>
+                        <button className='arrow-right control' aria-label='Next' onClick={right}>▶︎</button>
+                        <div className='carrossel-wrapper'>
+                            <div className='carrossel-inner'>
+                                <div className='carrossel-item item'>
+                                    <h1 className='carrossel-h1'>Missão</h1>
+                                    <p className='carrossel-p'>Tornar o mercado de departamento pessoal Brasileiro mais ágil e simples.</p>
+                                </div>
+                                <div className='carrossel-item item active'>
+                                    <h1 className='carrossel-h1'>Visão</h1>
+                                    <p className='carrossel-p'>Ser a melhor empresa de Departamento Pessoal do Brasil.</p>
+                                </div>
+                                <div className='carrossel-item item'>
+                                    <h1 className='carrossel-h1'>Valores</h1>
+                                    <p className='carrossel-p'>
+                                        - Agilidade;<br />
+                                        - Compromisso com o cliente;<br />
+                                        - Precisão nos processos;<br />
+                                        - Foco no cliente.<br />
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </Content>
+            </Content>
+        </Layout>
     );
 }
