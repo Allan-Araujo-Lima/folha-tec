@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react'
-import { Form, Input, Radio, Select, Card, Button, InputNumber, Space } from 'antd'
+import { useState } from 'react'
+import { Form, Select, Card, Button, InputNumber, Space } from 'antd'
 import './styles.css'
 
 export const HoraExtra = () => {
@@ -34,9 +34,6 @@ export const HoraExtra = () => {
         setHoras(values.horasextras)
         setDsr(dsr)
 
-        console.log(values.naouteis)
-        console.log(result)
-
     }
 
     const clear = () => {
@@ -47,11 +44,14 @@ export const HoraExtra = () => {
         <div className='content-hora-extra'>
             <Card title="Hora Extra" style={{ maxWidth: 800 }}>
                 <Form layout="vertical" onSubmit={submit} onFinish={submit} form={form}>
-                    <Form.Item label="Salário base: " name="salario"
-                        rules={[{ required: true }, { type: 'number', min: 1 }]}>
+                    <Form.Item label="Salário base" name="salario"
+                        initialValue={0}
+                        rules={[{ required: true, message: "Por favor, digite o salário base." },
+                        { type: 'number', min: 1, message: "O valor do salário base deve ser maior do que 0." }]}>
                         <InputNumber type='number' placeholder="Digite seu salário atual"
                             addonBefore="R$"
-                            style={{ width: '100%' }} />
+                            style={{ width: '100%' }}
+                            step={"0.00"} />
                     </Form.Item>
                     <Form.Item label="Adicionais" required>
                         <Select defaultValue={"Nenhum"} id="adicionais" className="adicionais" onChange={(e) => setSelectecOption(e)}>
@@ -62,8 +62,12 @@ export const HoraExtra = () => {
                     </Form.Item>
                     {
                         selectedOption == 'insalubridade' ?
-                            <Form.Item label="Adicional de Insalubridade" name="insalubridade" required initialValue={20}
-                                style={{ marginLeft: '25px' }}>
+                            <Form.Item label="Adicional de Insalubridade" name="insalubridade" initialValue={20}
+                                style={{ marginLeft: '25px' }}
+                                rules={[{ required: true, message: "Por favor, digite o adicional de insalubridade." },
+                                { type: "number", min: 10, max: 100, message: "O valor do adicinal de insalubridade deve estar entre 10 e 100." }
+                                ]}
+                            >
                                 <InputNumber type="number"
                                     addonBefore="I"
                                     addonAfter="%"
@@ -74,8 +78,11 @@ export const HoraExtra = () => {
                     }
                     {
                         selectedOption == 'periculosidade' ?
-                            <Form.Item label="Adicional de Perirculosidade" name="periculosidade" required initialValue={30}
-                                style={{ marginLeft: '25px' }}>
+                            <Form.Item label="Adicional de Perirculosidade" name="periculosidade" initialValue={30}
+                                style={{ marginLeft: '25px' }}
+                                rules={[{ required: true, message: "Por favor, digite o adicional de periculosidade." },
+                                { type: "number", min: 30, max: 100, message: "O valor do adicinal de periculosidade deve estar entre 10 e 100." }
+                                ]}>
                                 <InputNumber type="number"
                                     addonBefore="I"
                                     addonAfter="%"
@@ -84,22 +91,28 @@ export const HoraExtra = () => {
                             :
                             null
                     }
-                    <Form.Item label="Horas mês: " name="horasmes" required initialValue={220}>
+                    <Form.Item label="Horas mês" name="horasmes" initialValue={220}
+                        rules={[{ required: true, message: "Por favor, digite a quantidade de horas mês" },
+                        { min: 1, max: 744, message: "O valor deve estar entre 1 e 744" }]}>
                         <InputNumber type="number" placeholder="Hora(s)"
                             addonAfter="Horas"
                             style={{ width: '100%' }} />
                     </Form.Item>
-                    <Form.Item label="Percentual horas extras: " name="percentualhorasextras" initialValue={50}
-                        rules={[{ required: true }]}>
+                    <Form.Item label="Percentual horas extras" name="percentualhorasextras" initialValue={50}
+                        rules={[{ required: true, message: "Por favor, digite o percentual de horas extras." },
+                        { type: 'number', min: 1, message: "O valor deve ser maior do que 0." }
+                        ]}>
                         <InputNumber type="number" addonAfter="%"
                             style={{ width: '100%' }} />
                     </Form.Item>
                     <Form.Item label="Dias úteis" name='uteis' initialValue={25}
                         style={{ display: 'inline-block', width: '50%' }}
-                        rules={[{ required: true }, { type: 'number', max: 30, min: 0 }]}
+                        rules={[{ required: true, message: "Por favor, digite os dias úteis do mês." },
+                        { type: 'number', max: 30, min: 0, message: "O valor deve estar entre 0 e 30." }]}
                         onChange={(e) => setDias(e.target.value)}>
                         <InputNumber type="number"
-                            style={{ display: 'inline-block', width: 'calc(100% - 16px' }} />
+                            style={{ display: 'inline-block', width: 'calc(100% - 16px' }}
+                            onStep={setDias} />
                     </Form.Item>
                     <Form.Item label="Dias não úteis" name='naouteis' initialValue={5}
                         style={{ display: 'inline-block', width: '50%' }}>
@@ -107,7 +120,9 @@ export const HoraExtra = () => {
                             style={{ width: '100%' }} />
                     </Form.Item>
                     <Form.Item label="Quantidade de horas extras: " name='horasextras'
-                        rules={[{ required: true }]}>
+                        rules={[{ required: true, message: "Por favor, digitar quantidade de horas extras." },
+                        { type: "number", min: 1, message: "O valor deve ser maior do que 0." }
+                        ]}>
                         <InputNumber type="number"
                             addonAfter="Horas"
                             style={{ width: '100%' }} />
