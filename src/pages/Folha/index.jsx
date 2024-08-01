@@ -1,25 +1,38 @@
 import { useState } from "react";
-import { Card, Checkbox, Form, InputNumber, message, Select } from "antd"
+import { Card, Space, Form, InputNumber, Button, Select } from "antd"
 import "./styles.css"
-
+import { inss } from "../../hooks/inss";
 
 export const Folha = () => {
 
     const [selectedOption, setSelectecOption] = useState("");
-    const [dsr, setDsr] = useState(0);
+    const [form] = Form.useForm();
 
     const setDias = (e) => {
         form.setFieldsValue({ naouteis: (30 - e) });
     };
 
-    const [form] = Form.useForm();
+    const submit = (values) => {
+        let salarioTotal = values.salario
+        if (values.adicionais == "insalubridade") {
+            salarioTotal += (1412 * values.insalubridade / 100)
+        } else if (values.adicionais == "periculosidade") {
+            salarioTotal += (values.salario * values.periculosidade / 100)
+        }
+
+        console.log(inss(salarioTotal))
+
+
+
+    }
+
 
     return (
         <div className="content-folha">
             <Card title="Folha" style={{ maxWidth: 800 }}>
-                <Form layout="vertical" form={form}>
+                <Form layout="vertical" onSubmit={submit} onFinish={submit} form={form}>
                     <Form.Item label="Tipo de Salário" required>
-                        <Select defaultValue={"por mês"} className="tiposalario"
+                        <Select defaultValue={"Mensalista"} className="tiposalario"
                             onChange={(e) => setSelectecOption(e)}
                         >
                             <Select.Option value="">Mensalista</Select.Option>
@@ -102,6 +115,26 @@ export const Folha = () => {
                             addonAfter="Horas"
                             style={{ width: '100%' }} />
                     </Form.Item>
+                    <Form.Item label="Filhos/enteados menores de 14 anos" name="filhos"
+                        initialValue={0}
+                        style={{ display: 'inline-block', width: '50%' }}>
+                        <InputNumber type="number"
+                            style={{ display: 'inline-block', width: 'calc(100% - 16px' }} />
+                    </Form.Item>
+                    <Form.Item label="Dependentes imposto de renda" name="dependentesIrrf"
+                        initialValue={0}
+                        style={{ display: 'inline-block', width: '50%' }}>
+                        <InputNumber type="number"
+                            style={{ width: '100%' }} />
+                    </Form.Item>
+                    <Space>
+                        <Button type='primary' htmlType='submit' className="calculate-btn">
+                            Calcular
+                        </Button>
+                        <Button htmlType='button'>
+                            Limpar
+                        </Button>
+                    </Space>
                 </Form>
             </Card>
         </div >

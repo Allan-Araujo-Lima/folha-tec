@@ -22,7 +22,7 @@ export const HoraExtra = () => {
         let salarioTotal = values.salario;
 
         if (values.insalubridade) {
-            salarioTotal += (values.salario * values.insalubridade / 100)
+            salarioTotal += (1412 * values.insalubridade / 100)
         } else if (values.periculosidade) {
             salarioTotal += (values.salario * values.periculosidade / 100)
         }
