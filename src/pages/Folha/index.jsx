@@ -1,38 +1,70 @@
 import { useState } from "react";
-import { Card, Space, Form, InputNumber, Button, Select } from "antd"
+import { Card, Space, Form, InputNumber, Button, Select, Table } from "antd"
 import "./styles.css"
-import { inss } from "../../hooks/inss";
+import { inss, irrf, dsr } from "../../hooks/index";
 
 export const Folha = () => {
 
     const [selectedOption, setSelectecOption] = useState("");
     const [form] = Form.useForm();
+    const [tableData, setTableData] = useState([]);
 
     const setDias = (e) => {
         form.setFieldsValue({ naouteis: (30 - e) });
     };
 
     const submit = (values) => {
-        let salarioTotal = values.salario
+        let salarioTotal = values.salario;
+
         if (values.adicionais == "insalubridade") {
             salarioTotal += (1412 * values.insalubridade / 100)
         } else if (values.adicionais == "periculosidade") {
             salarioTotal += (values.salario * values.periculosidade / 100)
-        }
+        };
 
-        console.log(inss(salarioTotal))
+        values.tiposalario == "por hora" ? salarioTotal = salarioTotal * values.horasmes + dsr(salarioTotal * values.horasmes, values.uteis, values.naouteis) : null;
 
+        const descontoInss = inss(salarioTotal);
+        const descontoIrrf = irrf(salarioTotal, values.dependentesirrf, values.pensaoalimenticia);
 
+        const valorLiquido = salarioTotal - descontoInss - descontoIrrf;
 
+        const data = [
+            {
+                key: 1,
+                evento: "Salário-Base",
+                provento: values.salario,
+                desconto: 0
+            }
+        ];
+
+        setTableData(data)
     }
 
+    const columns = [
+        {
+            title: "Evento",
+            dataIndex: "evento",
+            key: "evento",
+        },
+        {
+            title: "Provento (R$)",
+            dataIndex: "provento",
+            key: "provento",
+        },
+        {
+            title: "Desconto (R$)",
+            dataIndex: "desconto",
+            key: "desconto",
+        },
+    ];
 
     return (
         <div className="content-folha">
             <Card title="Folha" style={{ maxWidth: 800 }}>
                 <Form layout="vertical" onSubmit={submit} onFinish={submit} form={form}>
-                    <Form.Item label="Tipo de Salário" required>
-                        <Select defaultValue={"Mensalista"} className="tiposalario"
+                    <Form.Item label="Tipo de Salário" required name="tiposalario" initialValue={"Mensalista"}>
+                        <Select className="tiposalario"
                             onChange={(e) => setSelectecOption(e)}
                         >
                             <Select.Option value="">Mensalista</Select.Option>
@@ -71,8 +103,8 @@ export const Folha = () => {
                             step={"0.00"}
                         />
                     </Form.Item>
-                    <Form.Item label="Adicionais" required>
-                        <Select defaultValue={"Nenhum"} id="adicionais" className="adicionais" onChange={(e) => setSelectecOption(e)}>
+                    <Form.Item label="Adicionais" name="adicionais" required initialValue={"Nenhum"}>
+                        <Select id="adicionais" className="adicionais" onChange={(e) => setSelectecOption(e)}>
                             <Select.Option value="">Nenhum</Select.Option>
                             <Select.Option value="insalubridade">Insalubridade</Select.Option>
                             <Select.Option value="periculosidade">Periculosidade</Select.Option>
@@ -121,11 +153,17 @@ export const Folha = () => {
                         <InputNumber type="number"
                             style={{ display: 'inline-block', width: 'calc(100% - 16px' }} />
                     </Form.Item>
-                    <Form.Item label="Dependentes imposto de renda" name="dependentesIrrf"
+                    <Form.Item label="Dependentes imposto de renda" name="dependentesirrf"
                         initialValue={0}
                         style={{ display: 'inline-block', width: '50%' }}>
                         <InputNumber type="number"
                             style={{ width: '100%' }} />
+                    </Form.Item>
+                    <Form.Item label="Pensão alimentícia" name="pensaoalimenticia" initialValue={0}>
+                        <InputNumber type="number"
+                            addonBefore="R$"
+                            style={{ width: '100%' }}>
+                        </InputNumber>
                     </Form.Item>
                     <Space>
                         <Button type='primary' htmlType='submit' className="calculate-btn">
@@ -136,6 +174,7 @@ export const Folha = () => {
                         </Button>
                     </Space>
                 </Form>
+                <Table columns={columns} dataSource={tableData} pagination={false} />
             </Card>
         </div >
     )
