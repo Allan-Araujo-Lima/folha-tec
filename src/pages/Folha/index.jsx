@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Card, Space, Form, InputNumber, Button, Select, Table, Layout } from "antd"
+import { Card, Space, Form, InputNumber, Button, Select, Table, Layout, Typography } from "antd"
 import "./styles.css"
 import { inss, irrf, dsr } from "../../hooks/index";
 
 const { Content } = Layout
+const { Text } = Typography
 
 export const Folha = () => {
 
@@ -26,7 +27,7 @@ export const Folha = () => {
             const insalubridade = (1412 * values.insalubridade / 100 / 220 * values.horasmes);
             salarioTotal += insalubridade;
         } else if (values.adicionais == "periculosidade") {
-            const periculosidade = 0
+            let periculosidade = 0
             values.tiposalario == "por hora" ?
                 periculosidade = (values.salario * values.periculosidade / 100 * values.horasmes)
                 : periculosidade = (values.salario * values.periculosidade / 100);
@@ -207,7 +208,23 @@ export const Folha = () => {
                 </Card>
                 <div className="result">
                     <Card title="Resultado">
-                        <Table columns={columns} dataSource={tableData} pagination={false} />
+                        <Table columns={columns} dataSource={tableData} pagination={false}
+                            summary={(pageData) => {
+                                let totalProventos = 0;
+                                let totalDescontos = 0;
+
+                                pageData.forEach(({ provento, desconto }) => {
+                                    totalProventos += provento ? parseFloat(provento) : 0;
+                                    totalDescontos += desconto ? parseFloat(desconto) : 0;
+                                });
+                                return (
+                                    <Table.Summary.Row>
+                                        <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
+                                        <Table.Summary.Cell index={1}><Text>{totalProventos.toFixed(2)}</Text></Table.Summary.Cell>
+                                        <Table.Summary.Cell index={2}><Text>{totalDescontos.toFixed(2)}</Text></Table.Summary.Cell>
+                                    </Table.Summary.Row>
+                                )
+                            }} />
                     </Card>
                 </div>
             </div >
