@@ -4,9 +4,10 @@ const deducaoInss = [0, 21.18, 101.18, 181.18];
 
 const faixasIrrf = [4664.68, 3751.06, 2826.6, 2259.21]
 const aliquotasIrrf = [27.5, 22.5, 15, 7.5]
-const deducaoIrrf = [898, 662.77, 381.44, 169.44]
+const deducaoIrrf = [896, 662.77, 381.44, 169.44]
 
 const descontoSimplificado = 564.8
+const descontoPorDependente = 189.59
 
 export function salarioFamilia(base) {
     return 62.04 * base
@@ -22,21 +23,22 @@ export function inss(base) {
         }
     }
     inssDesconto == 0 ? inssDesconto += 908.86 : inssDesconto
-    return inssDesconto;
+    return inssDesconto
 }
 
-export function irrf(base, dependente, pensao) {
+export function irrf(base, dependente, pensao, inss) {
     let irrfDesconto = 0;
-    let baseAliquota = base - dependente - pensao;
+    let descontoDependente = dependente * descontoPorDependente
+    let baseAliquota = base - descontoDependente - pensao - inss;
     let desconto = descontoSimplificado;
 
-    if ((baseAliquota > faixasIrrf[-1]) || (base - descontoSimplificado) > faixasIrrf[-1]) {
-        if (dependente + pensao > descontoSimplificado) {
-            desconto = dependente + pensao;
+    if ((baseAliquota > faixasIrrf[faixasIrrf.length - 1]) || (base - descontoSimplificado) > faixasIrrf[faixasIrrf.length - 1]) {
+        if (descontoDependente + pensao + inss > descontoSimplificado) {
+            desconto = descontoDependente + pensao + inss;
         }
         for (let i = 0; i < faixasIrrf.length; i++) {
             if (base - desconto >= faixasIrrf[i]) {
-                irrfDesconto = (base - desconto) * aliquotasIrrf[i] / 100 - deducaoIrrf;
+                irrfDesconto = (base - desconto) * aliquotasIrrf[i] / 100 - deducaoIrrf[i];
                 break
             }
         }

@@ -11,6 +11,7 @@ export const Folha = () => {
     const [selectedOption, setSelectecOption] = useState("");
     const [form] = Form.useForm();
     const [tableData, setTableData] = useState([]);
+    const [result, setResult] = useState(false)
 
     const setDias = (e) => {
         form.setFieldsValue({ naouteis: (30 - e) });
@@ -37,9 +38,7 @@ export const Folha = () => {
         values.tiposalario == "por hora" ? salarioTotal = salarioTotal * values.horasmes + dsr(salarioTotal * values.horasmes, values.uteis, values.naouteis) : null;
 
         const descontoInss = inss(salarioTotal);
-        const descontoIrrf = irrf(salarioTotal, values.dependentesirrf, values.pensao);
-
-        const valorLiquido = salarioTotal - descontoInss - descontoIrrf;
+        const descontoIrrf = irrf(salarioTotal, values.dependentesirrf, values.pensao, descontoInss);
 
         list.push(values.tiposalario == "por hora" ? values.salario * values.horasmes : values.salario, 1412 * values.insalubridade / 100 / 220 * values.horasmes, values.salario * values.periculosidade / 100, dsr(values.salario * values.horasmes, values.uteis, values.naouteis), values.pensao, descontoInss, descontoIrrf)
 
@@ -47,7 +46,7 @@ export const Folha = () => {
             let keyNumber = 0;
             if (list[i] > 0) {
                 keyNumber += 1;
-                if (listEventos[i] == "Pensão Alimentícia" || listEventos[i] == "INSS" || listEventos == "IRRF") {
+                if (listEventos[i] == "Pensão Alimentícia" || listEventos[i] == "INSS" || listEventos[i] == "IRRF") {
                     data.push(
                         {
                             key: keyNumber,
@@ -69,6 +68,7 @@ export const Folha = () => {
             };
         }
         setTableData(data)
+        setResult(true)
     }
 
     const columns = [
@@ -81,13 +81,20 @@ export const Folha = () => {
             title: "Provento (R$)",
             dataIndex: "provento",
             key: "provento",
+            align: "center"
         },
         {
             title: "Desconto (R$)",
             dataIndex: "desconto",
             key: "desconto",
+            align: "center"
         },
     ];
+
+    const clear = () => {
+        form.resetFields();
+        setResult(false)
+    }
 
     return (
         <Content>
@@ -200,33 +207,41 @@ export const Folha = () => {
                             <Button type='primary' htmlType='submit' className="calculate-btn">
                                 Calcular
                             </Button>
-                            <Button htmlType='button'>
+                            <Button htmlType='button' onClick={clear}>
                                 Limpar
                             </Button>
                         </Space>
                     </Form>
                 </Card>
-                <div className="result">
-                    <Card title="Resultado">
-                        <Table columns={columns} dataSource={tableData} pagination={false}
-                            summary={(pageData) => {
-                                let totalProventos = 0;
-                                let totalDescontos = 0;
+                {result !== false && (
+                    <div className="result">
+                        <Card title="Resultado">
+                            <Table columns={columns} dataSource={tableData} pagination={false}
+                                summary={(pageData) => {
+                                    let totalProventos = 0;
+                                    let totalDescontos = 0;
 
-                                pageData.forEach(({ provento, desconto }) => {
-                                    totalProventos += provento ? parseFloat(provento) : 0;
-                                    totalDescontos += desconto ? parseFloat(desconto) : 0;
-                                });
-                                return (
-                                    <Table.Summary.Row>
-                                        <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
-                                        <Table.Summary.Cell index={1}><Text>{totalProventos.toFixed(2)}</Text></Table.Summary.Cell>
-                                        <Table.Summary.Cell index={2}><Text>{totalDescontos.toFixed(2)}</Text></Table.Summary.Cell>
-                                    </Table.Summary.Row>
-                                )
-                            }} />
-                    </Card>
-                </div>
+                                    pageData.forEach(({ provento, desconto }) => {
+                                        totalProventos += provento ? parseFloat(provento) : 0;
+                                        totalDescontos += desconto ? parseFloat(desconto) : 0;
+                                    });
+                                    return (
+                                        <>
+                                            <Table.Summary.Row style={{ textAlign: "center", fontSize: "16px" }}>
+                                                <Table.Summary.Cell index={0} align="start">Total</Table.Summary.Cell>
+                                                <Table.Summary.Cell index={1}><Text>{totalProventos.toFixed(2)}</Text></Table.Summary.Cell>
+                                                <Table.Summary.Cell index={2}><Text>{totalDescontos.toFixed(2)}</Text></Table.Summary.Cell>
+                                            </Table.Summary.Row>
+                                            <Table.Summary.Row style={{ textAlign: "center", fontSize: "18px" }}>
+                                                <Table.Summary.Cell index={0}>Total líquido</Table.Summary.Cell>
+                                                <Table.Summary.Cell index={1} colSpan={2}>{(totalProventos - totalDescontos).toFixed(2)}</Table.Summary.Cell>
+                                            </Table.Summary.Row>
+                                        </>
+                                    )
+                                }} />
+                        </Card>
+                    </div>
+                )}
             </div >
         </Content>
     )

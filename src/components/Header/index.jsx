@@ -15,7 +15,7 @@ import './styles.css'
 
 export const HeaderExp = () => {
     return (
-        <Layout>
+        <Layout className="app-header">
             <Header style={{ display: 'flex', alignItems: 'center' }}>
                 <div className="header">
                     <Link to='/'
