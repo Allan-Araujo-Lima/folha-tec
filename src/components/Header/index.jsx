@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import LogoMarca from "../../assets/Logomarca.svg"
+import './styles.css'
 
 const { Header } = Layout
 
@@ -9,9 +10,6 @@ const items = ['Sobre', 'Calculadoras', 'Contato'].map((key) => ({
     key,
     label: <Link to={`/${key}`}>{key}</Link>,
 }));
-
-
-import './styles.css'
 
 export const HeaderExp = () => {
     return (

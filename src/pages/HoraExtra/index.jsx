@@ -44,7 +44,6 @@ export const HoraExtra = () => {
 
     return (
         <Content>
-
             <div className='content-hora-extra'>
                 <Card title="Hora Extra" style={{ maxWidth: 800 }}>
                     <Form layout="vertical" onSubmit={submit} onFinish={submit} form={form}>

@@ -234,7 +234,7 @@ export const Folha = () => {
                                             </Table.Summary.Row>
                                             <Table.Summary.Row style={{ textAlign: "center", fontSize: "18px" }}>
                                                 <Table.Summary.Cell index={0}>Total líquido</Table.Summary.Cell>
-                                                <Table.Summary.Cell index={1} colSpan={2}>{(totalProventos - totalDescontos).toFixed(2)}</Table.Summary.Cell>
+                                                <Table.Summary.Cell index={1} colSpan={2}>{'R$ ' + (totalProventos - totalDescontos).toFixed(2)}</Table.Summary.Cell>
                                             </Table.Summary.Row>
                                         </>
                                     )

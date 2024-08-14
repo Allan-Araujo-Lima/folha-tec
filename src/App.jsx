@@ -8,9 +8,9 @@ import { HoraExtra } from './pages/HoraExtra';
 import { Calculadoras } from './pages/Calculadoras';
 import { Contato } from './pages/Contato';
 import { Folha } from './pages/Folha';
+import { AdicionalNoturno } from './pages/AdicionalNoturno'
 
 import './globals/styles.css'
-import { AdicionalNoturno } from './pages/AdicionalNoturno';
 
 function App() {
 
