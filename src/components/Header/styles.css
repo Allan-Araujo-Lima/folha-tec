@@ -1,20 +1,14 @@
-.app-header .header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 65px;
-  width: 100%;
-}
-
-.app-header .nav {
+.app-header .nav,
+.link {
   display: flex;
   justify-content: space-around;
   font-size: large;
-  width: 100%;
+  width: auto;
+  height: 100%;
 }
 
 .app-header img {
-  height: 35px !important;
+  height: 50px !important;
   width: auto !important;
   margin: 0 !important;
 }

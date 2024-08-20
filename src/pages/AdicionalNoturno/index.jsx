@@ -1,23 +1,21 @@
-import { Card, Form, InputNumber, Layout, Select, Input } from "antd"
+import { Card, Form, InputNumber, Layout, Select } from "antd"
 
 import { useState } from "react";
 
-import dayjs from "dayjs";
-
+import { MaskedInput, MonetaryInput } from "../../hooks/inputMask";
 import "./styles.css"
 
 const { Content } = Layout;
-const format = 'HHH:mm'
 
 export const AdicionalNoturno = () => {
 
     const [selectedOption, setSelectecOption] = useState("");
     const [form] = Form.useForm();
+    const [amount, setAmount] = useState("");
 
     const submit = (values) => {
         const sal = values.salario
     }
-
 
     return (
         <Content>
@@ -25,11 +23,11 @@ export const AdicionalNoturno = () => {
                 <Card title="Adicional Noturno">
                     <Form layout="vertical" onSubmit={submit} onFinish={submit} form={form}>
                         <Form.Item label="Salário base" name="salario">
-                            <InputNumber type="number" placeholder="Digite seu salario atual"
-                                addonBefore="R$"
-                                style={{ width: '100%' }}
-                                step={"0.00"}>
-                            </InputNumber>
+                            <MonetaryInput
+                                value={amount}
+                                onChange={(value) => setAmount(value)}
+                                placeholder="0,00"
+                                addonBefore="R$" />
                         </Form.Item>
                         <Form.Item label="Adicionais" required>
                             <Select defaultValue={"Nenhum"} id="adicionais" className="adicionais" onChange={(e) => setSelectecOption(e)}>
@@ -69,25 +67,16 @@ export const AdicionalNoturno = () => {
                                 :
                                 null
                         }
-                        <Form.Item>
-                            <Input
-                                type="number"
-                                decimalSeparator=":"
-                                step={"0:00"}
-                                style={{ width: '100%' }}
-                                addonAfter="Horas">
-                            </Input>
-
-                            {/* <InputNumber type="number"
-                                decimalSeparator=":"
-                                step={"0:00"}
-                                style={{ width: '100%' }}
-                                addonAfter="Horas">
-                            </InputNumber> */}
+                        <Form.Item label="Horas noturnas" name="horasnoturnas" required
+                            rules={[{ required: true, message: "Por favor, digite a quantidade de horas." },
+                            ]}>
+                            <MaskedInput mask="999:99" placeholder="000:00" />
                         </Form.Item>
                     </Form>
                 </Card>
             </div>
-        </Content>
+        </Content >
     )
 }
+
+// ^\d{3}:\d{2}$

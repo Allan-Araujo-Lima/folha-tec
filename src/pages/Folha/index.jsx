@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { Card, Space, Form, InputNumber, Button, Select, Table, Layout, Typography } from "antd"
-import "./styles.css"
-import { inss, irrf, dsr } from "../../hooks/index";
 
 const { Content } = Layout
 const { Text } = Typography
 
-export const Folha = () => {
+import { inss, irrf, dsr } from "../../hooks/index";
+import { MonetaryInput } from "../../hooks/inputMask";
 
+import "./styles.css"
+
+export const Folha = () => {
+    const [amount, setAmount] = useState("");
     const [selectedOption, setSelectecOption] = useState("");
     const [form] = Form.useForm();
     const [tableData, setTableData] = useState([]);
@@ -52,7 +55,7 @@ export const Folha = () => {
                             key: keyNumber,
                             evento: listEventos[i],
                             provento: null,
-                            desconto: list[i].toFixed(2)
+                            desconto: list[i].toFixed(2),
                         }
                     );
                 } else {
@@ -132,14 +135,13 @@ export const Folha = () => {
                                 null
                         }
                         <Form.Item label={selectedOption == "por hora" ? "Salário por hora" : "Salário"} name="salario"
-                            initialValue={0}
                             rules={[{ required: true, message: "Por favor, digite o salário base." },
                             { type: 'number', min: 1, message: "O valor do salário base deve ser maior do que 0." }]}>
-                            <InputNumber type='number' placeholder="Digite seu salário atual"
-                                addonBefore="R$"
-                                style={{ width: '100%' }}
-                                step={"0.00"}
-                            />
+                            <MonetaryInput
+                                value={amount}
+                                onChange={(value) => setAmount(value)}
+                                placeholder="0,00"
+                                addonBefore="R$" />
                         </Form.Item>
                         <Form.Item label="Adicionais" name="adicionais" required initialValue={"Nenhum"}>
                             <Select id="adicionais" className="adicionais" onChange={(e) => setSelectecOption(e)}>

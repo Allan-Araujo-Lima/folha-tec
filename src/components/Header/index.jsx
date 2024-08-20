@@ -8,24 +8,22 @@ const { Header } = Layout
 
 const items = ['Sobre', 'Calculadoras', 'Contato'].map((key) => ({
     key,
-    label: <Link to={`/${key}`}>{key}</Link>,
+    label: <Link className='link' to={`/${key}`}>{key}</Link>,
 }));
 
 export const HeaderExp = () => {
     return (
         <Layout className="app-header">
             <Header style={{ display: 'flex', alignItems: 'center' }}>
-                <div className="header">
-                    <Link to='/'
-                        style={{ display: 'flex', alignSelf: 'center' }}>
-                        <img className="header-img" src={LogoMarca} /></Link>
-                    <Menu
-                        theme="dark"
-                        mode="horizontal"
-                        style={{ flex: 1, minWidth: 0 }}
-                        items={items}>
-                    </Menu>
-                </div>
+                <Link to='/'
+                    style={{ display: 'flex', alignSelf: 'center' }}>
+                    <img className="header-img" src={LogoMarca} /></Link>
+                <Menu
+                    theme="dark"
+                    mode="horizontal"
+                    items={items}>
+                    style={{ flex: 1, minWidth: 1 }}
+                </Menu>
             </Header >
         </Layout >
     );
