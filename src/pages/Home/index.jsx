@@ -28,7 +28,7 @@ export const Home = () => {
                             <li>- Agilidade;</li>
                             <li>- Compromisso com o cliente;</li>
                             <li>- Precisão nos processos;</li>
-                            <li>- Agilidade e qualidade.</li>
+                            <li>- Qualidade.</li>
                         </ul>
                     </div>
                 </Carousel>
