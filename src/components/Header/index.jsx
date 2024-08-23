@@ -14,7 +14,7 @@ export const HeaderExp = () => {
     return (
         <Layout className="app-header">
             <Header>
-                <Link to='/'>
+                <Link to='/' className='link'>
                     <img className="header-img" src={LogoMarca} alt="Logo" />
                 </Link>
                 <Menu

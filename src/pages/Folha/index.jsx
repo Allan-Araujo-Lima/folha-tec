@@ -5,7 +5,7 @@ const { Content } = Layout
 const { Text } = Typography
 
 import { inss, irrf, dsr } from "../../hooks/index";
-import { MonetaryInput } from "../../hooks/inputMask";
+import { MonetaryInput, MonetaryOutput, RemoneMonetaryValue } from "../../hooks/inputMask";
 
 import "./styles.css"
 
@@ -55,7 +55,8 @@ export const Folha = () => {
                             key: keyNumber,
                             evento: listEventos[i],
                             provento: null,
-                            desconto: list[i].toFixed(2),
+                            desconto: <MonetaryOutput
+                                value={list[i]} />,
                         }
                     );
                 } else {
@@ -63,7 +64,8 @@ export const Folha = () => {
                         {
                             key: keyNumber,
                             evento: listEventos[i],
-                            provento: list[i].toFixed(2),
+                            provento: <MonetaryOutput
+                                value={list[i].toFixed(2)} />,
                             desconto: null
                         }
                     );
@@ -102,7 +104,7 @@ export const Folha = () => {
     return (
         <Content>
             <div className="content-folha">
-                <Card title="Folha" style={{ maxWidth: 800 }}>
+                <Card title="Folha" style={{ maxWidth: 900 }}>
                     <Form layout="vertical" onSubmit={submit} onFinish={submit} form={form}>
                         <Form.Item label="Tipo de Salário" required name="tiposalario" initialValue={"Mensalista"}>
                             <Select className="tiposalario"
@@ -187,7 +189,7 @@ export const Folha = () => {
                                 addonAfter="Horas"
                                 style={{ width: '100%' }} />
                         </Form.Item>
-                        <Form.Item label="Filhos/enteados menores de 14 anos" name="filhos"
+                        <Form.Item label="Filhos menores de 14 anos" name="filhos"
                             initialValue={0}
                             style={{ display: 'inline-block', width: '50%' }}>
                             <InputNumber type="number"

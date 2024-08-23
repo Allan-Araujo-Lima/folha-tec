@@ -32,7 +32,7 @@
   line-height: 65px;
   text-align: center;
   text-justify: auto;
-  background: #364d79;
+  background: #2d4de6;
   border-radius: 8px;
 }
 
@@ -49,5 +49,4 @@
 .carousel-item li {
   display: inline-block;
   padding: 20px;
-  background-color: #364d79;
 }
