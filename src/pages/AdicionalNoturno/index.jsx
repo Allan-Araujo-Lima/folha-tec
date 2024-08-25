@@ -1,4 +1,4 @@
-import { Card, Form, InputNumber, Layout, Select } from "antd"
+import { Card, Form, InputNumber, Layout, Select, Space, Button } from "antd"
 
 import { useState } from "react";
 
@@ -14,7 +14,28 @@ export const AdicionalNoturno = () => {
     const [amount, setAmount] = useState("");
 
     const submit = (values) => {
-        const sal = values.salario
+        let salarioTotal = values.salario;
+        let horas = values.horasnoturnas;
+        console.log(horas)
+        horas = horas.split(":")
+        horas = horas[0] + horas[1] / 100 * 60
+        console.log(horas)
+
+        if (values.adicionais == "insalubridade") {
+            const insalubridade = (1412 * values.insalubridade / 100);
+            salarioTotal += insalubridade;
+        } else if (values.adicionais == "periculosidade") {
+            const periculosidade = (values.salario * values.periculosidade / 100);
+            salarioTotal += periculosidade;
+        };
+
+        const base = salarioTotal * values.percentual / 100 / 220;
+
+    };
+
+    const clear = () => {
+        form.resetFields();
+        setResult(false)
     }
 
     return (
@@ -67,11 +88,25 @@ export const AdicionalNoturno = () => {
                                 :
                                 null
                         }
-                        <Form.Item label="Horas noturnas" name="horasnoturnas" required
+                        <Form.Item label="Percentual adicional noturno" name="percentual" required
+                            rules={[{ required: true, message: "Por favor, digite o percentual de adicional noturno." }]}>
+                            <InputNumber type="number"
+                                addonAfter="%"
+                                style={{ width: '100%' }} />
+                        </Form.Item>
+                        <Form.Item label="Horas noturnas (Horas relógio)" name="horasnoturnas" required
                             rules={[{ required: true, message: "Por favor, digite a quantidade de horas." },
                             ]}>
-                            <MaskedInput mask="999:99" placeholder="000:00" />
+                            <MaskedInput mask="999:99" placeholder="000:00" addonAfter="Hora(s)" />
                         </Form.Item>
+                        <Space>
+                            <Button type='primary' htmlType='submit' className="calculate-btn">
+                                Calcular
+                            </Button>
+                            <Button htmlType='button' onClick={clear}>
+                                Limpar
+                            </Button>
+                        </Space>
                     </Form>
                 </Card>
             </div>
