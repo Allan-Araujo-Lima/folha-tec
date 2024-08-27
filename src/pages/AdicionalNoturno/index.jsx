@@ -12,30 +12,61 @@ export const AdicionalNoturno = () => {
     const [selectedOption, setSelectecOption] = useState("");
     const [form] = Form.useForm();
     const [amount, setAmount] = useState("");
+    const [adicionalNoturnoResult, setAdicionalNoturnoResult] = useState(false);
+    const [horaNoturna, setHoraNoturna] = useState("")
+
+    const setMin = (e) => {
+        let novoValor = e.target.value;
+
+        if (novoValor.length > 1) {
+            const ultimosDois = novoValor.slice(-2)
+
+            if (parseInt(ultimosDois, 10) > 59) {
+                novoValor = novoValor.slice(0, -2) + 59;
+                form.setFieldsValue({ horasnoturnas: (novoValor) })
+            };
+        };
+    };
+
+    const setZeros = (e) => {
+        let zeros = String(parseInt(e.target.value));
+
+        if (zeros.length < 5) {
+            zeros = String(zeros).padEnd(5, "0");
+        }
+        form.setFieldsValue({ horasnoturnas: (zeros) })
+    }
 
     const submit = (values) => {
         let salarioTotal = values.salario;
-        let horas = values.horasnoturnas;
-        console.log(horas)
-        horas = horas.split(":")
-        horas = horas[0] + horas[1] / 100 * 60
-        console.log(horas)
+        let horas = values.horasnoturnas.split(":");
+        horas = (parseInt(horas[0]) + (parseInt(horas[1]) / 60)) * 1.1429;
 
-        if (values.adicionais == "insalubridade") {
+        if (values.insalubridade) {
             const insalubridade = (1412 * values.insalubridade / 100);
             salarioTotal += insalubridade;
-        } else if (values.adicionais == "periculosidade") {
+        } else if (values.periculosidade) {
             const periculosidade = (values.salario * values.periculosidade / 100);
             salarioTotal += periculosidade;
         };
 
-        const base = salarioTotal * values.percentual / 100 / 220;
+        const base = salarioTotal * values.percentual / 100 / values.horasmes;
 
+        const result = base * horas;
+
+        horas = String(horas).split(".")
+        const b = (horas[1]).slice(0, 2)
+
+        horas = (parseInt(horas[0]) + (b * 6 / 1000))
+        horas = String(horas.toFixed(2)).split(".")
+
+        setAdicionalNoturnoResult(result)
+        setHoraNoturna(horas)
     };
 
     const clear = () => {
         form.resetFields();
-        setResult(false)
+        setAdicionalNoturnoResult(false)
     }
 
     return (
@@ -43,7 +74,8 @@ export const AdicionalNoturno = () => {
             <div className="content-noturno">
                 <Card title="Adicional Noturno">
                     <Form layout="vertical" onSubmit={submit} onFinish={submit} form={form}>
-                        <Form.Item label="Salário base" name="salario">
+                        <Form.Item label="Salário base" name="salario" required
+                            rules={[{ required: true, message: "Por favor, digite o salário base." }]}>
                             <MonetaryInput
                                 value={amount}
                                 onChange={(value) => setAmount(value)}
@@ -88,6 +120,13 @@ export const AdicionalNoturno = () => {
                                 :
                                 null
                         }
+                        <Form.Item label="Horas mês" name="horasmes" initialValue={220}
+                            rules={[{ required: true, message: "Por favor, digite a quantidade de horas mês." },
+                            { type: "number", min: 1, max: 744, message: "O valor deve estar entre 1 e 744." }]}>
+                            <InputNumber type="number" placeholder="Hora(s)"
+                                addonAfter="Horas"
+                                style={{ width: '100%' }} />
+                        </Form.Item>
                         <Form.Item label="Percentual adicional noturno" name="percentual" required
                             rules={[{ required: true, message: "Por favor, digite o percentual de adicional noturno." }]}>
                             <InputNumber type="number"
@@ -96,8 +135,14 @@ export const AdicionalNoturno = () => {
                         </Form.Item>
                         <Form.Item label="Horas noturnas (Horas relógio)" name="horasnoturnas" required
                             rules={[{ required: true, message: "Por favor, digite a quantidade de horas." },
-                            ]}>
-                            <MaskedInput mask="999:99" placeholder="000:00" addonAfter="Hora(s)" />
+                            {}]}>
+                            {
+                                <MaskedInput
+                                    onChange={setMin}
+                                    onPressEnter={setZeros}
+                                    value={amount}
+                                />
+                            }
                         </Form.Item>
                         <Space>
                             <Button type='primary' htmlType='submit' className="calculate-btn">
@@ -110,8 +155,15 @@ export const AdicionalNoturno = () => {
                     </Form>
                 </Card>
             </div>
+            {adicionalNoturnoResult !== false && (
+                <div className="result">
+                    <Card title="Resultado" style={{ maxWidth: 800 }}>
+                        <p>O colaborador receberá <b>R$ {adicionalNoturnoResult.toFixed(2)}</b> referente a(s) {horaNoturna[0]}:{horaNoturna[1]} hora(s) noturnas(s) </p>
+                        <Space> </Space>
+                        <h2 style={{ backgroundColor: 'lightgrey' }}><b>Total geral: R$ {(adicionalNoturnoResult).toFixed(2)}</b></h2>
+                    </Card>
+                </div>
+            )}
         </Content >
     )
 }
-
-// ^\d{3}:\d{2}$

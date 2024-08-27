@@ -1,13 +1,16 @@
-import InputMask from "react-input-mask";
 import { Input } from "antd";
-import { NumericFormat, removeNumericFormat } from 'react-number-format'; // Certifique-se de usar a importação correta
+import { NumericFormat, removeNumericFormat, PatternFormat } from 'react-number-format';
 
-export const MaskedInput = ({ mask, ...props }) => {
+export const MaskedInput = ({ value, ...props }) => {
     return (
-        <InputMask mask={mask} {...props}>
-            {(inputProps) => <Input {...inputProps} />}
-        </InputMask>
-    );
+        <PatternFormat
+            value={value}
+            displayType="input"
+            format="###:##"
+            customInput={Input}
+            {...props}
+        />
+    )
 };
 
 export const MonetaryInput = ({ value, onChange, ...props }) => {

@@ -1,9 +1,10 @@
 .app-header .ant-layout-header {
   height: 64px;
   padding: 0;
-  line-height: 64px;
+  line-height: 0px;
   display: flex;
   align-items: center;
+  background-color: #4d5891;
 }
 
 .app-header .ant-menu {
@@ -19,7 +20,7 @@
 .app-header img.header-img {
   height: 50px;
   width: auto;
-  margin: 24px 12px 0px 30px;
+  margin: 0px 12px 0px 30px;
 }
 
 .app-header .link {
@@ -27,7 +28,7 @@
   text-decoration: none;
   font-size: 16px;
   background-color: #4d5891;
-  box-sizing: border-box;
+
 }
 
 .app-header .ant-menu-horizontal>.ant-menu-item {

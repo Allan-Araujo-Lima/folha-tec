@@ -49,8 +49,7 @@ export const HoraExtra = () => {
                     <Form layout="vertical" onSubmit={submit} onFinish={submit} form={form}>
                         <Form.Item label="Salário base" name="salario"
                             initialValue={0}
-                            rules={[{ required: true, message: "Por favor, digite o salário base." },
-                            { type: 'number', min: 1, message: "O valor do salário base deve ser maior do que 0." }]}>
+                            rules={[{ required: true, message: "Por favor, digite o salário base." }]}>
                             <InputNumber type='number' placeholder="Digite seu salário atual"
                                 addonBefore="R$"
                                 style={{ width: '100%' }}
@@ -144,7 +143,7 @@ export const HoraExtra = () => {
                     <div className="result">
                         <Space> </Space>
                         <Card title="Resultado" style={{ maxWidth: 800 }}>
-                            <p>O colaborador receberá <b>R$ {horaExtraResult.toFixed(2)}</b> referente a(s) {horas} hora(s) extra trabalhada(s).</p>
+                            <p>O colaborador receberá <b>R$ {horaExtraResult.toFixed(2)}</b> referente a(s) {horas} hora(s) extra(s) trabalhada(s).</p>
                             <p>Além disso, o colaborador receberá <b>R$ {dsr.toFixed(2)}</b> sobre os dias não úteis.</p>
                             <Space> </Space>
                             <h2 style={{ backgroundColor: 'lightgrey' }}><b>Total geral: R$ {(horaExtraResult + dsr).toFixed(2)}</b></h2>
