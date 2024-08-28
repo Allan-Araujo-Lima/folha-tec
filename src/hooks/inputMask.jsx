@@ -1,4 +1,4 @@
-import { Input } from "antd";
+import { Input, InputNumber } from "antd";
 import { NumericFormat, removeNumericFormat, PatternFormat } from 'react-number-format';
 
 export const MaskedInput = ({ value, ...props }) => {
@@ -21,6 +21,7 @@ export const MonetaryInput = ({ value, onChange, ...props }) => {
             thousandSeparator="."
             decimalSeparator=","
             decimalScale={2}
+            fixedDecimalScale={2}
             customInput={Input}
             allowNegative={false}
             onValueChange={(values) => {
@@ -36,13 +37,11 @@ export const DaysInput = ({ value, onChange, ...props }) => {
         <NumericFormat
             value={value}
             displayType="input"
-            thousandSeparator="."
-            decimalSeparator=","
             decimalScale={0}
             customInput={Input}
             allowNegative={false}
             onValueChange={(values) => {
-                onChange(values.floatValue);
+                onChange(values.value);
             }}
             {...props}
         />
@@ -57,6 +56,7 @@ export const MonetaryOutput = ({ value, ...props }) => {
             thousandSeparator="."
             decimalSeparator=","
             decimalScale={2}
+            fixedDecimalScale={2}
             {...props}
         />
     );

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Form, Select, Card, Button, InputNumber, Space, Layout } from 'antd'
 import './styles.css'
+import { MonetaryInput, MonetaryOutput } from '../../hooks/inputMask'
 
 const { Content } = Layout
 
@@ -8,6 +9,7 @@ export const HoraExtra = () => {
     const [selectedOption, setSelectecOption] = useState("");
     const [horaExtraResult, setHoraExtraResult] = useState(null);
     const [horas, setHoras] = useState(null);
+    const [amount, setAmount] = useState("")
 
     const setDias = (e) => {
         switch (e) {
@@ -50,10 +52,12 @@ export const HoraExtra = () => {
                         <Form.Item label="Salário base" name="salario"
                             initialValue={0}
                             rules={[{ required: true, message: "Por favor, digite o salário base." }]}>
-                            <InputNumber type='number' placeholder="Digite seu salário atual"
+                            <MonetaryInput
+                                placeholder="Digite seu salário atual"
                                 addonBefore="R$"
                                 style={{ width: '100%' }}
-                                step={"0.00"} />
+                                value={amount}
+                                step={"0,00"} />
                         </Form.Item>
                         <Form.Item label="Adicionais" required>
                             <Select defaultValue={"Nenhum"} id="adicionais" className="adicionais" onChange={(e) => setSelectecOption(e)}>
@@ -110,10 +114,13 @@ export const HoraExtra = () => {
                         <Form.Item label="Dias úteis" name='uteis' initialValue={25}
                             style={{ display: 'inline-block', width: '50%' }}
                             rules={[{ required: true, message: "Por favor, digite os dias úteis do mês." },
-                            { type: 'number', max: 30, min: 0, message: "O valor deve estar entre 0 e 30." }]}
+                            { type: 'number', max: 30, min: 0, maxLength: 2, message: "O valor deve estar entre 0 e 30." }]}
                             onChange={(e) => setDias(e.target.value)}>
                             <InputNumber type="number"
                                 style={{ display: 'inline-block', width: 'calc(100% - 16px' }}
+                                max={30}
+                                onChange={setDias}
+                                precision={0}
                                 onStep={setDias} />
                         </Form.Item>
                         <Form.Item label="Dias não úteis" name='naouteis' initialValue={5}
@@ -143,10 +150,10 @@ export const HoraExtra = () => {
                     <div className="result">
                         <Space> </Space>
                         <Card title="Resultado" style={{ maxWidth: 800 }}>
-                            <p>O colaborador receberá <b>R$ {horaExtraResult.toFixed(2)}</b> referente a(s) {horas} hora(s) extra(s) trabalhada(s).</p>
-                            <p>Além disso, o colaborador receberá <b>R$ {dsr.toFixed(2)}</b> sobre os dias não úteis.</p>
+                            <p>O colaborador receberá <b>R$ {<MonetaryOutput value={horaExtraResult} />}</b> referente a(s) {horas} hora(s) extra(s) trabalhada(s).</p>
+                            <p>Além disso, o colaborador receberá <b>R$ {<MonetaryOutput value={dsr} />}</b> sobre os dias não úteis.</p>
                             <Space> </Space>
-                            <h2 style={{ backgroundColor: 'lightgrey' }}><b>Total geral: R$ {(horaExtraResult + dsr).toFixed(2)}</b></h2>
+                            <h2 style={{ backgroundColor: 'lightgrey' }}><b>Total geral: R$ {<MonetaryOutput value={(horaExtraResult + dsr)} />}</b></h2>
                         </Card>
                     </div>
                 )}

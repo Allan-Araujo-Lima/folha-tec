@@ -5,7 +5,7 @@ const { Content } = Layout
 const { Text } = Typography
 
 import { inss, irrf, dsr } from "../../hooks/index";
-import { MonetaryInput, MonetaryOutput, RemoneMonetaryValue } from "../../hooks/inputMask";
+import { MonetaryInput, MonetaryOutput } from "../../hooks/inputMask";
 
 import "./styles.css"
 
@@ -45,8 +45,8 @@ export const Folha = () => {
 
         list.push(values.tiposalario == "por hora" ? values.salario * values.horasmes : values.salario, 1412 * values.insalubridade / 100 / 220 * values.horasmes, values.salario * values.periculosidade / 100, dsr(values.salario * values.horasmes, values.uteis, values.naouteis), values.pensao, descontoInss, descontoIrrf)
 
+        let keyNumber = 0;
         for (let i = 0; i < list.length; i++) {
-            let keyNumber = 0;
             if (list[i] > 0) {
                 keyNumber += 1;
                 if (listEventos[i] == "Pensão Alimentícia" || listEventos[i] == "INSS" || listEventos[i] == "IRRF") {
@@ -57,6 +57,7 @@ export const Folha = () => {
                             provento: null,
                             desconto: <MonetaryOutput
                                 value={list[i]} />,
+                            valorDesconto: list[i]
                         }
                     );
                 } else {
@@ -65,8 +66,9 @@ export const Folha = () => {
                             key: keyNumber,
                             evento: listEventos[i],
                             provento: <MonetaryOutput
-                                value={list[i].toFixed(2)} />,
-                            desconto: null
+                                value={list[i]} />,
+                            desconto: null,
+                            valorProvento: list[i]
                         }
                     );
                 }
@@ -225,20 +227,21 @@ export const Folha = () => {
                                     let totalProventos = 0;
                                     let totalDescontos = 0;
 
-                                    pageData.forEach(({ provento, desconto }) => {
-                                        totalProventos += provento ? parseFloat(provento) : 0;
-                                        totalDescontos += desconto ? parseFloat(desconto) : 0;
-                                    });
+                                    pageData.forEach(({ valorProvento, valorDesconto }) => {
+                                        totalProventos += valorProvento ? valorProvento : 0;
+                                        totalDescontos += valorDesconto ? valorDesconto : 0;
+                                    }
+                                    );
                                     return (
                                         <>
                                             <Table.Summary.Row style={{ textAlign: "center", fontSize: "16px" }}>
                                                 <Table.Summary.Cell index={0} align="start">Total</Table.Summary.Cell>
-                                                <Table.Summary.Cell index={1}><Text>{totalProventos.toFixed(2)}</Text></Table.Summary.Cell>
-                                                <Table.Summary.Cell index={2}><Text>{totalDescontos.toFixed(2)}</Text></Table.Summary.Cell>
+                                                <Table.Summary.Cell index={1}><Text>{<MonetaryOutput value={totalProventos} />}</Text></Table.Summary.Cell>
+                                                <Table.Summary.Cell index={2}><Text>{<MonetaryOutput value={totalDescontos} />}</Text></Table.Summary.Cell>
                                             </Table.Summary.Row>
                                             <Table.Summary.Row style={{ textAlign: "center", fontSize: "18px" }}>
                                                 <Table.Summary.Cell index={0}>Total líquido</Table.Summary.Cell>
-                                                <Table.Summary.Cell index={1} colSpan={2}>{'R$ ' + (totalProventos - totalDescontos).toFixed(2)}</Table.Summary.Cell>
+                                                <Table.Summary.Cell index={1} colSpan={2}>R$ {<MonetaryOutput value={totalProventos - totalDescontos} />}</Table.Summary.Cell>
                                             </Table.Summary.Row>
                                         </>
                                     )
