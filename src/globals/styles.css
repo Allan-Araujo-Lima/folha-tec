@@ -4,3 +4,9 @@
     box-sizing: border-box;
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
+
+h1 {
+    text-align: center;
+    margin: 12px;
+    color: #203165;
+}

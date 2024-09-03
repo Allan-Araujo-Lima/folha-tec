@@ -34,3 +34,9 @@
 .app-header .ant-menu-horizontal>.ant-menu-item {
   padding: 0 20px;
 }
+
+.ant-menu-item-selected {
+  padding: 0 20px;
+  background-color: transparent !important;
+  color: #a2a9e9 !important;
+}

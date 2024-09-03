@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Carousel } from 'antd';
+import { Layout, Carousel, Divider } from 'antd';
 import './styles.css';
 
 const { Content } = Layout;
@@ -13,6 +13,7 @@ export const Home = () => {
                     <p className='p'>Olá, somos a <b>Folhatec</b>, uma nova empresa que está preparada para revolucionar o mercado
                         de <b>departamento pessoal</b> do <b>Brasil!</b></p>
                 </div>
+                <Divider />
                 <Carousel className="carousel" effect='scrollx' autoplaySpeed={5000}>
                     <div className="carousel-item">
                         <h3>Missão</h3>
