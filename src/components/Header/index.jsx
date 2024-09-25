@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import LogoMarca from "../../assets/Logomarca.svg"
 import './styles.css'
+import BuyMeACoffeeButton from '../BuyMeACoffe';
 
 const { Header } = Layout;
 
@@ -22,6 +23,7 @@ export const HeaderExp = () => {
                     mode="horizontal"
                     items={items}
                 />
+                <BuyMeACoffeeButton />
             </Header>
         </Layout>
     );

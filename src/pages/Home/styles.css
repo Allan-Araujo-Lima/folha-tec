@@ -21,6 +21,10 @@
   margin-bottom: 30px;
 }
 
+.introducao p {
+  font-size: larger;
+}
+
 .carousel {
   max-width: 800px;
   margin: 0 auto;
