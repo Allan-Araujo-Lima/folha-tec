@@ -8,7 +8,7 @@ const { Header } = Layout;
 
 const items = ['Sobre', 'Calculadoras', 'Contato'].map((key) => ({
     key,
-    label: <Link className='link' to={`/${key}`}>{key}</Link>,
+    label: <Link className='link' to={`/${key.toLowerCase()}`}>{key}</Link>,
 }));
 
 export const HeaderExp = () => {
