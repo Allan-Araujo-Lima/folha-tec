@@ -14,7 +14,7 @@ export const Home = () => {
                         de <b>departamento pessoal</b> do <b>Brasil!</b></p>
                 </div>
                 <Divider />
-                <Carousel className="carousel" effect='scrollx' autoplaySpeed={5000}>
+                <Carousel className="carousel" effect='scrollx' autoplaySpeed={5000} autoplay>
                     <div className="carousel-item">
                         <h3>Missão</h3>
                         <p>Tornar o mercado de departamento pessoal Brasileiro mais ágil e simples.</p>

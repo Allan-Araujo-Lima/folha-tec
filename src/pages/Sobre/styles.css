@@ -1,0 +1,37 @@
+.containersobre {
+    display: flex;
+    justify-content: center;
+}
+
+.containersobre p {
+    text-align: justify;
+    margin: 18px;
+}
+
+.containersobre .link {
+    color: #203165;
+}
+
+.sobre {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    height: min-content;
+    font-size: xx-large;
+    margin-top: 24px;
+}
+
+.historia {
+    transition: filter 0.3s ease-in;
+
+}
+
+.calculos {
+    margin-top: 24px;
+    transition: filter 0.6s ease-in;
+}
+
+.calculos:hover,
+.historia:hover {
+    filter: drop-shadow(0px 0px 6px #2031656c);
+}
