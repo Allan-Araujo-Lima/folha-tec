@@ -204,10 +204,11 @@ export const Folha = () => {
                                 style={{ width: '100%' }} />
                         </Form.Item>
                         <Form.Item label="Pensão alimentícia" name="pensao" initialValue={0}>
-                            <InputNumber type="number"
-                                addonBefore="R$"
-                                style={{ width: '100%' }}>
-                            </InputNumber>
+                            <MonetaryInput
+                                value={amount}
+                                onChange={(value) => setAmount(value)}
+                                placeholder="0,00"
+                                addonBefore="R$" />
                         </Form.Item>
                         <Space>
                             <Button type='primary' htmlType='submit' className="calculate-btn">
