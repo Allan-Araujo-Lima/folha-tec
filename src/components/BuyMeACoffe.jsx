@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 
 const BuyMeACoffeeButton = () => {
     useEffect(() => {
-        // Criar o script e adicionar os atributos do botão personalizado
         const script = document.createElement('script');
         script.src = 'https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js';
         script.async = true;

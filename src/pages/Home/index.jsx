@@ -6,8 +6,8 @@ const { Content } = Layout;
 
 export const Home = () => {
     return (
-        <Layout>
-            <Content style={{ padding: '20px 50px' }}>
+        <Content>
+            <div className='homeContainer'>
                 <div className='introducao'>
                     <h1 className='h1'>Bem-vindo(a) à <b>FolhaTec!</b></h1>
                     <p className='p'>Olá, somos a <b>Folhatec</b>, uma nova empresa que está preparada para revolucionar o mercado
@@ -33,8 +33,8 @@ export const Home = () => {
                         </ul>
                     </div>
                 </Carousel>
-            </Content>
-        </Layout>
+            </div>
+        </Content>
     );
 }
 

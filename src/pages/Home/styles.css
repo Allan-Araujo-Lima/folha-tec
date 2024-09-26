@@ -1,3 +1,9 @@
+.homeContainer {
+  display: flex;
+  flex-direction: column;
+  padding-top: 16px;
+}
+
 .h1 {
   font-size: 2.5em;
   line-height: 1.2;
@@ -14,6 +20,8 @@
 }
 
 .introducao {
+  display: flex;
+  flex-direction: column;
   background-color: #f0f2f5;
   padding: 20px;
   border-radius: 8px;

@@ -9,6 +9,7 @@ import { Calculadoras } from './pages/Calculadoras';
 import { Contato } from './pages/Contato';
 import { Folha } from './pages/Folha';
 import { AdicionalNoturno } from './pages/AdicionalNoturno'
+import { Rescisao } from './pages/Rescisão';
 
 import './globals/styles.css'
 
@@ -38,6 +39,10 @@ function App() {
                 {
                     path: "/calculadoras/adicional-noturno",
                     element: <AdicionalNoturno />
+                },
+                {
+                    path: "/calculadoras/rescisao",
+                    element: <Rescisao />
                 },
                 {
                     path: "/sobre",
