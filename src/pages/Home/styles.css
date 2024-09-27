@@ -1,7 +1,26 @@
+/* Estilo base */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  /* Prevenir rolagem horizontal */
+}
+
+.homeContent {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
 .homeContainer {
   display: flex;
   flex-direction: column;
   padding-top: 16px;
+  max-width: 100%;
+  /* Ocupa 100% da tela */
+  margin: 0 auto;
+  box-sizing: border-box;
+  /* Certifique-se de que padding e borders estão dentro da largura definida */
 }
 
 .h1 {
@@ -27,14 +46,15 @@
   border-radius: 8px;
   text-align: center;
   margin-bottom: 30px;
-}
-
-.introducao p {
-  font-size: larger;
+  max-width: 100%;
+  width: 100%;
+  /* Prevenir que exceda a largura da tela */
+  box-sizing: border-box;
 }
 
 .carousel {
-  max-width: 800px;
+  max-width: 100%;
+  /* Certificar que o carousel não ultrapasse a largura da tela */
   margin: 0 auto;
 }
 
@@ -46,6 +66,10 @@
   text-justify: auto;
   background: #2d4de6;
   border-radius: 8px;
+  padding: 10px;
+  max-width: 100%;
+  /* Não permitir que o item do carousel exceda a largura */
+  box-sizing: border-box;
 }
 
 .carousel-item h3 {
@@ -61,4 +85,28 @@
 .carousel-item li {
   display: inline-block;
   padding: 20px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .h1 {
+    font-size: 1.8em;
+  }
+
+  .p {
+    font-size: 1em;
+    padding: 10px;
+  }
+
+  .carousel-item h3 {
+    font-size: 1.5em;
+  }
+
+  .carousel-item p {
+    font-size: 1.2em;
+  }
+
+  .carousel-item {
+    line-height: 1.5;
+  }
 }

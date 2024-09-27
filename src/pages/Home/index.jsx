@@ -6,7 +6,7 @@ const { Content } = Layout;
 
 export const Home = () => {
     return (
-        <Content>
+        <Content className='homeContent'>
             <div className='homeContainer'>
                 <div className='introducao'>
                     <h1 className='h1'>Bem-vindo(a) à <b>FolhaTec!</b></h1>
@@ -37,4 +37,3 @@ export const Home = () => {
         </Content>
     );
 }
-

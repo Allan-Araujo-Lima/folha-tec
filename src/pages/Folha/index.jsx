@@ -104,7 +104,7 @@ export const Folha = () => {
     }
 
     return (
-        <Content>
+        <Content style={{ maxWidth: "100%" }}>
             <div className="content-folha">
                 <Card title="Folha" style={{ maxWidth: 900 }}>
                     <Form layout="vertical" onSubmit={submit} onFinish={submit} form={form}>
