@@ -12,17 +12,15 @@ const items = ['Sobre', 'Calculadoras', 'Contato'].map((key) => ({
 
 export const HeaderExp = () => {
     return (
-        <Layout className="app-header">
-            <Header className="header">
-                <Link to='/' className='link'>
-                    <img className="header-img" src={LogoMarca} alt="Logo" />
-                </Link>
-                <Menu
-                    theme="dark"
-                    mode="horizontal"
-                    items={items}
-                />
-            </Header>
-        </Layout>
+        <Header className="header">
+            <Link to='/' className='link'>
+                <img className="header-img" src={LogoMarca} alt="Logo" />
+            </Link>
+            <Menu
+                theme="dark"
+                mode="horizontal"
+                items={items}
+            />
+        </Header>
     );
 }

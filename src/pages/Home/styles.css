@@ -1,10 +1,10 @@
-/* Estilo base */
 html,
 body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  /* Prevenir rolagem horizontal */
+  width: 100%;
+  height: auto;
 }
 
 .homeContent {
@@ -17,10 +17,8 @@ body {
   flex-direction: column;
   padding-top: 16px;
   max-width: 100%;
-  /* Ocupa 100% da tela */
   margin: 0 auto;
   box-sizing: border-box;
-  /* Certifique-se de que padding e borders estão dentro da largura definida */
 }
 
 .h1 {
@@ -48,27 +46,28 @@ body {
   margin-bottom: 30px;
   max-width: 100%;
   width: 100%;
-  /* Prevenir que exceda a largura da tela */
   box-sizing: border-box;
 }
 
 .carousel {
+  background-color: rebeccapurple;
   max-width: 100%;
-  /* Certificar que o carousel não ultrapasse a largura da tela */
   margin: 0 auto;
+  min-height: fit-content;
 }
 
 .carousel-item {
-  height: 200px;
-  color: #fff;
-  line-height: 65px;
-  text-align: center;
-  text-justify: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: auto;
+  min-height: 200px;
+  color: black;
   background: #2d4de6;
   border-radius: 8px;
   padding: 10px;
   max-width: 100%;
-  /* Não permitir que o item do carousel exceda a largura */
   box-sizing: border-box;
 }
 
@@ -87,17 +86,7 @@ body {
   padding: 20px;
 }
 
-/* Estilos responsivos */
 @media (max-width: 768px) {
-  .h1 {
-    font-size: 1.8em;
-  }
-
-  .p {
-    font-size: 1em;
-    padding: 10px;
-  }
-
   .carousel-item h3 {
     font-size: 1.5em;
   }
@@ -108,5 +97,6 @@ body {
 
   .carousel-item {
     line-height: 1.5;
+    padding: 15px;
   }
 }

@@ -1,6 +1,7 @@
 import { useState } from "react"
 
 import { Card, Layout, Form, message, Steps, Select, Button, DatePicker } from "antd"
+import dayjs from "dayjs"
 
 import "./styles.css"
 
@@ -13,8 +14,16 @@ export const Rescisao = () => {
     const [current, setCurrent] = useState(0);
     const [tipoRescisao, setTipoRescisao] = useState("")
 
+    const dataFormat = "DD/MM/YYYY"
+    const minRescisao = form.getFieldValue("dataAdmissao")
+    const maxAdmissao = form.getFieldValue("dataDemissao")
+
+    const diferenca = dayjs(form.getFieldValue("dataDemissao"), dataFormat).diff(form.getFieldValue("dataAdmissao"), "days").toString()
+
+
     const next = () => {
         setTipoRescisao(form.getFieldValue("tipoDeRescisao"));
+        console.log(diferenca)
         setCurrent(current + 1);
     };
 
@@ -60,12 +69,18 @@ export const Rescisao = () => {
         {
             title: "Data do comunicado da rescisão",
             description:
-                <Form.Item required>
-                    <DatePicker format={"DD/MM/YYYY"}>
-
-                    </DatePicker>
+                <Form.Item required name={"dataDemissao"}>
+                    <DatePicker format={dataFormat} minDate={dayjs(minRescisao, dataFormat)} />
+                </Form.Item>
+        },
+        {
+            title: "Data de admissão",
+            description:
+                <Form.Item required name={"dataAdmissao"}>
+                    <DatePicker format={dataFormat} maxDate={dayjs(maxAdmissao, dataFormat)} />
                 </Form.Item>
         }
+
     ]
 
     const getUpdatedSteps = () => {
