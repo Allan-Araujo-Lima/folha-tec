@@ -1,13 +1,16 @@
 import { useState } from "react"
 
-import { Card, Layout, Form, message, Steps, Select, Button, DatePicker } from "antd"
+import { Card, Layout, Form, message, Steps, Select, Button, DatePicker, Input, InputNumber } from "antd"
 import dayjs from "dayjs"
 
 import "./styles.css"
 
 const { Content } = Layout
 
-const semAviso = ["porJustaCausa", "rescisaoContratoExperiencia", "morteEmpregado"]
+let titleAviso = "Tipo de Aviso"
+
+const experiencia = ["rescisaoAntecipaContratoExperienciaEmpregador", "rescisaoAntecipaContratoExperienciaEmpregado"];
+const semAviso = ["porJustaCausa", "rescisaoContratoExperiencia", "morteEmpregado", experiencia[0], experiencia[1]];
 
 export const Rescisao = () => {
     const [form] = Form.useForm();
@@ -15,15 +18,11 @@ export const Rescisao = () => {
     const [tipoRescisao, setTipoRescisao] = useState("")
 
     const dataFormat = "DD/MM/YYYY"
-    const minRescisao = form.getFieldValue("dataAdmissao")
-    const maxAdmissao = form.getFieldValue("dataDemissao")
 
-    const diferenca = dayjs(form.getFieldValue("dataDemissao"), dataFormat).diff(form.getFieldValue("dataAdmissao"), "days").toString()
-
+    const diferenca = dayjs(form.getFieldValue("dataDemissao"), dataFormat).diff(form.getFieldValue("dataAdmissao"), "days")
 
     const next = () => {
         setTipoRescisao(form.getFieldValue("tipoDeRescisao"));
-        console.log(diferenca)
         setCurrent(current + 1);
     };
 
@@ -32,6 +31,13 @@ export const Rescisao = () => {
     };
 
     const steps = [
+        {
+            title: "Data de admissão",
+            description:
+                <Form.Item required name={"dataAdmissao"}>
+                    <DatePicker format={dataFormat} />
+                </Form.Item>
+        },
         {
             title: "Tipo de rescisão",
             description:
@@ -52,34 +58,42 @@ export const Rescisao = () => {
                 </Form.Item>
         },
         {
-            title: "Tipo de aviso",
+            title: titleAviso,
             description:
                 <Form.Item required>
                     {
                         semAviso.includes(tipoRescisao) == false ?
-                            <Select className="select tipoDeAviso">
+                            <Select className="select tipoDeAviso" onFocus={titleAviso = "Tipo de Aviso"}>
                                 <Select.Option value="avisoTrabalhado">Aviso prévio trabalhado</Select.Option>
                                 <Select.Option value="avisoIndenizado">Aviso prévio indenizado</Select.Option>
                             </Select>
                             :
-                            <p> Tipo de rescisão sem aviso prévio.</p>
+                            experiencia.includes(tipoRescisao) == true ?
+                                <DatePicker
+                                    name="fimPrazoDeterminado"
+                                    onFocus={titleAviso = "Prazo final do contrato de experiência"}
+                                    format={dataFormat}
+                                    minDate={dayjs(form.getFieldValue("dataAdmissao"), dataFormat).add(1, 'day')}
+                                    maxDate={dayjs(form.getFieldValue("dataAdmissao"), dataFormat).add(89, 'day')} />
+                                :
+                                <p> Tipo de rescisão sem aviso prévio.</p>
                     }
                 </Form.Item >,
         },
         {
-            title: "Data do comunicado da rescisão",
+            title: "Comunicado da rescisão",
             description:
-                <Form.Item required name={"dataDemissao"}>
-                    <DatePicker format={dataFormat} minDate={dayjs(minRescisao, dataFormat)} />
-                </Form.Item>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    <Form.Item required name={"dataDemissao"}>
+                        <DatePicker
+                            format={dataFormat}
+                            minDate={dayjs(form.getFieldValue("dataAdmissao"), dataFormat)} />
+                    </Form.Item>
+                    <Form.Item required name={"dataRescisao"} disabled>
+                        <DatePicker format={dataFormat} disabled placeholder="" />
+                    </Form.Item>
+                </div>
         },
-        {
-            title: "Data de admissão",
-            description:
-                <Form.Item required name={"dataAdmissao"}>
-                    <DatePicker format={dataFormat} maxDate={dayjs(maxAdmissao, dataFormat)} />
-                </Form.Item>
-        }
 
     ]
 
