@@ -9,7 +9,7 @@ export const LayoutExp = () => {
     return (
         <div className="layout-container">
             <HeaderExp />
-            <div className="content">
+            <div className="content" style={{ display: "flex", flexDirection: "column" }}>
                 <Outlet />
             </div>
             <FooterExp />
