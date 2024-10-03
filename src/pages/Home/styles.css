@@ -1,12 +1,3 @@
-html,
-body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-  width: 100%;
-  height: auto;
-}
-
 .homeContent {
   max-width: 100%;
   box-sizing: border-box;
@@ -84,6 +75,11 @@ body {
 .carousel-item li {
   display: inline-block;
   padding: 20px;
+}
+
+.ant-layout-content {
+  padding: 24px;
+  min-height: 100vh;
 }
 
 @media (max-width: 768px) {

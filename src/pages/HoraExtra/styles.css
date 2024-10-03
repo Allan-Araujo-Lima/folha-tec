@@ -1,13 +1,28 @@
-.content-hora-extra,
-.result {
-    width: 100%;
+.container-hora-extra {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
     flex-direction: column;
+    width: 100%;
+    height: auto;
+    align-items: center;
+    box-sizing: border-box;
 }
 
-Form {
-    width: 500px;
+.content-hora-extra {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    height: auto;
+    margin-top: 24px;
+}
+
+.result {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    align-content: start;
+    text-align: center;
+    width: 100%;
+    height: auto;
 }

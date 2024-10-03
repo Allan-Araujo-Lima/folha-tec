@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import { Form, Select, Card, Button, InputNumber, Space, Layout } from 'antd'
-import './styles.css'
+import { Form, Select, Card, Button, InputNumber, Space } from 'antd'
 import { MonetaryInput, MonetaryOutput } from '../../hooks/inputMask'
 
-const { Content } = Layout
+import './styles.css'
 
 export const HoraExtra = () => {
     const [selectedOption, setSelectecOption] = useState("");
@@ -45,9 +44,9 @@ export const HoraExtra = () => {
     }
 
     return (
-        <Content>
+        <div className='container-hora-extra'>
             <div className='content-hora-extra'>
-                <Card title="Hora Extra" style={{ maxWidth: 800 }}>
+                <Card title="Hora Extra">
                     <Form layout="vertical" onSubmit={submit} onFinish={submit} form={form}>
                         <Form.Item label="Salário base" name="salario"
                             initialValue={0}
@@ -158,6 +157,6 @@ export const HoraExtra = () => {
                     </div>
                 )}
             </div>
-        </Content>
+        </div>
     )
 }
