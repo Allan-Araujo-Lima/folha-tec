@@ -3,9 +3,10 @@ import { useState } from "react";
 import { MonetaryInput } from "../../hooks/inputMask";
 import { Card, Form, message, Steps, Select, Button, InputNumber, Checkbox } from "antd";
 
+import { Rescisao } from ".";
 import "./styles.css";
 
-export const StepsRem = () => {
+export const StepsEnd = () => {
     const [form] = Form.useForm()
     const [amount, setAmount] = useState("");
     const [current, setCurrent] = useState(0);
@@ -25,11 +26,12 @@ export const StepsRem = () => {
         setChecked(false);
     };
 
-    const stepsRemuneracao = [
+    const stepsFinal = [
         {
             title: "Salário-base",
             description:
-                <Form.Item>
+                <Form.Item
+                    name={"salario"}>
                     <MonetaryInput
                         value={amount}
                         onChange={(value) => setAmount(value)}
@@ -170,7 +172,7 @@ export const StepsRem = () => {
         }
     ]
     const getUpdatedStepsRem = () => {
-        return stepsRemuneracao.map((teste, index) => {
+        return stepsFinal.map((teste, index) => {
             if (index === current) {
                 return { ...teste, disabled: false, status: "process" };
             } else {
@@ -184,16 +186,16 @@ export const StepsRem = () => {
             <Steps
                 className="steps"
                 direction="vertical"
-                current={stepsRemuneracao}
+                current={stepsFinal}
                 items={getUpdatedStepsRem()}>
             </Steps>
             <div style={{ marginTop: 24 }}>
-                {current < stepsRemuneracao.length - 1 && (
+                {current < stepsFinal.length - 1 && (
                     <Button type="primary" onClick={() => next()}>
                         Próximo
                     </Button>
                 )}
-                {current === stepsRemuneracao.length - 1 && (
+                {current === stepsFinal.length - 1 && (
                     <Button type="primary" onClick={() => message.success('Processing complete!')}>
                         Remuneração
                     </Button>

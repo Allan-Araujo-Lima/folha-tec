@@ -1,10 +1,11 @@
 import { useState } from "react"
 
-import { Card, Form, message, Steps, Select, Button, DatePicker, Divider, Checkbox } from "antd"
+import { Card, Form, Steps, Select, Button, DatePicker, Divider, Checkbox, Tooltip } from "antd"
 import dayjs from "dayjs"
 
-import "./styles.css"
 import { StepsRem } from "./steps"
+import { StepsEnd } from "./stepsEnd"
+import "./styles.css"
 
 let titleAviso = "Tipo de Aviso"
 
@@ -13,19 +14,27 @@ const semAviso = ["porJustaCausa", "rescisaoContratoExperiencia", "morteEmpregad
 
 export const Rescisao = () => {
     const [form] = Form.useForm();
+    const [info, setInfo] = useState(null)
     const [current, setCurrent] = useState(0);
 
-    const dataFormat = "DD/MM/YYYY"
+    const dataFormat = "DD/MM/YYYY";
 
-    const diferenca = dayjs(form.getFieldValue("dataDemissao"), dataFormat).diff(form.getFieldValue("dataAdmissao"), "days")
+    const diferenca = dayjs(form.getFieldValue("dataDemissao"), dataFormat).diff(form.getFieldValue("dataAdmissao"), "days");
 
-    const diasAvisoPrevio = dayjs(form.getFieldValue("dataDemissao"), dataFormat).diff(form.getFieldValue("dataAdmissao"), "year") * 3 + 30
+    let diasAvisoPrevio = dayjs(form.getFieldValue("dataDemissao"), dataFormat).diff(form.getFieldValue("dataAdmissao"), "year") * 3 + 30;
+    diasAvisoPrevio > 90 ? diasAvisoPrevio = 90 : diasAvisoPrevio;
 
-    const dataAvisoPrevio = dayjs(form.getFieldValue("dataDemissao"), dataFormat).add(diasAvisoPrevio, "day")
+    const dataAvisoPrevio = dayjs(form.getFieldValue("dataDemissao"), dataFormat).add(diasAvisoPrevio, "day");
+
+    const onFinish = (values) => {
+        values.dataAdmissao = dayjs(values.dataAdmissao).format(dataFormat)
+        values.dataDemissao = dayjs(values.dataDemissao).format(dataFormat)
+        setInfo(values);
+    }
 
     const handlerFocus = (e) => {
         if (e.key === "Enter") {
-            e.preventDefaut()
+            e.preventDefault()
             next()
         }
     }
@@ -123,6 +132,7 @@ export const Rescisao = () => {
                             format={dataFormat}
                             minDate={dayjs(form.getFieldValue("dataAdmissao"), dataFormat)}
                             disabled={current !== 4}
+                            onChange={() => next()}
                         />
                     </Form.Item>
                     {
@@ -131,18 +141,19 @@ export const Rescisao = () => {
                             :
                             null
                     }
-                    <Form.Item
-                        required
-                        disabled>
-                        {
-                            form.getFieldsValue("tipoDeAviso") !== "avisoTrabalhado" ?
-                                <DatePicker name={"dataRescisao"} format={dataFormat} disabled placeholder="" value={form.getFieldValue("dataDemissao")} />
-                                :
-                                <DatePicker name={"dataRescisao"} format={dataFormat} disabled placeholder="" value={dayjs(form.getFieldValue("dataDemissao"), dataFormat).add(diasAvisoPrevio, "day")} />
-                        }
+                    <Form.Item>
+                        <DatePicker
+                            format={dataFormat}
+                            disabled
+                            value={
+                                form.getFieldValue("tipoDeAviso") === "avisoTrabalhado"
+                                    ? dayjs(form.getFieldValue("dataDemissao"), dataFormat).add(diasAvisoPrevio, "day")
+                                    : form.getFieldValue("dataDemissao")
+                            }
+                        />
                     </Form.Item>
-                </div>,
-        },
+                </div>
+        }
     ]
 
     const getUpdatedSteps = () => {
@@ -157,7 +168,7 @@ export const Rescisao = () => {
 
     return (
         <Card>
-            <Form layout="vertical" form={form}>
+            <Form layout="vertical" form={form} onFinish={onFinish}>
                 <Card title="Informações rescisão">
                     <Steps
                         className="steps"
@@ -168,7 +179,12 @@ export const Rescisao = () => {
                     {
                         form.getFieldValue("tipoDeRescisao") == "semJustaCausa" && form.getFieldValue("tipoDeAviso") == "avisoTrabalhado" && diasAvisoPrevio > 30 ?
                             <Checkbox>
-                                Aviso trabalho de 30 dias e indenizar restante.
+                                <Tooltip
+                                    title="Marcar esta opção quando, independentemente da quantidade de anos trabalhados, o aviso trabalhado só será de 30 dias."
+                                >
+                                    Aviso trabalho de 30 dias e indenizar restante.
+                                    ({diasAvisoPrevio - 30} dias)
+                                </Tooltip>
                             </Checkbox>
                             :
                             null
@@ -180,7 +196,7 @@ export const Rescisao = () => {
                             </Button>
                         )}
                         {current === steps.length - 1 && (
-                            <Button type="primary" onClick={() => setCurrent(0)}>
+                            <Button type="primary" htmlType="submit">
                                 Remuneração
                             </Button>
                         )}
@@ -193,6 +209,8 @@ export const Rescisao = () => {
                 </Card>
                 <Divider />
                 <StepsRem />
+                <Divider />
+                <StepsEnd />
             </Form>
         </Card>
     )
