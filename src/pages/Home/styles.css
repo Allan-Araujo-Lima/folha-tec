@@ -40,13 +40,6 @@
   box-sizing: border-box;
 }
 
-.carousel {
-  background-color: rebeccapurple;
-  max-width: 100%;
-  margin: 0 auto;
-  min-height: fit-content;
-}
-
 .carousel-item {
   display: flex;
   justify-content: center;
@@ -80,6 +73,32 @@
 .ant-layout-content {
   padding: 24px;
   min-height: 100vh;
+}
+
+.servicos {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+}
+
+.servicoscard {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: auto;
+  justify-content: space-around;
+  box-sizing: border-box;
+  align-content: center;
+}
+
+.cardservicos {
+  margin: 12px;
+  border-radius: 12px;
+}
+
+.cardservicos p {
+  text-align: justify;
 }
 
 @media (max-width: 768px) {

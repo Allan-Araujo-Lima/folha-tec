@@ -1,7 +1,7 @@
 import React from 'react';
-import { Layout, Carousel, Divider } from 'antd';
+import { Carousel, Divider, Card } from 'antd';
 
-const { Content } = Layout;
+import "./styles.css"
 
 const contentStyle = {
     margin: '34px',
@@ -54,6 +54,34 @@ export const Home = () => {
                     </div>
                 </div>
             </Carousel>
-        </div>
+            <div className='servicos'>
+                <h2>Nossos serviços</h2>
+                <div className='servicoscard'>
+                    <Card className='cardservicos'
+                        title="Folha de Pagamento">
+                        <p>
+                            Tercerização de toda a rotina do departamento pessoal
+                            de sua empresa ou da sua folha de pagamento pessoa física!
+                        </p>
+                    </Card>
+                    <Card className='cardservicos'
+                        title="Cálculos Trabalhistas">
+                        <p>
+                            Ficou com dúvida em alguma particulariedade?<br />
+                            Quer saber se sua empresa está realizando os pagamento corretamente?<br />
+                            Tudo isso fica fácil com a nossa ferramenta de cálculos trabalhistas, confira clicando no nosso card.
+                        </p>
+                    </Card>
+                    <Card className='cardservicos'
+                        title="Auditoria">
+                        <p>
+                            Quer a rotina do departamento pessoal da sua empresa segura e sem dores de cabeça futuras?<br />
+                            Contrate a nossa auditoria especializada e deixe a rotina do departamento pessoal
+                            de sua empresa mais segura e confiável.
+                        </p>
+                    </Card>
+                </div>
+            </div>
+        </div >
     );
 }
