@@ -1,12 +1,11 @@
 import { useState } from "react";
 
-import { MonetaryInput } from "../../hooks/inputMask";
-import { Card, Form, message, Steps, Select, Button, InputNumber, Checkbox } from "antd";
+import { MonetaryInput } from "../../../hooks/inputMask";
+import { Form, message, Steps, Select, Button, InputNumber, Checkbox, Collapse } from "antd";
 
-import "./styles.css";
+import ".././styles.css";
 
 export const StepsRem = () => {
-    const [form] = Form.useForm()
     const [amount, setAmount] = useState("");
     const [current, setCurrent] = useState(0);
     const [selectedOption, setSelectecOption] = useState("");
@@ -179,31 +178,40 @@ export const StepsRem = () => {
         });
     };
 
+    const itemsPanel = [
+        {
+            key: '1',
+            label: 'Remuneração',
+            children:
+                <div>
+                    <Steps
+                        className="steps"
+                        direction="vertical"
+                        current={stepsRemuneracao}
+                        items={getUpdatedStepsRem()}>
+                    </Steps>
+                    <div style={{ marginTop: 24 }}>
+                        {current < stepsRemuneracao.length - 1 && (
+                            <Button type="primary" onClick={() => next()}>
+                                Próximo
+                            </Button>
+                        )}
+                        {current === stepsRemuneracao.length - 1 && (
+                            <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                                Remuneração
+                            </Button>
+                        )}
+                        {current > 0 && (
+                            <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+                                Anterior
+                            </Button>
+                        )}
+                    </div>
+                </div>
+        }
+    ]
+
     return (
-        <Card title="Remuneração rescisão">
-            <Steps
-                className="steps"
-                direction="vertical"
-                current={stepsRemuneracao}
-                items={getUpdatedStepsRem()}>
-            </Steps>
-            <div style={{ marginTop: 24 }}>
-                {current < stepsRemuneracao.length - 1 && (
-                    <Button type="primary" onClick={() => next()}>
-                        Próximo
-                    </Button>
-                )}
-                {current === stepsRemuneracao.length - 1 && (
-                    <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                        Remuneração
-                    </Button>
-                )}
-                {current > 0 && (
-                    <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
-                        Anterior
-                    </Button>
-                )}
-            </div>
-        </Card>
+        <Collapse items={itemsPanel} size="large" style={{ width: "100%" }} />
     )
 }
