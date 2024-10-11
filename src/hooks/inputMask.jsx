@@ -34,15 +34,11 @@ export const MonetaryInput = ({ value, onChange, ...props }) => {
 
 export const DaysInput = ({ value, onChange, ...props }) => {
     return (
-        <NumericFormat
+        <InputNumber
             value={value}
-            displayType="input"
-            decimalScale={0}
-            customInput={Input}
-            allowNegative={false}
-            onValueChange={(values) => {
-                onChange(values.value);
-            }}
+            min={1}
+            max={30}
+            onChange={(val) => onChange(val)}
             {...props}
         />
     );

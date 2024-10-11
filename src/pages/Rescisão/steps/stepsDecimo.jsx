@@ -1,33 +1,15 @@
 import { useState } from "react";
-import { Form, message, Steps, Button, Checkbox, Collapse, DatePicker } from "antd";
+import { Form, message, Steps, Button, Checkbox, Collapse } from "antd";
 import ".././styles.css";
-import dayjs from "dayjs";
+import { MonetaryInput } from "../../../hooks/inputMask";
 
-const { RangePicker } = DatePicker;
-
-export const StepsEnd = ({ info }) => {
+export const StepsDecimo = ({ info }) => {
     const [current, setCurrent] = useState(0);
-    const [checked, setChecked] = useState(false);
-    const [checkedFerias, setCheckedFerias] = useState(false);
+    const [checkerDecimo, setCheckedDecimo] = useState(false);
+    const [amount, setAmount] = useState("")
 
-    const dataFormat = "DD/MM/YYYY";
-
-    const disabled30DaysDate = (currentDate, { from }) => {
-        if (from) {
-            console.log(info.dataAdmissao)
-            const minDate = dayjs(info?.dataAdmissao, dataFormat);
-            const maxDate = from.add(29, 'days');
-            return currentDate.isBefore(minDate) || currentDate.isAfter(maxDate);
-        }
-        return false;
-    };
-
-    const toggleChecked = () => {
-        setChecked(!checked);
-    };
-
-    const toggleCheckedFerias = () => {
-        setCheckedFerias(!checkedFerias);
+    const toggleCheckedDecimo = () => {
+        setCheckedDecimo(!checkerDecimo);
     };
 
     const next = () => {
@@ -36,32 +18,36 @@ export const StepsEnd = ({ info }) => {
 
     const prev = () => {
         setCurrent(current - 1);
-        setChecked(false);
     };
 
-    const stepsFinal = [
+    const stepsDecimo = [
         {
-            title: "Férias vencidas",
+            title: "Antecipação do 13° salário",
             description: (
                 <div>
-                    <Checkbox checked={checkedFerias} onChange={toggleCheckedFerias}>
-                        Funcionário gozou seu último período de férias vencidas?
+                    <Checkbox checked={checkerDecimo} onChange={toggleCheckedDecimo}>
+                        Houve antecipação do 13° salário para o colaborador?
                     </Checkbox>
                     {
-                        checkedFerias === true ?
-                            <Form.Item name={"feriasVencidas"} label="Período de gozo">
-                                <RangePicker minDate={info.dataAdmissao} disabledDate={disabled30DaysDate} format={dataFormat} />
+                        checkerDecimo === true ?
+                            <Form.Item name={"adiantamentoDecimo"} label="Valor adiantado ao empregado">
+                                <MonetaryInput
+                                    value={amount}
+                                    onChange={(value) => setAmount(value)}
+                                    style={{ width: "100%" }}
+                                    addonBefore={"R$"}
+                                />
                             </Form.Item>
                             :
                             null
                     }
                 </div>
             )
-        },
+        }
     ];
 
     const getUpdatedStepsRem = () => {
-        return stepsFinal.map((step, index) => ({
+        return stepsDecimo.map((step, index) => ({
             ...step,
             disabled: index !== current,
             status: index === current ? "process" : "wait"
@@ -71,7 +57,7 @@ export const StepsEnd = ({ info }) => {
     const itemsPanel = [
         {
             key: '1',
-            label: 'Férias',
+            label: '13° Salário',
             children: (
                 <div>
                     <Steps
@@ -81,14 +67,14 @@ export const StepsEnd = ({ info }) => {
                         items={getUpdatedStepsRem()}
                     />
                     <div style={{ marginTop: 24 }}>
-                        {current < stepsFinal.length - 1 && (
+                        {current < stepsDecimo.length - 1 && (
                             <Button type="primary" onClick={next}>
                                 Próximo
                             </Button>
                         )}
-                        {current === stepsFinal.length - 1 && (
+                        {current === stepsDecimo.length - 1 && (
                             <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                                Remuneração
+                                FGTS
                             </Button>
                         )}
                         {current > 0 && (

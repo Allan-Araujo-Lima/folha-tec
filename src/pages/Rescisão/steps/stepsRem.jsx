@@ -28,7 +28,7 @@ export const StepsRem = () => {
         {
             title: "Salário-base",
             description:
-                <Form.Item>
+                <Form.Item name="salarioBase">
                     <MonetaryInput
                         value={amount}
                         onChange={(value) => setAmount(value)}
@@ -198,7 +198,7 @@ export const StepsRem = () => {
                         )}
                         {current === stepsRemuneracao.length - 1 && (
                             <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                                Remuneração
+                                Férias
                             </Button>
                         )}
                         {current > 0 && (

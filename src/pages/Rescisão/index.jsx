@@ -4,9 +4,11 @@ import { Card, Form, Divider } from "antd"
 import dayjs from "dayjs"
 
 import { StepsRem } from "./steps/stepsRem"
-import { StepsEnd } from "./steps/stepsEnd"
+import { StepsFerias } from "./steps/stepsFerias"
 import { StepsInfo } from "./steps/stepsInfo"
 import "./styles.css"
+import { StepsDecimo } from "./steps/stepsDecimo"
+import { StepsFgts } from "./steps/stepsFGTS"
 
 export const Rescisao = () => {
     const [form] = Form.useForm();
@@ -31,7 +33,11 @@ export const Rescisao = () => {
                     <Divider />
                     <StepsRem info={info} />
                     <Divider />
-                    <StepsEnd info={info} />
+                    <StepsFerias info={info} />
+                    <Divider />
+                    <StepsDecimo info={info} />
+                    <Divider />
+                    <StepsFgts />
                 </Card>
             </Form>
         </Card>
