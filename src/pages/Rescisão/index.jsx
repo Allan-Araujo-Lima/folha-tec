@@ -6,23 +6,21 @@ import dayjs from "dayjs"
 import { StepsRem } from "./steps/stepsRem"
 import { StepsFerias } from "./steps/stepsFerias"
 import { StepsInfo } from "./steps/stepsInfo"
-import "./styles.css"
 import { StepsDecimo } from "./steps/stepsDecimo"
 import { StepsFgts } from "./steps/stepsFGTS"
+import "./styles.css"
 
 export const Rescisao = () => {
     const [form] = Form.useForm();
-    const [info, setInfo] = useState(null)
+    const [info, setInfo] = useState(null) //pega dados do formulário
 
-    const dataFormat = "DD/MM/YYYY";
+    const dataFormat = "DD/MM/YYYY"; //formado dos inputs de data
 
     let diasAvisoPrevio = dayjs(form.getFieldValue("dataDemissao"), dataFormat).diff(form.getFieldValue("dataAdmissao"), "year") * 3 + 30;
     diasAvisoPrevio > 90 ? diasAvisoPrevio = 90 : diasAvisoPrevio;
 
-
     const onFinish = (values) => {
         setInfo(values);
-        console.log(info)
     }
 
     return (
