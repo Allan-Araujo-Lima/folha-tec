@@ -178,40 +178,31 @@ export const StepsRem = () => {
         });
     };
 
-    const itemsPanel = [
-        {
-            key: '1',
-            label: 'Remuneração',
-            children:
-                <div>
-                    <Steps
-                        className="steps"
-                        direction="vertical"
-                        current={stepsRemuneracao}
-                        items={getUpdatedStepsRem()}>
-                    </Steps>
-                    <div style={{ marginTop: 24 }}>
-                        {current < stepsRemuneracao.length - 1 && (
-                            <Button type="primary" onClick={() => next()}>
-                                Próximo
-                            </Button>
-                        )}
-                        {current === stepsRemuneracao.length - 1 && (
-                            <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                                Férias
-                            </Button>
-                        )}
-                        {current > 0 && (
-                            <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
-                                Anterior
-                            </Button>
-                        )}
-                    </div>
-                </div>
-        }
-    ]
-
     return (
-        <Collapse items={itemsPanel} size="large" style={{ width: "100%" }} />
+        <div>
+            <Steps
+                className="steps"
+                direction="vertical"
+                current={stepsRemuneracao}
+                items={getUpdatedStepsRem()}>
+            </Steps>
+            <div style={{ marginTop: 24 }}>
+                {current < stepsRemuneracao.length - 1 && (
+                    <Button type="primary" onClick={() => next()}>
+                        Próximo
+                    </Button>
+                )}
+                {current === stepsRemuneracao.length - 1 && (
+                    <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                        Férias
+                    </Button>
+                )}
+                {current > 0 && (
+                    <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+                        Anterior
+                    </Button>
+                )}
+            </div>
+        </div>
     )
 }

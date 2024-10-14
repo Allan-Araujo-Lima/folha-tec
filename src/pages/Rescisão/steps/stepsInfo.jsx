@@ -157,53 +157,44 @@ export const StepsInfo = ({ info }) => {
         });
     };
 
-    const itemsPanel = [
-        {
-            key: '1',
-            label: 'Informações Gerais',
-            children:
-                <div>
-                    <Steps
-                        className="steps"
-                        direction="vertical"
-                        current={current}
-                        items={getUpdatedSteps()}>
-                    </Steps>
-                    {
-                        form.getFieldValue("tipoDeRescisao") == "semJustaCausa" && form.getFieldValue("tipoDeAviso") == "avisoTrabalhado" && diasAvisoPrevio > 30 ?
-                            <Checkbox>
-                                <Tooltip
-                                    title="Marcar esta opção quando, independentemente da quantidade de anos trabalhados, o aviso trabalhado só será de 30 dias."
-                                >
-                                    Aviso trabalho de 30 dias e indenizar restante.
-                                    ({diasAvisoPrevio - 30} dias)
-                                </Tooltip>
-                            </Checkbox>
-                            :
-                            null
-                    }
-                    <div style={{ marginTop: 24 }}>
-                        {current < steps.length - 1 && (
-                            <Button type="primary" onClick={() => next()}>
-                                Próximo
-                            </Button>
-                        )}
-                        {current === steps.length - 1 && (
-                            <Button type="primary" htmlType="submit">
-                                Remuneração
-                            </Button>
-                        )}
-                        {current > 0 && (
-                            <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
-                                Anterior
-                            </Button>
-                        )}
-                    </div>
-                </div>
-        }
-    ]
-
     return (
-        <Collapse items={itemsPanel} defaultActiveKey={['1']} size="large" style={{ width: "100%" }} />
+        <div>
+            <Steps
+                className="steps"
+                direction="vertical"
+                current={current}
+                items={getUpdatedSteps()}>
+            </Steps>
+            {
+                form.getFieldValue("tipoDeRescisao") == "semJustaCausa" && form.getFieldValue("tipoDeAviso") == "avisoTrabalhado" && diasAvisoPrevio > 30 ?
+                    <Checkbox>
+                        <Tooltip
+                            title="Marcar esta opção quando, independentemente da quantidade de anos trabalhados, o aviso trabalhado só será de 30 dias."
+                        >
+                            Aviso trabalho de 30 dias e indenizar restante.
+                            ({diasAvisoPrevio - 30} dias)
+                        </Tooltip>
+                    </Checkbox>
+                    :
+                    null
+            }
+            <div style={{ marginTop: 24 }}>
+                {current < steps.length - 1 && (
+                    <Button type="primary" onClick={() => next()}>
+                        Próximo
+                    </Button>
+                )}
+                {current === steps.length - 1 && (
+                    <Button type="primary" htmlType="submit">
+                        Remuneração
+                    </Button>
+                )}
+                {current > 0 && (
+                    <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+                        Anterior
+                    </Button>
+                )}
+            </div>
+        </div>
     )
 }

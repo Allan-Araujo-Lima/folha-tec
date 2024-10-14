@@ -48,24 +48,14 @@ export const StepsFgts = ({ info }) => {
         }));
     };
 
-    const itemsPanel = [
-        {
-            key: '1',
-            label: 'FGTS',
-            children: (
-                <div>
-                    <Steps
-                        className="steps"
-                        direction="vertical"
-                        current={current}
-                        items={getUpdatedStepsRem()}
-                    />
-                </div>
-            )
-        }
-    ];
-
     return (
-        <Collapse items={itemsPanel} size="large" style={{ width: "100%" }} />
+        <div>
+            <Steps
+                className="steps"
+                direction="vertical"
+                current={current}
+                items={getUpdatedStepsRem()}
+            />
+        </div>
     );
 };
