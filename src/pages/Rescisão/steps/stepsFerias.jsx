@@ -3,7 +3,7 @@ import { Form, message, Steps, Button, Checkbox, Collapse } from "antd";
 import ".././styles.css";
 import { DaysInput } from "../../../hooks/inputMask";
 
-export const StepsFerias = ({ info }) => {
+export const StepsFerias = ({ info, changeStep }) => {
     const [current, setCurrent] = useState(0);
     const [checkedFerias, setCheckedFerias] = useState(false);
     const [checkedColetivas, setCheckedColetivas] = useState(false);
@@ -96,7 +96,7 @@ export const StepsFerias = ({ info }) => {
                     </Button>
                 )}
                 {current === itemsFerias.length - 1 && (
-                    <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                    <Button type="primary" htmlType="submit" onClick={() => changeStep("3")}>
                         13° Salário
                     </Button>
                 )}

@@ -1,65 +1,84 @@
-import { useState } from "react"
-
-import { Card, Form, Divider, Button, Collapse } from "antd"
-import dayjs from "dayjs"
-
-import { StepsRem } from "./steps/stepsRem"
-import { StepsFerias } from "./steps/stepsFerias"
-import { StepsInfo } from "./steps/stepsInfo"
-import { StepsDecimo } from "./steps/stepsDecimo"
-import { StepsFgts } from "./steps/stepsFGTS"
-import "./styles.css"
-import { CalculoRescisao } from "./calculo"
+import { useState } from "react";
+import { Card, Form, Button, Collapse } from "antd";
+import { StepsRem } from "./steps/stepsRem";
+import { StepsFerias } from "./steps/stepsFerias";
+import { StepsInfo } from "./steps/stepsInfo";
+import { StepsDecimo } from "./steps/stepsDecimo";
+import { StepsFgts } from "./steps/stepsFGTS";
+import "./styles.css";
 
 export const Rescisao = () => {
     const [form] = Form.useForm();
-    const [info, setInfo] = useState(null) //pega dados do formulário
+    const [info, setInfo] = useState({}); // Pega dados do formulário
+    const [activeKey, setActiveKey] = useState(['1']); // Painel ativo
 
-    const dataFormat = "DD/MM/YYYY"; //formado dos inputs de data
+    // Função para abrir um novo painel
+    const openPanel = (currentKey) => {
+        const nextKey = (parseInt(currentKey) + 1).toString(); // Próximo painel
+        setActiveKey([nextKey]); // Abre apenas o próximo painel
+    };
 
-    let diasAvisoPrevio = dayjs(form.getFieldValue("dataDemissao"), dataFormat).diff(form.getFieldValue("dataAdmissao"), "year") * 3 + 30;
-    diasAvisoPrevio > 90 ? diasAvisoPrevio = 90 : diasAvisoPrevio;
-
+    // Função chamada ao submeter o formulário
     const onFinish = (values) => {
-        setInfo(values);
-    }
+        setInfo(values); // Atualiza o estado com os valores do formulário
+    };
+
+    // Função para capturar as mudanças no formulário
+    const onFormChange = (changedValues, allValues) => {
+        setInfo(allValues); // Atualiza o estado com todos os valores do formulário
+    };
 
     const items = [
         {
-            key: 1,
+            key: "1",
             label: "Informações gerais",
-            children: <StepsInfo info={info} />
+            children: <StepsInfo info={info} changeStep={openPanel} />
         },
         {
-            key: 2,
+            key: "2",
             label: "Remuneração",
-            children: <StepsRem info={info} />
+            children: <StepsRem info={info} changeStep={openPanel} />
         },
         {
-            key: 3,
+            key: "3",
             label: "Férias",
-            children: <StepsFerias />
+            children: <StepsFerias changeStep={openPanel} />
         },
         {
-            key: 4,
+            key: "4",
             label: "13° Salário",
-            children: <StepsDecimo />
+            children: <StepsDecimo changeStep={openPanel} />
         },
         {
-            key: 5,
+            key: "5",
             label: "FGTS",
             children: <StepsFgts />
         },
-    ]
+    ];
 
     return (
         <Card>
-            <Form layout="vertical" form={form} onSubmit={onFinish} onFinish={onFinish} onChange={onFinish}>
+            <Form
+                layout="vertical"
+                form={form}
+                onFinish={onFinish}
+                onValuesChange={onFormChange} // Agora com parâmetros corretos
+            >
                 <Card title="Simulação de rescisão">
-                    <Collapse items={items} size="large" style={{ width: "100%" }} accordion />
-                    <Button htmlType="submit" type="primary" onClick={<CalculoRescisao info={info} />}>Calcular</Button>
+                    <Collapse
+                        defaultActiveKey='1' // Definindo o painel inicial aberto
+                        activeKey={activeKey} // Painel ativo gerenciado pelo estado
+                        onChange={(keys) => setActiveKey(keys)} // Atualiza os painéis abertos
+                        items={items}
+                        size="large"
+                        style={{ width: "100%" }}
+                        accordion
+                    />
+                    <Button htmlType="submit" type="primary" style={{ margin: "12px" }}>
+                        Calcular
+                    </Button>
                 </Card>
             </Form>
         </Card>
-    )
-}
+    );
+};

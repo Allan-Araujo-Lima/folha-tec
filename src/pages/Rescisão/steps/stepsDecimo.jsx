@@ -3,7 +3,7 @@ import { Form, message, Steps, Button, Checkbox, Collapse } from "antd";
 import ".././styles.css";
 import { MonetaryInput } from "../../../hooks/inputMask";
 
-export const StepsDecimo = ({ info }) => {
+export const StepsDecimo = ({ info, changeStep }) => {
     const [current, setCurrent] = useState(0);
     const [checkerDecimo, setCheckedDecimo] = useState(false);
     const [amount, setAmount] = useState("")
@@ -69,7 +69,7 @@ export const StepsDecimo = ({ info }) => {
                     </Button>
                 )}
                 {current === stepsDecimo.length - 1 && (
-                    <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                    <Button type="primary" htmlType="submit" onClick={() => changeStep("4")}>
                         FGTS
                     </Button>
                 )}

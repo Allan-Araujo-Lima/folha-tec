@@ -1,11 +1,11 @@
 import { useState } from "react";
 
 import { MonetaryInput } from "../../../hooks/inputMask";
-import { Form, message, Steps, Select, Button, InputNumber, Checkbox, Collapse } from "antd";
+import { Form, message, Steps, Select, Button, InputNumber, Checkbox } from "antd";
 
 import ".././styles.css";
 
-export const StepsRem = () => {
+export const StepsRem = ({ info, changeStep }) => {
     const [amount, setAmount] = useState("");
     const [current, setCurrent] = useState(0);
     const [selectedOption, setSelectecOption] = useState("");
@@ -193,7 +193,7 @@ export const StepsRem = () => {
                     </Button>
                 )}
                 {current === stepsRemuneracao.length - 1 && (
-                    <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                    <Button type="primary" htmlType="submit" onClick={() => changeStep("2")}>
                         Férias
                     </Button>
                 )}
