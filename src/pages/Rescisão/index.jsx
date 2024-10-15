@@ -6,6 +6,7 @@ import { StepsInfo } from "./steps/stepsInfo";
 import { StepsDecimo } from "./steps/stepsDecimo";
 import { StepsFgts } from "./steps/stepsFGTS";
 import "./styles.css";
+import { Calculo } from "./calculo";
 
 export const Rescisao = () => {
     const [form] = Form.useForm();
@@ -62,7 +63,7 @@ export const Rescisao = () => {
                 layout="vertical"
                 form={form}
                 onFinish={onFinish}
-                onValuesChange={onFormChange} // Agora com parâmetros corretos
+                onValuesChange={onFormChange}
             >
                 <Card title="Simulação de rescisão">
                     <Collapse
@@ -79,6 +80,7 @@ export const Rescisao = () => {
                     </Button>
                 </Card>
             </Form>
+            <Calculo info={info} />
         </Card>
     );
 };
