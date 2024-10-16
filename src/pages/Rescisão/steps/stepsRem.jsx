@@ -125,6 +125,18 @@ export const StepsRem = ({ info, changeStep }) => {
                                 tooltip={"Colocar a soma total dos valores recebidos de forma variável no período de apuração das médias."}>
                                 <div>
                                     <Form.Item
+                                        name={"variavelRescisao"}
+                                        label={"Rescisão"}
+                                        tooltip={"Salvo previsão diferente em convensão coletiva, considerar os últimos 12 meses trabalhados."}
+                                    >
+                                        <MonetaryInput
+                                            value={amount}
+                                            onChange={(value) => setAmount(value)}
+                                            placeholder="0,00"
+                                            addonBefore="R$"
+                                        />
+                                    </Form.Item>
+                                    <Form.Item
                                         name={"variavelFeriasVencidas"}
                                         label={"Férias Vencidas"}
                                         tooltip={"Salvo previsão diferente em convensão coletiva, considerar os últimos 12 meses trabalhados."}

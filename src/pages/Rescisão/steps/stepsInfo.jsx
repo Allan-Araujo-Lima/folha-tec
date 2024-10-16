@@ -12,7 +12,6 @@ export const StepsInfo = ({ info, changeStep }) => {
 
     const dataFormat = "DD/MM/YYYY";
 
-    // Calcular diferença de dias entre data de admissão e demissão
     const diferenca = info?.dataDemissao && info?.dataAdmissao ? dayjs(info.dataDemissao, dataFormat).diff(info.dataAdmissao, "days") : null;
 
     let diasAvisoPrevio = info?.dataDemissao && info?.dataAdmissao ? dayjs(info.dataDemissao, dataFormat).diff(info.dataAdmissao, "year") * 3 + 30 : 30;
@@ -139,7 +138,7 @@ export const StepsInfo = ({ info, changeStep }) => {
             {info.tipoDeRescisao === "semJustaCausa" && info.tipoDeAviso === "avisoTrabalhado" && diasAvisoPrevio > 30 ? (
                 <Checkbox>
                     <Tooltip title="Marcar esta opção quando, independentemente da quantidade de anos trabalhados, o aviso trabalhado só será de 30 dias.">
-                        Aviso trabalho de 30 dias e indenizar restante. ({diasAvisoPrevio - 30} dias)
+                        Aviso trabalhado de 30 dias e indenizar restante. ({diasAvisoPrevio - 30} dias)
                     </Tooltip>
                 </Checkbox>
             ) : null}
