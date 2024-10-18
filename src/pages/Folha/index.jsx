@@ -4,7 +4,7 @@ import { Card, Space, Form, InputNumber, Button, Select, Table, Layout, Typograp
 const { Content } = Layout
 const { Text } = Typography
 
-import { inss, irrf, dsr } from "../../hooks/index";
+import { inss, irrf, dsr, SalarioMinimo } from "../../hooks/index";
 import { MonetaryInput, MonetaryOutput } from "../../hooks/inputMask";
 
 import "./styles.css"
@@ -28,7 +28,7 @@ export const Folha = () => {
         let salarioTotal = values.salario;
 
         if (values.adicionais == "insalubridade") {
-            const insalubridade = (1412 * values.insalubridade / 100 / 220 * values.horasmes);
+            const insalubridade = (SalarioMinimo * values.insalubridade / 100 / 220 * values.horasmes);
             salarioTotal += insalubridade;
         } else if (values.adicionais == "periculosidade") {
             let periculosidade = 0
@@ -43,7 +43,7 @@ export const Folha = () => {
         const descontoInss = inss(salarioTotal);
         const descontoIrrf = irrf(salarioTotal, values.dependentesirrf, values.pensao, descontoInss);
 
-        list.push(values.tiposalario == "por hora" ? values.salario * values.horasmes : values.salario, 1412 * values.insalubridade / 100 / 220 * values.horasmes, values.salario * values.periculosidade / 100, dsr(values.salario * values.horasmes, values.uteis, values.naouteis), values.pensao, descontoInss, descontoIrrf)
+        list.push(values.tiposalario == "por hora" ? values.salario * values.horasmes : values.salario, SalarioMinimo * values.insalubridade / 100 / 220 * values.horasmes, values.salario * values.periculosidade / 100, dsr(values.salario * values.horasmes, values.uteis, values.naouteis), values.pensao, descontoInss, descontoIrrf)
 
         let keyNumber = 0;
         for (let i = 0; i < list.length; i++) {

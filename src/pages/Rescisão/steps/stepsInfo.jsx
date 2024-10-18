@@ -6,9 +6,12 @@ import ".././styles.css";
 const experiencia = ["rescisaoAntecipaContratoExperienciaEmpregador", "rescisaoAntecipaContratoExperienciaEmpregado"];
 const semAviso = ["porJustaCausa", "rescisaoContratoExperiencia", "morteEmpregado", ...experiencia];
 
+
+
 export const StepsInfo = ({ info, changeStep }) => {
     const [form] = Form.useForm();
     const [current, setCurrent] = useState(0);
+    const [check, setCheck] = useState(false);
 
     const dataFormat = "DD/MM/YYYY";
 
@@ -23,6 +26,10 @@ export const StepsInfo = ({ info, changeStep }) => {
 
     const prev = () => {
         setCurrent(current - 1);
+    };
+
+    const toggleChecked = () => {
+        setCheck(!check);
     };
 
     const steps = [
@@ -106,7 +113,7 @@ export const StepsInfo = ({ info, changeStep }) => {
                         />
                     </Form.Item>
                     {info.dataDemissao !== undefined && !semAviso.includes(info.tipoDeRescisao) ? (
-                        `${diasAvisoPrevio} dias`
+                        `${info.abled === false ? diasAvisoPrevio : 30} dias`
                     ) : null}
                     <Form.Item>
                         <DatePicker
@@ -114,7 +121,8 @@ export const StepsInfo = ({ info, changeStep }) => {
                             disabled
                             value={
                                 info.tipoDeAviso === "avisoTrabalhado"
-                                    ? dayjs(info.dataDemissao, dataFormat).add(diasAvisoPrevio, "day")
+                                    ? info.abled === false ? dayjs(info.dataDemissao).add(diasAvisoPrevio, "day")
+                                        : dayjs(info.dataDemissao).add(30, "day")
                                     : info.dataDemissao
                             }
                         />
@@ -136,11 +144,13 @@ export const StepsInfo = ({ info, changeStep }) => {
         <div>
             <Steps className="steps" direction="vertical" current={current} items={getUpdatedSteps()} />
             {info.tipoDeRescisao === "semJustaCausa" && info.tipoDeAviso === "avisoTrabalhado" && diasAvisoPrevio > 30 ? (
-                <Checkbox>
-                    <Tooltip title="Marcar esta opção quando, independentemente da quantidade de anos trabalhados, o aviso trabalhado só será de 30 dias.">
-                        Aviso trabalhado de 30 dias e indenizar restante. ({diasAvisoPrevio - 30} dias)
-                    </Tooltip>
-                </Checkbox>
+                <Form.Item name="abled" valuePropName="checked">
+                    <Checkbox checked={check} onClick={toggleChecked}>
+                        <Tooltip title="Marcar esta opção quando, independentemente da quantidade de anos trabalhados, o aviso trabalhado só será de 30 dias.">
+                            Aviso trabalhado de 30 dias e indenizar restante. ({diasAvisoPrevio - 30} dias)
+                        </Tooltip>
+                    </Checkbox>
+                </Form.Item>
             ) : null}
             <div style={{ marginTop: 24 }}>
                 {current < steps.length - 1 && (

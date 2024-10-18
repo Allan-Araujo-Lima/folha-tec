@@ -1,7 +1,12 @@
+import { useState, useEffect } from "react"
+
 import dayjs from "dayjs"
 
-import { Button } from "antd"
-import { SalarioMinimo } from "../../hooks"
+import { Button, Card, Table, Typography } from "antd"
+const { Text } = Typography
+
+import { inss, irrf, SalarioMinimo } from "../../hooks"
+import { MonetaryOutput } from "../../hooks/inputMask"
 
 const rescisoesAviso = ["semJustaCausa", "pedidoDemissao", "rescisaoCulpaReciproca", "rescisaoCulpaEmpregador", "rescisaoAcordoPartes"]
 const indExperiencia = ["rescisaoAntecipaContratoExperienciaEmpregador", "rescisaoAntecipaContratoExperienciaEmpregado"]
@@ -9,56 +14,85 @@ const indExperiencia = ["rescisaoAntecipaContratoExperienciaEmpregador", "rescis
 export const Calculo = ({ info }) => {
 
     const dataFormat = "DD/MM/YYYY";
+    const [tableData, setTableData] = useState([]);
 
     const submit = () => {
-        //informações base
+
+        let data = [];
+
+        // Informações base
         const salarioBase = info.salarioBase;
         const insalubridade = info.adicionais == "insalubridade" ? SalarioMinimo * info.insalubridade / 100 : 0;
-        const periculosidade = info.adicionais == "insalubridade" ? salarioBase * info.insalubridade / 100 : 0;
+        const periculosidade = info.adicionais == "periculosidade" ? salarioBase * info.periculosidade / 100 : 0;
         const salarioBaseAdicionais = salarioBase + insalubridade + periculosidade;
 
-        //datas e quantidade de dias
+        // Datas e quantidade de dias
         let diasAvisoPrevio = info?.dataDemissao && info?.dataAdmissao ? dayjs(info.dataDemissao, dataFormat).diff(info.dataAdmissao, "year") * 3 + 30 : 30;
         if (diasAvisoPrevio > 90) diasAvisoPrevio = 90;
-        const dataDemissao = info.tipoDeAviso === "avisoTrabalhado" ? dayjs(info.dataDemissao).add(diasAvisoPrevio, "day") : info.dataDemissao;
+        info.abled === true ? diasAvisoPrevio -= 30 : null;
+        const dataDemissao = info.tipoDeAviso === "avisoTrabalhado"
+            ? info.abled === false
+                ? dayjs(info.dataDemissao).add(diasAvisoPrevio, "day")
+                : dayjs(info.dataDemissao).add(30, "day")
+            : info.dataDemissao;
 
-        //definição da base de cálculo de cada rúbrica específica
-        const baseAviso = salarioBaseAdicionais + info?.variavelRescisao;
+        // Definição da base de cálculo de cada rúbrica específica
+        const baseAviso = info?.variavelRescisao > 0 ? salarioBaseAdicionais + info.variavelRescisao : salarioBaseAdicionais;
         const baseFeriasVencidas = info.variavelFeriasVencidas > 0 ? salarioBaseAdicionais + info.variavelFeriasVencidas : salarioBaseAdicionais;
         const baseFeriasProporcionais = info.variavelFeriasProporcionais > 0 ? salarioBaseAdicionais + info.variavelFeriasProporcionais : salarioBaseAdicionais;
         const baseDecimo = info.variavelDecimo > 0 ? salarioBaseAdicionais + info.variavelDecimo : salarioBaseAdicionais;
 
-        //verifica o tipo de rescisão
+        // Saldo de Salário e Adicionais
+        const dataSaldoSalario = dayjs(info.dataAdmissao).isAfter(dataDemissao) ? info.dataAdmissao : dayjs(dataDemissao).startOf("month");
+        const quantidadeDias = dayjs(dataDemissao).diff(dataSaldoSalario, "day") + 1
+        const saldoSalario = info.salarioBase / 30 * quantidadeDias;
+        const saldoInsalubridade = insalubridade / 30 * quantidadeDias;
+        const saldoPericulosidade = periculosidade / 30 * quantidadeDias;
+        const inssSaldoSalario = inss(saldoSalario + saldoInsalubridade + saldoPericulosidade);
+        const irrfSaldoSalario = irrf(saldoSalario, 0, 0, inssSaldoSalario);
+
+        // Aviso prévio
         let valorAviso = 0;
+        let pagarIndenizacao = true;
+        let diasIndenizacaoExperiencia = null;
+        let indenizacaoExperiencia = null
 
         if (rescisoesAviso.includes(info.tipoDeRescisao)) {
-            //falta lógica
+            if (info.tipoDeAviso === "avisoIndenizado" || info.abled === true) {
+                valorAviso += baseAviso / 30 * diasAvisoPrevio;
+                if (info.tipoDeAviso === "pedidoDemissao") {
+                    pagarIndenizacao = false;
+                }
+            }
         } else if (indExperiencia.includes(info.tipoDeRescisao)) {
-            const diasIndenizacaoExperiencia = dayjs(info.fimPrazoDeterminado).diff(dataDemissao)
-            const indenizacaoExperiencia = baseAviso / 30 * diasIndenizacaoExperiencia / 2
+            diasIndenizacaoExperiencia = dayjs(info.fimPrazoDeterminado).diff(dataDemissao);
+            indenizacaoExperiencia = baseAviso / 30 * diasIndenizacaoExperiencia / 2;
             if (info.tipoDeRescisao == "rescisaoAntecipaContratoExperienciaEmpregador") {
-                //falta lógica
+                pagarIndenizacao = true;
             } else {
-                //falta lógica
+                pagarIndenizacao = false
             }
         }
 
-        //férias vencidas
+        // Férias vencidas
         const diferencaAnoAdmissaoDemissao = dayjs(dataDemissao).year() - dayjs(info.dataAdmissao).year() - 1;
         const inicioPeriodoAquisitivoFeriasVencidas = dayjs(info.dataAdmissao).add(diferencaAnoAdmissaoDemissao, "year").format(dataFormat);
+        let feriasVencidas = 0
+        let tercoFeriasVencidas
+        const quantidadeAvosFeriasVencidas = 30 * (30 - info?.feriasVencidas)
         if (dayjs(inicioPeriodoAquisitivoFeriasVencidas).isBefore(dataDemissao, "day") === true) {
-            const feriasVencidas = baseFeriasVencidas / 30 * (30 - info?.feriasVencidas);
-            const tercoFeriasVencidas = feriasVencidas / 3;
+            feriasVencidas = baseFeriasVencidas / quantidadeAvosFeriasVencidas;
+            tercoFeriasVencidas = feriasVencidas / 3;
         }
 
-        //férias proporcionais
+        // Férias proporcionais
         const inicioPeriodoAquisitivoFeriasProporcionais = dayjs(inicioPeriodoAquisitivoFeriasVencidas, dataFormat).add(1, "year");
         let periodoAquisitivoFeriasProporcionaisMes = dayjs(dataDemissao).diff(inicioPeriodoAquisitivoFeriasProporcionais, "months");
         if (dayjs(inicioPeriodoAquisitivoFeriasProporcionais).add(periodoAquisitivoFeriasProporcionaisMes, "month").diff(dataDemissao, "day") * -1 + 1 >= 15) {
             periodoAquisitivoFeriasProporcionaisMes++
         };
-
-        const feriasProporcionais = info.feriasColetivas ? baseFeriasProporcionais / 30 * periodoAquisitivoFeriasProporcionaisMes * 2.5 - info.feriasColetivas : baseFeriasProporcionais / 30 * periodoAquisitivoFeriasProporcionaisMes * 2.5;
+        const quantidadeAvosFeriasProporcionais = info.feriasColetivas ? periodoAquisitivoFeriasProporcionaisMes * 2.5 - info.feriasColetivas : periodoAquisitivoFeriasProporcionaisMes * 2.5;
+        const feriasProporcionais = baseFeriasProporcionais / 30 * quantidadeAvosFeriasProporcionais;
         const tercoFeriasProporcionais = feriasProporcionais / 3
 
         //13° salário
@@ -85,11 +119,182 @@ export const Calculo = ({ info }) => {
         };
 
         const valorDecimo = baseDecimo / 12 * avosDecimo;
-    }
+        const inssDecimo = inss(valorDecimo)
+        const irrfDecimo = irrf(valorDecimo, 0, 0, inssDecimo)
+
+        const resultList = [
+            {
+                evento: "Saldo de Salário",
+                referencia: `${quantidadeDias} dia(s)`,
+                valor: saldoSalario,
+                provento: true,
+            },
+            {
+                evento: "Insalubridade",
+                referencia: `${info.insalubridade}%`,
+                valor: saldoInsalubridade,
+                provento: true,
+            },
+            {
+                evento: "Periculosidade",
+                referencia: `${info.periculosidade}%`,
+                valor: saldoPericulosidade,
+                provento: true,
+            },
+            {
+                evento: "Aviso Prévio Indenizado",
+                referencia: `${diasAvisoPrevio} dias(s)`,
+                valor: valorAviso,
+                provento: pagarIndenizacao,
+            },
+            {
+                evento: "Ind. Término Antecipado do Contrato de Exp.",
+                referencia: `${diasIndenizacaoExperiencia} dia(s)`,
+                valor: indenizacaoExperiencia,
+                provento: pagarIndenizacao,
+            },
+            {
+                evento: "Férias Vencidas",
+                referencia: `${quantidadeAvosFeriasVencidas}/12`,
+                valor: feriasVencidas,
+                provento: true,
+            },
+            {
+                evento: "Terço Férias Vencidas",
+                referencia: null,
+                valor: tercoFeriasVencidas,
+                provento: true,
+            },
+            {
+                evento: "Férias Proporcionais",
+                referencia: `${quantidadeAvosFeriasProporcionais / 2.5}/12`,
+                valor: feriasProporcionais,
+                provento: true,
+            },
+            {
+                evento: "Terço Férias Proporcionais",
+                referencia: null,
+                valor: tercoFeriasProporcionais,
+                provento: true,
+            },
+            {
+                evento: "13° Salário",
+                referencia: `${avosDecimo}/12`,
+                valor: valorDecimo,
+                provento: true,
+            },
+            {
+                evento: "INSS Rescisão",
+                referencia: null,
+                valor: inssSaldoSalario,
+                provento: false,
+            },
+            {
+                evento: "IRRF Rescisão",
+                referencia: null,
+                valor: irrfSaldoSalario,
+                provento: false,
+            },
+            {
+                evento: "INSS 13° Salário",
+                referencia: null,
+                valor: inssDecimo,
+                provento: false,
+            },
+            {
+                evento: "IRRF 13° Salário",
+                referencia: null,
+                valor: irrfDecimo,
+                provento: false,
+            },
+        ];
+
+        let keyNumber = 0;
+        for (let i = 0; i < resultList.length; i++) {
+            if (resultList[i].valor > 0) {
+                keyNumber += 1;
+                if (resultList[i].provento === false) {
+                    data.push({
+                        key: keyNumber,
+                        evento: resultList[i].evento,
+                        referencia: resultList[i].referencia,
+                        provento: null,
+                        desconto: <MonetaryOutput value={resultList[i].valor} />,
+                        valorDesconto: resultList[i].valor
+                    });
+                } else {
+                    data.push({
+                        key: keyNumber,
+                        evento: resultList[i].evento,
+                        referencia: resultList[i].referencia,
+                        provento: <MonetaryOutput value={resultList[i].valor} />,
+                        desconto: null,
+                        valorProvento: resultList[i].valor
+                    });
+                }
+            }
+        }
+        setTableData(data);
+    };
+
+    useEffect(() => {
+        submit();
+    }, []);
+
+    const columns = [
+        {
+            title: "Evento",
+            dataIndex: "evento",
+            key: "evento",
+        },
+        {
+            title: "Referência",
+            dataIndex: "referencia",
+            key: "referencia",
+            align: "center"
+        },
+        {
+            title: "Provento (R$)",
+            dataIndex: "provento",
+            key: "provento",
+            align: "center"
+        },
+        {
+            title: "Desconto (R$)",
+            dataIndex: "desconto",
+            key: "desconto",
+            align: "center"
+        },
+    ];
 
     return (
         <div>
-            <Button onClick={submit()}></Button>
+            <Card title="Resultado">
+                <Table columns={columns} dataSource={tableData} pagination={false}
+                    summary={(pageData) => {
+                        let totalProventos = 0;
+                        let totalDescontos = 0;
+
+                        pageData.forEach(({ valorProvento, valorDesconto }) => {
+                            totalProventos += valorProvento ? valorProvento : 0;
+                            totalDescontos += valorDesconto ? valorDesconto : 0;
+                        }
+                        );
+                        return (
+                            <>
+                                <Table.Summary.Row style={{ textAlign: "center", fontSize: "16px" }}>
+                                    <Table.Summary.Cell index={0} colSpan={2}>Total</Table.Summary.Cell>
+                                    <Table.Summary.Cell index={2}><Text><MonetaryOutput value={totalProventos} /></Text></Table.Summary.Cell>
+                                    <Table.Summary.Cell index={3}><Text><MonetaryOutput value={totalDescontos} /></Text></Table.Summary.Cell>
+                                </Table.Summary.Row>
+                                <Table.Summary.Row style={{ textAlign: "center", fontSize: "18px" }}>
+                                    <Table.Summary.Cell index={0} colSpan={2}>Total líquido</Table.Summary.Cell>
+                                    <Table.Summary.Cell index={2} colSpan={2}>R$ <MonetaryOutput value={totalProventos - totalDescontos} /></Table.Summary.Cell>
+                                </Table.Summary.Row>
+                            </>
+                        );
+                    }} />
+            </Card>
         </div>
     )
 }

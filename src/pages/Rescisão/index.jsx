@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card, Form, Button, Collapse } from "antd";
+import { Card, Form, Button, Collapse, Space } from "antd";
 import { StepsRem } from "./steps/stepsRem";
 import { StepsFerias } from "./steps/stepsFerias";
 import { StepsInfo } from "./steps/stepsInfo";
@@ -12,6 +12,7 @@ export const Rescisao = () => {
     const [form] = Form.useForm();
     const [info, setInfo] = useState({}); // Pega dados do formulário
     const [activeKey, setActiveKey] = useState(['1']); // Painel ativo
+    const [result, setResult] = useState(false)
 
     // Função para abrir um novo painel
     const openPanel = (currentKey) => {
@@ -57,6 +58,11 @@ export const Rescisao = () => {
         },
     ];
 
+    const clear = () => {
+        form.resetFields();
+        setResult(false)
+    }
+
     return (
         <Card>
             <Form
@@ -75,12 +81,18 @@ export const Rescisao = () => {
                         style={{ width: "100%" }}
                         accordion
                     />
-                    <Button htmlType="submit" type="primary" style={{ margin: "12px" }}>
-                        Calcular
-                    </Button>
+                    <Space>
+                        <Button htmlType="submit" type="primary" style={{ margin: "12px" }} onClick={() => setResult(true)}>
+                            Calcular
+                        </Button>
+                        <Button htmlType='button' onClick={clear}>
+                            Limpar
+                        </Button>
+                    </Space>
                 </Card>
             </Form>
-            <Calculo info={info} />
+            {result === true ? <Calculo info={info} /> : null}
+
         </Card>
     );
 };
