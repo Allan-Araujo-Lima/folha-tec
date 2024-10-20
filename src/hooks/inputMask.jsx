@@ -26,6 +26,7 @@ export const MonetaryInput = ({ value, onChange, ...props }) => {
             fixedDecimalScale={2}
             customInput={Input}
             allowNegative={false}
+            isAllowed={(values) => values.floatValue === undefined || values.floatValue <= 1000000}
             onValueChange={(values) => {
                 onChange(values.floatValue);
             }}

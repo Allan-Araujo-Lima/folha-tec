@@ -96,7 +96,7 @@ export const StepsFerias = ({ info, changeStep }) => {
                     </Button>
                 )}
                 {current === itemsFerias.length - 1 && (
-                    <Button type="primary" htmlType="submit" onClick={() => changeStep("3")}>
+                    <Button type="primary" onClick={() => changeStep("3")}>
                         13° Salário
                     </Button>
                 )}

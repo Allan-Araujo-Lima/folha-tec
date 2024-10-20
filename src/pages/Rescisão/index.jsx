@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card, Form, Button, Collapse, Space } from "antd";
+import { Card, Form, Button, Collapse, Space, Divider } from "antd";
 import { StepsRem } from "./steps/stepsRem";
 import { StepsFerias } from "./steps/stepsFerias";
 import { StepsInfo } from "./steps/stepsInfo";
@@ -23,6 +23,7 @@ export const Rescisao = () => {
     // Função chamada ao submeter o formulário
     const onFinish = (values) => {
         setInfo(values); // Atualiza o estado com os valores do formulário
+        setResult(true)
     };
 
     // Função para capturar as mudanças no formulário
@@ -70,6 +71,7 @@ export const Rescisao = () => {
                 form={form}
                 onFinish={onFinish}
                 onValuesChange={onFormChange}
+                scrollToFirstError={true}
             >
                 <Card title="Simulação de rescisão">
                     <Collapse
@@ -82,7 +84,7 @@ export const Rescisao = () => {
                         accordion
                     />
                     <Space>
-                        <Button htmlType="submit" type="primary" style={{ margin: "12px" }} onClick={() => setResult(true)}>
+                        <Button htmlType="submit" type="primary" style={{ margin: "12px" }}>
                             Calcular
                         </Button>
                         <Button htmlType='button' onClick={clear}>
@@ -91,6 +93,7 @@ export const Rescisao = () => {
                     </Space>
                 </Card>
             </Form>
+            <Divider />
             {result === true ? <Calculo info={info} /> : null}
 
         </Card>

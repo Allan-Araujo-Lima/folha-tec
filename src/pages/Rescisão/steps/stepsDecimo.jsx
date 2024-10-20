@@ -69,7 +69,7 @@ export const StepsDecimo = ({ info, changeStep }) => {
                     </Button>
                 )}
                 {current === stepsDecimo.length - 1 && (
-                    <Button type="primary" htmlType="submit" onClick={() => changeStep("4")}>
+                    <Button type="primary" onClick={() => changeStep("4")}>
                         FGTS
                     </Button>
                 )}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { MonetaryInput } from "../../../hooks/inputMask";
-import { Form, message, Steps, Select, Button, InputNumber, Checkbox } from "antd";
+import { Form, message, Steps, Select, Button, InputNumber, Checkbox, Input } from "antd";
 
 import ".././styles.css";
 
@@ -28,7 +28,10 @@ export const StepsRem = ({ info, changeStep }) => {
         {
             title: "Salário-base",
             description:
-                <Form.Item name="salarioBase">
+                <Form.Item
+                    name="salarioBase"
+                    required
+                    rules={[{ required: true, message: "Digite o valor do salário" }]}>
                     <MonetaryInput
                         value={amount}
                         onChange={(value) => setAmount(value)}
@@ -42,7 +45,8 @@ export const StepsRem = ({ info, changeStep }) => {
             title: "Adicionais",
             description:
                 <div>
-                    <Form.Item name="adicionais" required initialValue={"Nenhum"}>
+                    <Form.Item
+                        name="adicionais" required initialValue={"Nenhum"}>
                         <Select
                             id="adicionais"
                             className="adicionais"
@@ -205,7 +209,7 @@ export const StepsRem = ({ info, changeStep }) => {
                     </Button>
                 )}
                 {current === stepsRemuneracao.length - 1 && (
-                    <Button type="primary" htmlType="submit" onClick={() => changeStep("2")}>
+                    <Button type="primary" onClick={() => changeStep("2")}>
                         Férias
                     </Button>
                 )}

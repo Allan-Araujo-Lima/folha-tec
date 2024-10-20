@@ -28,13 +28,23 @@ export const Calculo = ({ info }) => {
 
         // Datas e quantidade de dias
         let diasAvisoPrevio = info?.dataDemissao && info?.dataAdmissao ? dayjs(info.dataDemissao, dataFormat).diff(info.dataAdmissao, "year") * 3 + 30 : 30;
-        if (diasAvisoPrevio > 90) diasAvisoPrevio = 90;
+        if (diasAvisoPrevio !== 30 && dayjs(info?.dataAdmissao).add(dayjs(info?.dataDemissao).year() - dayjs(info?.dataAdmissao).year(), "year").isBefore(dayjs(info?.dataDemissao).add(diasAvisoPrevio + 1, "day"))) {
+            diasAvisoPrevio += 3;
+        };
+
+        if (diasAvisoPrevio > 90) {
+            diasAvisoPrevio = 90
+        };
+
+
         info.abled === true ? diasAvisoPrevio -= 30 : null;
         const dataDemissao = info.tipoDeAviso === "avisoTrabalhado"
             ? info.abled === false
                 ? dayjs(info.dataDemissao).add(diasAvisoPrevio, "day")
                 : dayjs(info.dataDemissao).add(30, "day")
             : info.dataDemissao;
+
+        const projecaoAviso = info.tipoDeAviso === "avisoIndenizado" ? dayjs(dataDemissao).add(diasAvisoPrevio, "day") : undefined;
 
         // Definição da base de cálculo de cada rúbrica específica
         const baseAviso = info?.variavelRescisao > 0 ? salarioBaseAdicionais + info.variavelRescisao : salarioBaseAdicionais;
@@ -50,29 +60,6 @@ export const Calculo = ({ info }) => {
         const saldoPericulosidade = periculosidade / 30 * quantidadeDias;
         const inssSaldoSalario = inss(saldoSalario + saldoInsalubridade + saldoPericulosidade);
         const irrfSaldoSalario = irrf(saldoSalario, 0, 0, inssSaldoSalario);
-
-        // Aviso prévio
-        let valorAviso = 0;
-        let pagarIndenizacao = true;
-        let diasIndenizacaoExperiencia = null;
-        let indenizacaoExperiencia = null
-
-        if (rescisoesAviso.includes(info.tipoDeRescisao)) {
-            if (info.tipoDeAviso === "avisoIndenizado" || info.abled === true) {
-                valorAviso += baseAviso / 30 * diasAvisoPrevio;
-                if (info.tipoDeAviso === "pedidoDemissao") {
-                    pagarIndenizacao = false;
-                }
-            }
-        } else if (indExperiencia.includes(info.tipoDeRescisao)) {
-            diasIndenizacaoExperiencia = dayjs(info.fimPrazoDeterminado).diff(dataDemissao);
-            indenizacaoExperiencia = baseAviso / 30 * diasIndenizacaoExperiencia / 2;
-            if (info.tipoDeRescisao == "rescisaoAntecipaContratoExperienciaEmpregador") {
-                pagarIndenizacao = true;
-            } else {
-                pagarIndenizacao = false
-            }
-        }
 
         // Férias vencidas
         const diferencaAnoAdmissaoDemissao = dayjs(dataDemissao).year() - dayjs(info.dataAdmissao).year() - 1;
@@ -92,35 +79,87 @@ export const Calculo = ({ info }) => {
             periodoAquisitivoFeriasProporcionaisMes++
         };
         const quantidadeAvosFeriasProporcionais = info.feriasColetivas ? periodoAquisitivoFeriasProporcionaisMes * 2.5 - info.feriasColetivas : periodoAquisitivoFeriasProporcionaisMes * 2.5;
-        const feriasProporcionais = baseFeriasProporcionais / 30 * quantidadeAvosFeriasProporcionais;
-        const tercoFeriasProporcionais = feriasProporcionais / 3
+        const feriasProporcionais = info?.tipoDeRescisao !== "porJustaCausa" ? baseFeriasProporcionais / 30 * quantidadeAvosFeriasProporcionais : 0;
+        const tercoFeriasProporcionais = info?.tipoDeRescisao !== "porJustaCausa" ? feriasProporcionais / 3 : 0;
 
-        //13° salário
-        let avosDecimo = -1;
+        // 13° salário
+        let avosDecimo = 0;
 
         let inicioDecimo = dayjs(dataDemissao).startOf("year");
         if (dayjs(info.dataAdmissao).isAfter(dayjs(inicioDecimo))) {
             inicioDecimo = dayjs(info.dataAdmissao);
             // Verifica se trabalhou mais de 15 dias no mês da admissão
-            if (dayjs(dayjs(inicioDecimo).endOf("month")).diff(inicioDecimo, "day") + 1 >= 15) {
+            if (dayjs(dayjs(inicioDecimo).endOf("month")).diff(inicioDecimo, "day") + 1 >= 15 && dayjs(dataDemissao).isAfter(inicioDecimo)) {
                 avosDecimo++;
-            };
+            } else {
+                avosDecimo--;
+            }
+            ;
         };
 
         // Calcula os avos de décimo terceiro
         avosDecimo += dayjs(dataDemissao).month() - dayjs(inicioDecimo).month();
 
         // Identifica o começo do mês de rescisão
-        const comecoMesRescisao = dayjs(dataDemissao).startOf("month");
+        const comecoMesRescisao = dayjs(dataDemissao).startOf("month").isBefore(inicioDecimo) ? inicioDecimo : dayjs(dataDemissao).startOf("month");
 
         // Verifica se há mais de 15 dias no último mês de trabalho
-        if (dayjs(dataDemissao).diff(comecoMesRescisao, "day") + 1 >= 15) {
+        if (dayjs(dataDemissao).diff(comecoMesRescisao, "day") + 1 >= 15 && dayjs(dataDemissao).month() !== dayjs(inicioDecimo).month()) {
             avosDecimo++;
         };
 
-        const valorDecimo = baseDecimo / 12 * avosDecimo;
-        const inssDecimo = inss(valorDecimo)
-        const irrfDecimo = irrf(valorDecimo, 0, 0, inssDecimo)
+        const valorDecimo = info?.tipoDeRescisao !== "porJustaCausa" ? baseDecimo / 12 * avosDecimo : 0;
+
+        let avosDecimoIndenizado = 0;
+
+        if (projecaoAviso) {
+            let inicioDecimoIndenizado = dayjs(dataDemissao);
+            avosDecimoIndenizado += dayjs(projecaoAviso).diff(inicioDecimoIndenizado, "month")
+
+            if (dayjs(projecaoAviso).diff(dayjs(projecaoAviso).startOf("month"), "day") + 1 < 15) {
+                console.log("aqui")
+                avosDecimoIndenizado--;
+            }
+
+            if (dayjs(dataDemissao).diff(comecoMesRescisao, "day") + 1 < 15) {
+                console.log("aquiiiii")
+                avosDecimoIndenizado++;
+            };
+        }
+        const valorDecimoIndenizado = baseDecimo / 12 * avosDecimoIndenizado
+        console.log(valorDecimoIndenizado)
+
+        // Impostos 13° Salário
+        const inssDecimo = inss(valorDecimo + valorDecimoIndenizado);
+        const irrfDecimo = irrf(valorDecimo + valorDecimoIndenizado, 0, 0, inssDecimo);
+
+        // Aviso prévio
+        let valorAviso = 0;
+        let pagarIndenizacao = true;
+        let diasIndenizacaoExperiencia = null;
+        let indenizacaoExperiencia = null
+
+        if (rescisoesAviso.includes(info.tipoDeRescisao)) {
+            if (info.tipoDeAviso === "avisoIndenizado" || info.abled === true) {
+                valorAviso += baseAviso / 30 * diasAvisoPrevio;
+                if (tipoDeRescisao === "rescisaoAcordoPartes") {
+                    diasAvisoPrevio / 2;
+                    valorAviso /= 2;
+                }
+                if (info.tipoDeAviso === "pedidoDemissao") {
+                    pagarIndenizacao = false;
+                }
+            }
+        } else if (indExperiencia.includes(info.tipoDeRescisao)) {
+            diasIndenizacaoExperiencia = dayjs(info.fimPrazoDeterminado).diff(dataDemissao);
+            indenizacaoExperiencia = baseAviso / 30 * diasIndenizacaoExperiencia / 2;
+            if (info.tipoDeRescisao == "rescisaoAntecipaContratoExperienciaEmpregador") {
+                pagarIndenizacao = true;
+            } else {
+                pagarIndenizacao = false
+            }
+        }
+
 
         const resultList = [
             {
@@ -181,6 +220,12 @@ export const Calculo = ({ info }) => {
                 evento: "13° Salário",
                 referencia: `${avosDecimo}/12`,
                 valor: valorDecimo,
+                provento: true,
+            },
+            {
+                evento: "13° Salário Indenizado",
+                referencia: `${avosDecimoIndenizado}/12`,
+                valor: valorDecimoIndenizado,
                 provento: true,
             },
             {

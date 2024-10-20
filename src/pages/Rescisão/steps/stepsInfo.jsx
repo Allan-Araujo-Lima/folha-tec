@@ -15,10 +15,15 @@ export const StepsInfo = ({ info, changeStep }) => {
 
     const dataFormat = "DD/MM/YYYY";
 
-    const diferenca = info?.dataDemissao && info?.dataAdmissao ? dayjs(info.dataDemissao, dataFormat).diff(info.dataAdmissao, "days") : null;
-
     let diasAvisoPrevio = info?.dataDemissao && info?.dataAdmissao ? dayjs(info.dataDemissao, dataFormat).diff(info.dataAdmissao, "year") * 3 + 30 : 30;
-    if (diasAvisoPrevio > 90) diasAvisoPrevio = 90;
+
+    if (diasAvisoPrevio !== 30 && dayjs(info?.dataAdmissao).add(dayjs(info?.dataDemissao).year() - dayjs(info?.dataAdmissao).year(), "year").isBefore(dayjs(info?.dataDemissao).add(diasAvisoPrevio + 1, "day"))) {
+        diasAvisoPrevio += 3;
+    };
+
+    if (diasAvisoPrevio > 90) {
+        diasAvisoPrevio = 90
+    };
 
     const next = () => {
         setCurrent(current + 1);
@@ -37,7 +42,11 @@ export const StepsInfo = ({ info, changeStep }) => {
             title: "Data de admissão",
             description: (
                 <Form.Item name="dataAdmissao" rules={[{ required: true, message: "Por favor, selecione a data de admissão!" }]}>
-                    <DatePicker format={dataFormat} disabled={current !== 0} onChange={() => next()} />
+                    <DatePicker
+                        maxDate={info.dataDemissao !== undefined ? dayjs(info?.dataDemissao, dataFormat) : undefined}
+                        format={dataFormat}
+                        disabled={current !== 0}
+                        onChange={() => next()} />
                 </Form.Item>
             ),
         },
@@ -61,14 +70,10 @@ export const StepsInfo = ({ info, changeStep }) => {
                         <Select.Option value="semJustaCausa">Demissão sem justa causa</Select.Option>
                         <Select.Option value="porJustaCausa">Demissão por justa causa</Select.Option>
                         <Select.Option value="pedidoDemissao">Pedido de demissão</Select.Option>
-                        <Select.Option value="rescisaoCulpaReciproca">Rescisão por culpa recíproca</Select.Option>
-                        <Select.Option value="rescisaoCulpaEmpregador">Rescisão indireta (culpa do empregador)</Select.Option>
                         <Select.Option value="rescisaoAcordoPartes">Rescisão por acordo entre as partes</Select.Option>
                         <Select.Option value="rescisaoContratoExperiencia">Rescisão por término de contrato de experiência</Select.Option>
                         <Select.Option value="rescisaoAntecipaContratoExperienciaEmpregador">Rescisão por término antecipado de contrato de experiência</Select.Option>
                         <Select.Option value="rescisaoAntecipaContratoExperienciaEmpregado">Rescisão por término antecipado de contrato de experiência a pedido</Select.Option>
-                        <Select.Option value="morteEmpregado">Rescisão por falecimento do empregado</Select.Option>
-                        <Select.Option value="morteEmpregador">Rescisão por falecimento do empregador individual</Select.Option>
                     </Select>
                 </Form.Item>
             ),
@@ -113,7 +118,7 @@ export const StepsInfo = ({ info, changeStep }) => {
                         />
                     </Form.Item>
                     {info.dataDemissao !== undefined && !semAviso.includes(info.tipoDeRescisao) ? (
-                        `${info.abled === false ? diasAvisoPrevio : 30} dias`
+                        `${check === false ? diasAvisoPrevio : 30} dias`
                     ) : null}
                     <Form.Item>
                         <DatePicker
@@ -121,7 +126,9 @@ export const StepsInfo = ({ info, changeStep }) => {
                             disabled
                             value={
                                 info.tipoDeAviso === "avisoTrabalhado"
-                                    ? info.abled === false ? dayjs(info.dataDemissao).add(diasAvisoPrevio, "day")
+                                    ?
+                                    check === false
+                                        ? dayjs(info.dataDemissao).add(diasAvisoPrevio, "day")
                                         : dayjs(info.dataDemissao).add(30, "day")
                                     : info.dataDemissao
                             }
@@ -159,7 +166,7 @@ export const StepsInfo = ({ info, changeStep }) => {
                     </Button>
                 )}
                 {current === steps.length - 1 && (
-                    <Button type="primary" htmlType="submit" onClick={() => changeStep("1")}>
+                    <Button type="primary" onClick={() => changeStep("1")}>
                         Remuneração
                     </Button>
                 )}
