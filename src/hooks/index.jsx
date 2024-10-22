@@ -1,4 +1,4 @@
-export const SalarioMinimo = 1412
+export const SalarioMinimo = 1412;
 
 const faixasInss = [1412, 2666.08, 4000.03, 7786.02];
 const aliquotasInss = [7.5, 9, 12, 14];
@@ -50,4 +50,8 @@ export function irrf(base, dependente, pensao, inss) {
 
 export function dsr(base, diasUteis, diasNaoUteis) {
     return (base / diasUteis * diasNaoUteis)
+}
+
+export function fgts(base, aliquota) {
+    return base * aliquota / 100
 }

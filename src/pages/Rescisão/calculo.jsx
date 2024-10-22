@@ -2,10 +2,10 @@ import { useState, useEffect } from "react"
 
 import dayjs from "dayjs"
 
-import { Button, Card, Table, Typography } from "antd"
+import { Button, Card, Divider, Table, Typography } from "antd"
 const { Text } = Typography
 
-import { inss, irrf, SalarioMinimo } from "../../hooks"
+import { fgts, inss, irrf, SalarioMinimo } from "../../hooks"
 import { MonetaryOutput } from "../../hooks/inputMask"
 
 const rescisoesAviso = ["semJustaCausa", "pedidoDemissao", "rescisaoCulpaReciproca", "rescisaoCulpaEmpregador", "rescisaoAcordoPartes"]
@@ -15,10 +15,12 @@ export const Calculo = ({ info }) => {
 
     const dataFormat = "DD/MM/YYYY";
     const [tableData, setTableData] = useState([]);
+    const [tableDataFgts, setTableDataFgts] = useState([]);
 
     const submit = () => {
 
         let data = [];
+        let dataFgts = [];
 
         // Informações base
         const salarioBase = info.salarioBase;
@@ -35,7 +37,6 @@ export const Calculo = ({ info }) => {
         if (diasAvisoPrevio > 90) {
             diasAvisoPrevio = 90
         };
-
 
         info.abled === true ? diasAvisoPrevio -= 30 : null;
         const dataDemissao = info.tipoDeAviso === "avisoTrabalhado"
@@ -63,24 +64,39 @@ export const Calculo = ({ info }) => {
 
         // Férias vencidas
         const diferencaAnoAdmissaoDemissao = dayjs(dataDemissao).year() - dayjs(info.dataAdmissao).year() - 1;
-        const inicioPeriodoAquisitivoFeriasVencidas = dayjs(info.dataAdmissao).add(diferencaAnoAdmissaoDemissao, "year").format(dataFormat);
+        const inicioFeriasVencidas = dayjs(info.dataAdmissao).add(diferencaAnoAdmissaoDemissao, "year").format(dataFormat);
         let feriasVencidas = 0
         let tercoFeriasVencidas
-        const quantidadeAvosFeriasVencidas = 30 * (30 - info?.feriasVencidas)
-        if (dayjs(inicioPeriodoAquisitivoFeriasVencidas).isBefore(dataDemissao, "day") === true) {
-            feriasVencidas = baseFeriasVencidas / quantidadeAvosFeriasVencidas;
+        const quantidadeAvosFeriasVencidas = info.feriasVencidas ? 30 - info.feriasVencidas / 2.5 : 12;
+        if (dayjs(inicioFeriasVencidas).isBefore(dataDemissao)) {
+            feriasVencidas = baseFeriasVencidas / 12 * quantidadeAvosFeriasVencidas;
             tercoFeriasVencidas = feriasVencidas / 3;
         }
 
         // Férias proporcionais
-        const inicioPeriodoAquisitivoFeriasProporcionais = dayjs(inicioPeriodoAquisitivoFeriasVencidas, dataFormat).add(1, "year");
-        let periodoAquisitivoFeriasProporcionaisMes = dayjs(dataDemissao).diff(inicioPeriodoAquisitivoFeriasProporcionais, "months");
-        if (dayjs(inicioPeriodoAquisitivoFeriasProporcionais).add(periodoAquisitivoFeriasProporcionaisMes, "month").diff(dataDemissao, "day") * -1 + 1 >= 15) {
-            periodoAquisitivoFeriasProporcionaisMes++
+        const inicioFeriasProporcionais = dayjs(inicioFeriasVencidas, dataFormat).add(1, "year");
+        let periodoProporcionalMes = dayjs(dataDemissao).diff(inicioFeriasProporcionais, "month");
+        const diasFeriasMesRescisao = dayjs(dataDemissao).diff(dayjs(inicioFeriasProporcionais).add(periodoProporcionalMes, "month"), "day") + 1 >= 15
+        if (diasFeriasMesRescisao) {
+            periodoProporcionalMes++
         };
-        const quantidadeAvosFeriasProporcionais = info.feriasColetivas ? periodoAquisitivoFeriasProporcionaisMes * 2.5 - info.feriasColetivas : periodoAquisitivoFeriasProporcionaisMes * 2.5;
+        const quantidadeAvosFeriasProporcionais = info.feriasColetivas ? periodoProporcionalMes * 2.5 - info.feriasColetivas : periodoProporcionalMes * 2.5;
         const feriasProporcionais = info?.tipoDeRescisao !== "porJustaCausa" ? baseFeriasProporcionais / 30 * quantidadeAvosFeriasProporcionais : 0;
         const tercoFeriasProporcionais = info?.tipoDeRescisao !== "porJustaCausa" ? feriasProporcionais / 3 : 0;
+
+        // Férias porporcionais indenizadas
+        let avosFeriasIndenizadas = 0;
+        let feriasIndenizadas = 0;
+        let tercoFeriasIndenizadas = 0;
+        console.log(diasFeriasMesRescisao)
+        if (projecaoAviso) {
+            if (!diasFeriasMesRescisao) {
+                avosFeriasIndenizadas++;
+            }
+            avosFeriasIndenizadas += dayjs(projecaoAviso).diff(dayjs(inicioFeriasProporcionais).add(periodoProporcionalMes, "month"), "month")
+            feriasIndenizadas = baseFeriasProporcionais / 12 * avosFeriasIndenizadas;
+            tercoFeriasIndenizadas = feriasIndenizadas / 3;
+        };
 
         // 13° salário
         let avosDecimo = 0;
@@ -93,12 +109,11 @@ export const Calculo = ({ info }) => {
                 avosDecimo++;
             } else {
                 avosDecimo--;
-            }
-            ;
+            };
         };
 
         // Calcula os avos de décimo terceiro
-        avosDecimo += dayjs(dataDemissao).month() - dayjs(inicioDecimo).month();
+        avosDecimo += dayjs(dataDemissao).diff(inicioDecimo, "month");
 
         // Identifica o começo do mês de rescisão
         const comecoMesRescisao = dayjs(dataDemissao).startOf("month").isBefore(inicioDecimo) ? inicioDecimo : dayjs(dataDemissao).startOf("month");
@@ -116,18 +131,11 @@ export const Calculo = ({ info }) => {
             let inicioDecimoIndenizado = dayjs(dataDemissao);
             avosDecimoIndenizado += dayjs(projecaoAviso).diff(inicioDecimoIndenizado, "month")
 
-            if (dayjs(projecaoAviso).diff(dayjs(projecaoAviso).startOf("month"), "day") + 1 < 15) {
-                console.log("aqui")
-                avosDecimoIndenizado--;
-            }
-
             if (dayjs(dataDemissao).diff(comecoMesRescisao, "day") + 1 < 15) {
-                console.log("aquiiiii")
                 avosDecimoIndenizado++;
             };
         }
         const valorDecimoIndenizado = baseDecimo / 12 * avosDecimoIndenizado
-        console.log(valorDecimoIndenizado)
 
         // Impostos 13° Salário
         const inssDecimo = inss(valorDecimo + valorDecimoIndenizado);
@@ -160,6 +168,20 @@ export const Calculo = ({ info }) => {
             }
         }
 
+        // FGTS
+        const aliquotaFgts = info.categoriaEmpregado !== "aprendiz" ? 8 : 2;
+        const baseCalculoFgts = saldoSalario + saldoInsalubridade + saldoPericulosidade + valorAviso + valorDecimo + valorDecimoIndenizado;
+        const fgtsRescisao = fgts(baseCalculoFgts, aliquotaFgts)
+
+        // Multa FGTS
+        let aliquotaMultaFgts = 0;
+        if (info.tipoDeRescisao === "semJustaCausa" || info.tipoDeRescisao === "rescisaoAntecipaContratoExperienciaEmpregador") {
+            aliquotaMultaFgts = 40;
+        } else if (info.tipoDeRescisao === "rescisaoAcordoPartes") {
+            aliquotaMultaFgts = 20;
+        }
+        const baseMultaFgts = info.fgts ? info.fgts + fgtsRescisao : fgtsRescisao;
+        const multaFgts = fgts(baseMultaFgts, aliquotaFgts);
 
         const resultList = [
             {
@@ -223,6 +245,18 @@ export const Calculo = ({ info }) => {
                 provento: true,
             },
             {
+                evento: "Férias Indenizadas",
+                referencia: `${avosFeriasIndenizadas}/12`,
+                valor: feriasIndenizadas,
+                provento: true,
+            },
+            {
+                evento: "Terço Férias Indenizadas",
+                referencia: null,
+                valor: tercoFeriasIndenizadas,
+                provento: true,
+            },
+            {
                 evento: "13° Salário Indenizado",
                 referencia: `${avosDecimoIndenizado}/12`,
                 valor: valorDecimoIndenizado,
@@ -254,6 +288,21 @@ export const Calculo = ({ info }) => {
             },
         ];
 
+        const resultFgts = [
+            {
+                tipo: "FGTS Rescisão",
+                base: baseCalculoFgts,
+                aliquota: `${aliquotaFgts}%`,
+                valor: fgtsRescisao,
+            },
+            {
+                tipo: "FGTS Rescisão",
+                base: baseMultaFgts,
+                aliquota: `${aliquotaMultaFgts}%`,
+                valor: multaFgts,
+            },
+        ]
+
         let keyNumber = 0;
         for (let i = 0; i < resultList.length; i++) {
             if (resultList[i].valor > 0) {
@@ -278,8 +327,22 @@ export const Calculo = ({ info }) => {
                     });
                 }
             }
+            setTableData(data);
+        };
+
+        keyNumber = 0;
+        for (let i = 0; i < resultFgts.length; i++) {
+            keyNumber += 1;
+            dataFgts.push({
+                key: keyNumber,
+                tipo: resultFgts[i].tipo,
+                base: <MonetaryOutput value={resultFgts[i].base} />,
+                aliquota: resultFgts[i].aliquota,
+                valor: <MonetaryOutput value={resultFgts[i].valor} />,
+                valorSoma: resultFgts[i].valor,
+            })
         }
-        setTableData(data);
+        setTableDataFgts(dataFgts);
     };
 
     useEffect(() => {
@@ -312,6 +375,32 @@ export const Calculo = ({ info }) => {
         },
     ];
 
+    const columnsFgts = [
+        {
+            title: "Tipo",
+            dataIndex: "tipo",
+            key: "tipo",
+        },
+        {
+            title: "Base de Cálculo",
+            dataIndex: "base",
+            key: "base",
+            align: "center"
+        },
+        {
+            title: "Alíquota",
+            dataIndex: "aliquota",
+            key: "aliquota",
+            align: "center"
+        },
+        {
+            title: "Valor (R$)",
+            dataIndex: "valor",
+            key: "valor",
+            align: "center"
+        }
+    ];
+
     return (
         <div>
             <Card title="Resultado">
@@ -319,7 +408,7 @@ export const Calculo = ({ info }) => {
                     summary={(pageData) => {
                         let totalProventos = 0;
                         let totalDescontos = 0;
-
+                        console.log(pageData)
                         pageData.forEach(({ valorProvento, valorDesconto }) => {
                             totalProventos += valorProvento ? valorProvento : 0;
                             totalDescontos += valorDesconto ? valorDesconto : 0;
@@ -338,6 +427,24 @@ export const Calculo = ({ info }) => {
                                 </Table.Summary.Row>
                             </>
                         );
+                    }} />
+                <Divider />
+                <Table columns={columnsFgts} dataSource={tableDataFgts} pagination={false}
+                    summary={(fgtsData) => {
+                        let totalFgts = 0;
+                        console.log(fgtsData)
+                        fgtsData.forEach(({ valorSoma }) => {
+                            totalFgts += valorSoma;
+                        }
+                        );
+                        return (
+                            <>
+                                <Table.Summary.Row style={{ textAlign: "center", fontSize: "18px" }}>
+                                    <Table.Summary.Cell index={0} colSpan={3}>Total FGTS</Table.Summary.Cell>
+                                    <Table.Summary.Cell index={3} colSpan={3}>R$ <MonetaryOutput value={totalFgts} /></Table.Summary.Cell>
+                                </Table.Summary.Row>
+                            </>
+                        )
                     }} />
             </Card>
         </div>
