@@ -66,7 +66,7 @@ export const StepsInfo = ({ info, changeStep }) => {
             title: "Tipo de rescisão",
             description: (
                 <Form.Item name="tipoDeRescisao" rules={[{ required: true, message: "Por favor, selecione o tipo de rescisão!" }]}>
-                    <Select disabled={current !== 2} onChange={() => next()}>
+                    <Select disabled={current !== 2} onChange={() => next()} dropdownStyle={{ width: "fit-content" }}>
                         <Select.Option value="semJustaCausa">Demissão sem justa causa</Select.Option>
                         <Select.Option value="porJustaCausa">Demissão por justa causa</Select.Option>
                         <Select.Option value="pedidoDemissao">Pedido de demissão</Select.Option>

@@ -1,24 +1,109 @@
-.ant-card-body {
+/* Container principal */
+
+
+
+.rescisaocontainer {
     display: flex;
     flex-direction: column;
-    align-content: center;
     justify-content: center;
     align-items: center;
+    padding: 20px;
+    min-width: 100vw;
+    min-height: 100vh;
+    background-color: #e5eaf2;
 }
 
-.steps {
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    justify-content: center;
+/* Card */
+.rescisaoForm {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: max-content;
     width: 100%;
-    height: auto;
-    box-sizing: border-box;
+    min-width: 600px;
 }
 
-.tipoDeRescisao {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    justify-items: center;
+.ant-card {
+    border-radius: 8px;
+}
+
+/* Colapse */
+.ant-collapse {
+    border-radius: 8px;
+    border: none;
+}
+
+.ant-collapse-item {
+    border-radius: 8px;
+}
+
+.ant-collapse-header {
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #E9EFFF;
+    color: white;
+    border-radius: 8px;
+}
+
+.ant-collapse-content {
+    background-color: #fafafa;
+}
+
+.ant-collapse-content-box {
+    padding: 20px;
+}
+
+.ant-btn {
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 16px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Botão Primário (Calcular) */
+.ant-btn-primary {
+    background-color: #3f51b5;
+    border-color: #3f51b5;
+    color: white;
+}
+
+.ant-btn-primary:hover {
+    background-color: #303f9f;
+    border-color: #303f9f;
+}
+
+/* Botão Default (Limpar) */
+.ant-btn-default {
+    background-color: white;
+    border-color: #ccc;
+    color: #3f51b5;
+}
+
+.ant-btn-default:hover {
+    background-color: #f4f6f9;
+    border-color: #3f51b5;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .rescisaocontainer {
+        padding: 10px;
+    }
+
+    .rescisaoForm {
+        padding: 15px;
+    }
+
+    .ant-card {
+        width: 100%;
+    }
+
+    .ant-btn {
+        margin-bottom: 10px;
+    }
+
+    button {
+        width: 100%;
+    }
 }

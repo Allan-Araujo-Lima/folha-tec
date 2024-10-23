@@ -5,8 +5,9 @@ import { StepsFerias } from "./steps/stepsFerias";
 import { StepsInfo } from "./steps/stepsInfo";
 import { StepsDecimo } from "./steps/stepsDecimo";
 import { StepsFgts } from "./steps/stepsFGTS";
-import "./styles.css";
 import { Calculo } from "./calculo";
+
+import "./styles.css";
 
 export const Rescisao = () => {
     const [form] = Form.useForm();
@@ -65,37 +66,43 @@ export const Rescisao = () => {
     }
 
     return (
-        <Card>
-            <Form
-                layout="vertical"
-                form={form}
-                onFinish={onFinish}
-                onValuesChange={onFormChange}
-                scrollToFirstError={true}
-            >
-                <Card title="Simulação de rescisão">
+        <div className="rescisaocontainer">
+            <Card title="Simulação de Rescisão">
+                <Form
+                    className="rescisaoForm"
+                    layout="vertical"
+                    form={form}
+                    onFinish={onFinish}
+                    onValuesChange={onFormChange}
+                    scrollToFirstError={true}
+                >
                     <Collapse
                         defaultActiveKey='1' // Definindo o painel inicial aberto
                         activeKey={activeKey} // Painel ativo gerenciado pelo estado
                         onChange={(keys) => setActiveKey(keys)} // Atualiza os painéis abertos
                         items={items}
                         size="large"
-                        style={{ width: "100%" }}
                         accordion
                     />
-                    <Space>
+                    <div className="calcularBotao">
                         <Button htmlType="submit" type="primary" style={{ margin: "12px" }}>
                             Calcular
                         </Button>
                         <Button htmlType='button' onClick={clear}>
                             Limpar
                         </Button>
-                    </Space>
-                </Card>
-            </Form>
-            <Divider />
-            {result === true ? <Calculo info={info} /> : null}
-
-        </Card>
+                    </div>
+                </Form>
+            </Card>
+            {result === true ?
+                <div>
+                    <Divider />
+                    <Card>
+                        <Calculo info={info} />
+                    </Card>
+                </div>
+                : null
+            }
+        </div>
     );
 };

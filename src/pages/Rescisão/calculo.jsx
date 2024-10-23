@@ -408,7 +408,6 @@ export const Calculo = ({ info }) => {
                     summary={(pageData) => {
                         let totalProventos = 0;
                         let totalDescontos = 0;
-                        console.log(pageData)
                         pageData.forEach(({ valorProvento, valorDesconto }) => {
                             totalProventos += valorProvento ? valorProvento : 0;
                             totalDescontos += valorDesconto ? valorDesconto : 0;
