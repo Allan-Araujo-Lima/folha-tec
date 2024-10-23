@@ -13,7 +13,7 @@ export const Calculadoras = () => {
         <Content>
             <div className='container'>
                 <h1>Calculadoras</h1>
-                <p>Nesta aba você poderia encontrar diversas calculadoras para conferência da folha de pagamento de sua empresa!</p>
+                <p>Nesta aba você poderia encontrar diversas calculadoras para a conferência das mais diversas vérbas trabalhistas de sua empresa!</p>
                 <Flex className='boxStyle'
                     justify='space-evenly'
                     align='center'
@@ -70,6 +70,7 @@ export const Calculadoras = () => {
                             </div>
                         </div>
                     </Link>
+                    {/*                     
                     <Link to='/calculadoras/custo-por-empregado'>
                         <div className='card'>
                             <div className='img'>
@@ -95,7 +96,7 @@ export const Calculadoras = () => {
                                 </a>
                             </div>
                         </div>
-                    </Link>
+                    </Link> */}
                 </Flex>
             </div>
         </Content>

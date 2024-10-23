@@ -181,7 +181,7 @@ export const Calculo = ({ info }) => {
             aliquotaMultaFgts = 20;
         }
         const baseMultaFgts = info.fgts ? info.fgts + fgtsRescisao : fgtsRescisao;
-        const multaFgts = fgts(baseMultaFgts, aliquotaFgts);
+        const multaFgts = fgts(baseMultaFgts, aliquotaMultaFgts);
 
         const resultList = [
             {
@@ -264,26 +264,26 @@ export const Calculo = ({ info }) => {
             },
             {
                 evento: "INSS Rescisão",
-                referencia: null,
-                valor: inssSaldoSalario,
+                referencia: `${inssSaldoSalario.aliquota}%`,
+                valor: inssSaldoSalario.inss,
                 provento: false,
             },
             {
                 evento: "IRRF Rescisão",
-                referencia: null,
-                valor: irrfSaldoSalario,
+                referencia: `${irrfSaldoSalario.aliquota}%`,
+                valor: irrfSaldoSalario.irrf,
                 provento: false,
             },
             {
                 evento: "INSS 13° Salário",
-                referencia: null,
-                valor: inssDecimo,
+                referencia: `${inssDecimo.aliquota}%`,
+                valor: inssDecimo.inss,
                 provento: false,
             },
             {
                 evento: "IRRF 13° Salário",
-                referencia: null,
-                valor: irrfDecimo,
+                referencia: `${irrfDecimo.aliquota}%`,
+                valor: irrfDecimo.irrf,
                 provento: false,
             },
         ];
@@ -296,7 +296,7 @@ export const Calculo = ({ info }) => {
                 valor: fgtsRescisao,
             },
             {
-                tipo: "FGTS Rescisão",
+                tipo: "Multa do FGTS",
                 base: baseMultaFgts,
                 aliquota: `${aliquotaMultaFgts}%`,
                 valor: multaFgts,
@@ -427,7 +427,9 @@ export const Calculo = ({ info }) => {
                             </>
                         );
                     }} />
-                <Divider />
+            </Card>
+            <Divider />
+            <Card title="FGTS">
                 <Table columns={columnsFgts} dataSource={tableDataFgts} pagination={false}
                     summary={(fgtsData) => {
                         let totalFgts = 0;

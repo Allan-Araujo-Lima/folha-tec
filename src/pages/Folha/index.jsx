@@ -41,9 +41,9 @@ export const Folha = () => {
         values.tiposalario == "por hora" ? salarioTotal = salarioTotal * values.horasmes + dsr(salarioTotal * values.horasmes, values.uteis, values.naouteis) : null;
 
         const descontoInss = inss(salarioTotal);
-        const descontoIrrf = irrf(salarioTotal, values.dependentesirrf, values.pensao, descontoInss);
+        const descontoIrrf = irrf(salarioTotal, values?.dependentesirrf, values?.pensao, descontoInss.inss);
 
-        list.push(values.tiposalario == "por hora" ? values.salario * values.horasmes : values.salario, SalarioMinimo * values.insalubridade / 100 / 220 * values.horasmes, values.salario * values.periculosidade / 100, dsr(values.salario * values.horasmes, values.uteis, values.naouteis), values.pensao, descontoInss, descontoIrrf)
+        list.push(values.tiposalario == "por hora" ? values.salario * values.horasmes : values.salario, SalarioMinimo * values.insalubridade / 100 / 220 * values.horasmes, values.salario * values.periculosidade / 100, dsr(values.salario * values.horasmes, values.uteis, values.naouteis), values.pensao, descontoInss.inss, descontoIrrf.irrf)
 
         let keyNumber = 0;
         for (let i = 0; i < list.length; i++) {

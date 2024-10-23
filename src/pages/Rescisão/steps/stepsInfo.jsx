@@ -56,8 +56,6 @@ export const StepsInfo = ({ info, changeStep }) => {
                 <Form.Item name="categoriaEmpregado" rules={[{ required: true, message: "Por favor, selecione a categoria!" }]}>
                     <Select disabled={current !== 1} onChange={() => next()}>
                         <Select.Option value="empregado">Empregado</Select.Option>
-                        <Select.Option value="domestico">Doméstico</Select.Option>
-                        <Select.Option value="aprendiz">Aprendiz</Select.Option>
                     </Select>
                 </Form.Item>
             ),
