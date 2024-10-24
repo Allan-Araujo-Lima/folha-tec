@@ -12,6 +12,7 @@ export function rescisao(info) {
 
     let data = [];
     let dataFgts = [];
+    let counter = 0;
 
     // Informações base
     const salarioBase = info.salarioBase;
@@ -55,11 +56,15 @@ export function rescisao(info) {
 
     // Férias vencidas
     const diferencaAnoAdmissaoDemissao = dayjs(dataDemissao).year() - dayjs(info.dataAdmissao).year() - 1;
-    const inicioFeriasVencidas = dayjs(info.dataAdmissao).add(diferencaAnoAdmissaoDemissao, "year").format(dataFormat);
+    console.log(diferencaAnoAdmissaoDemissao)
+    const inicioFeriasVencidas = dayjs(info.dataAdmissao).add(diferencaAnoAdmissaoDemissao, "year");
+    const finalFeriasVencidas = dayjs(info.dataAdmissao).add(1, "year").subtract(1, "day");
+    console.log(dayjs(finalFeriasVencidas).format(dataFormat))
+    console.log(inicioFeriasVencidas)
     let feriasVencidas = 0
     let tercoFeriasVencidas
     const quantidadeAvosFeriasVencidas = info.feriasVencidas ? 30 - info.feriasVencidas / 2.5 : 12;
-    if (dayjs(inicioFeriasVencidas).isBefore(dataDemissao)) {
+    if (dayjs(finalFeriasVencidas).isBefore(dataDemissao)) {
         feriasVencidas = baseFeriasVencidas / 12 * quantidadeAvosFeriasVencidas;
         tercoFeriasVencidas = feriasVencidas / 3;
     }
@@ -84,7 +89,7 @@ export function rescisao(info) {
             avosFeriasIndenizadas++;
             periodoProporcionalMes++;
         }
-        let counter = 0
+        counter = 0
         while (dayjs(projecaoAviso).diff(dayjs(inicioFeriasProporcionais).add(periodoProporcionalMes + counter, "month"), "month") !== 0) {
             if (dayjs(projecaoAviso).diff(dayjs(inicioFeriasProporcionais).add(periodoProporcionalMes + counter, "month"), "day") + 1 >= 15) {
                 avosFeriasIndenizadas++;
@@ -105,13 +110,13 @@ export function rescisao(info) {
         // Verifica se trabalhou mais de 15 dias no mês da admissão
         if (dayjs(dayjs(inicioDecimo).endOf("month")).diff(inicioDecimo, "day") + 1 >= 15 && dayjs(dataDemissao).isAfter(inicioDecimo)) {
             avosDecimo++;
-        } else {
-            avosDecimo--;
-        };
+            counter++;
+        }
     };
 
     // Calcula os avos de décimo terceiro
-    avosDecimo += dayjs(dataDemissao).diff(inicioDecimo, "month");
+    while (dayjs(inicioDecimo).add(counter, "month").startOf("month").diff(dataDemissao, "day") >= 15)
+        avosDecimo++;
 
     // Identifica o começo do mês de rescisão
     const comecoMesRescisao = dayjs(dataDemissao).startOf("month").isBefore(inicioDecimo) ? inicioDecimo : dayjs(dataDemissao).startOf("month");

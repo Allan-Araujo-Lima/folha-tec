@@ -66,7 +66,7 @@ export function inss(base) {
         }
     }
 
-    if (inssDesconto == 0) {
+    if (inssDesconto == 0 && base !== 0) {
         inssDesconto = 908.86;
         inssAliquota = 14
     }
