@@ -1,7 +1,4 @@
 /* Container principal */
-
-
-
 .rescisaocontainer {
     display: flex;
     flex-direction: column;
@@ -85,14 +82,26 @@
     border-color: #3f51b5;
 }
 
+.ant-picker-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ant-picker-header-super-prev-btn,
+.ant-picker-header-super-next-btn {
+    display: flex !important;
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
     .rescisaocontainer {
         padding: 10px;
+        min-height: fit-content;
     }
 
     .rescisaoForm {
         padding: 15px;
+        min-width: auto
     }
 
     .ant-card {

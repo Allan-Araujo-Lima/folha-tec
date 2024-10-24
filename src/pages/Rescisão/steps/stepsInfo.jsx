@@ -64,14 +64,14 @@ export const StepsInfo = ({ info, changeStep }) => {
             title: "Tipo de rescisão",
             description: (
                 <Form.Item name="tipoDeRescisao" rules={[{ required: true, message: "Por favor, selecione o tipo de rescisão!" }]}>
-                    <Select disabled={current !== 2} onChange={() => next()} dropdownStyle={{ width: "fit-content" }}>
+                    <Select disabled={current !== 2} onChange={() => next()} dropdownStyle={{ minWidth: "350px" }}>
                         <Select.Option value="semJustaCausa">Demissão sem justa causa</Select.Option>
                         <Select.Option value="porJustaCausa">Demissão por justa causa</Select.Option>
                         <Select.Option value="pedidoDemissao">Pedido de demissão</Select.Option>
                         <Select.Option value="rescisaoAcordoPartes">Rescisão por acordo entre as partes</Select.Option>
-                        <Select.Option value="rescisaoContratoExperiencia">Rescisão por término de contrato de experiência</Select.Option>
-                        <Select.Option value="rescisaoAntecipaContratoExperienciaEmpregador">Rescisão por término antecipado de contrato de experiência</Select.Option>
-                        <Select.Option value="rescisaoAntecipaContratoExperienciaEmpregado">Rescisão por término antecipado de contrato de experiência a pedido</Select.Option>
+                        <Select.Option value="rescisaoContratoExperiencia">Término de contrato de experiência</Select.Option>
+                        <Select.Option value="rescisaoAntecipaContratoExperienciaEmpregador">Término ant. do contrato de experiência</Select.Option>
+                        <Select.Option value="rescisaoAntecipaContratoExperienciaEmpregado">Término ant. do contrato de experiência a pedido</Select.Option>
                     </Select>
                 </Form.Item>
             ),
@@ -115,9 +115,9 @@ export const StepsInfo = ({ info, changeStep }) => {
                             disabled={current !== 4}
                         />
                     </Form.Item>
-                    {info.dataDemissao !== undefined && !semAviso.includes(info.tipoDeRescisao) ? (
-                        `${check === false ? diasAvisoPrevio : 30} dias`
-                    ) : null}
+                    {info.dataDemissao !== undefined && !semAviso.includes(info.tipoDeRescisao) ?
+                        <>Aviso prévio<br />{check === false ? diasAvisoPrevio : 30} dias</>
+                        : null}
                     <Form.Item>
                         <DatePicker
                             format={dataFormat}

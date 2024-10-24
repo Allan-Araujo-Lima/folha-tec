@@ -65,6 +65,14 @@ export const Rescisao = () => {
         setResult(false)
     }
 
+    const error = () => {
+        if (form.getFieldValue("salarioBase") === undefined) {
+            setActiveKey([2])
+        } else {
+            setActiveKey([1])
+        }
+    }
+
     return (
         <div className="rescisaocontainer">
             <Card title="Simulação de Rescisão">
@@ -75,6 +83,7 @@ export const Rescisao = () => {
                     onFinish={onFinish}
                     onValuesChange={onFormChange}
                     scrollToFirstError={true}
+                    onFinishFailed={error}
                 >
                     <Collapse
                         defaultActiveKey='1' // Definindo o painel inicial aberto
