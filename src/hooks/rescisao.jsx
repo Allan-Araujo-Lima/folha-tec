@@ -115,16 +115,11 @@ export function rescisao(info) {
     };
 
     // Calcula os avos de décimo terceiro
-    while (dayjs(inicioDecimo).add(counter, "month").startOf("month").diff(dataDemissao, "day") >= 15)
+    while (dayjs(dataDemissao).diff(dayjs(inicioDecimo).add(counter, "month").startOf("month"), "day") >= 15) {
+        console.log(dayjs(inicioDecimo).add(counter, "month").startOf("month"))
         avosDecimo++;
-
-    // Identifica o começo do mês de rescisão
-    const comecoMesRescisao = dayjs(dataDemissao).startOf("month").isBefore(inicioDecimo) ? inicioDecimo : dayjs(dataDemissao).startOf("month");
-
-    // Verifica se há mais de 15 dias no último mês de trabalho
-    if (dayjs(dataDemissao).diff(comecoMesRescisao, "day") + 1 >= 15 && dayjs(dataDemissao).month() !== dayjs(inicioDecimo).month()) {
-        avosDecimo++;
-    };
+        counter++;
+    }
 
     const valorDecimo = info?.tipoDeRescisao !== "porJustaCausa" ? baseDecimo / 12 * avosDecimo : 0;
 

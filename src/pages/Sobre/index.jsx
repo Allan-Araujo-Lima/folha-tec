@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import "./styles.css"
-import { Card, Space } from "antd"
+import { Card } from "antd"
 
 export const Sobre = () => {
     return (
