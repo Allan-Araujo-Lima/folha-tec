@@ -5,7 +5,7 @@ import './styles.css'
 
 const { Header } = Layout;
 
-const items = ['Sobre', 'Calculadoras', 'Contato'].map((key) => ({
+const items = ['Sobre', 'Calculadoras'].map((key) => ({
     key,
     label: <Link className='link' to={`/${key.toLowerCase()}`}>{key}</Link>,
 }));
