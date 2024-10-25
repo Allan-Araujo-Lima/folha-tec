@@ -6,8 +6,20 @@
     justify-content: center;
     padding: 15px;
     flex-direction: column;
+    box-sizing: border-box;
 }
 
 Form {
     width: 500px;
+}
+
+@media (max-width: 768px) {
+    .h1 {
+        font-size: 1.8em;
+    }
+
+    .p {
+        font-size: 1em;
+        padding: 10px;
+    }
 }

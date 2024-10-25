@@ -1,0 +1,14 @@
+.AvisoCalculo .ant-card-head {
+    border-bottom: none;
+}
+
+@media (max-width: 768px) {
+    .h1 {
+        font-size: 1.8em;
+    }
+
+    .p {
+        font-size: 1em;
+        padding: 10px;
+    }
+}

@@ -1,40 +1,87 @@
 import React from 'react';
-import { Layout, Carousel, Divider } from 'antd';
-import './styles.css';
+import { Carousel, Divider, Card } from 'antd';
 
-const { Content } = Layout;
+import "./styles.css"
+
+const contentStyle = {
+    margin: '34px',
+    height: '250px',
+    color: '#fff',
+    background: '#364d79',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    boxSizing: "border-box",
+    borderRadius: "12px",
+    fontSize: "16px"
+};
 
 export const Home = () => {
     return (
-        <Layout>
-            <Content style={{ padding: '20px 50px' }}>
-                <div className='introducao'>
-                    <h1 className='h1'>Bem-vindo(a) à <b>FolhaTec!</b></h1>
-                    <p className='p'>Olá, somos a <b>Folhatec</b>, uma nova empresa que está preparada para revolucionar o mercado
-                        de <b>departamento pessoal</b> do <b>Brasil!</b></p>
-                </div>
-                <Divider />
-                <Carousel className="carousel" effect='scrollx' autoplaySpeed={5000} autoplay>
-                    <div className="carousel-item">
+        <div className='homeContainer'>
+            <div>
+                <h1>Bem-vindo(a) à <b>FolhaTec!</b></h1>
+                <p>Olá, somos a <b>Folhatec</b>, uma nova empresa que está preparada para revolucionar o mercado
+                    de <b>departamento pessoal</b> do <b>Brasil!</b></p>
+            </div>
+            <Divider />
+            <Carousel className="carousel" effect='scrollx' autoplay autoplaySpeed={5000}>
+                <div>
+                    <div style={contentStyle}>
                         <h3>Missão</h3>
-                        <p>Tornar o mercado de departamento pessoal Brasileiro mais ágil e simples.</p>
+                        <p>
+                            Tornar o mercado de departamento pessoal Brasileiro mais ágil e
+                            simples.
+                        </p>
                     </div>
-                    <div className="carousel-item">
+                </div>
+                <div >
+                    <div style={contentStyle}>
                         <h3>Visão</h3>
                         <p>Ser a melhor empresa de Departamento Pessoal do Brasil.</p>
                     </div>
-                    <div className="carousel-item">
+                </div>
+                <div>
+                    <div style={contentStyle}>
                         <h3>Valores</h3>
                         <ul>
-                            <li>- Agilidade;</li>
-                            <li>- Compromisso com o cliente;</li>
-                            <li>- Precisão nos processos;</li>
-                            <li>- Qualidade.</li>
+                            <li> Agilidade;</li>
+                            <li> Compromisso com o cliente;</li>
+                            <li> Precisão nos processos;</li>
+                            <li> Qualidade.</li>
                         </ul>
                     </div>
-                </Carousel>
-            </Content>
-        </Layout>
+                </div>
+            </Carousel>
+            <div className='servicos'>
+                <h2>Nossos serviços</h2>
+                <div className='servicoscard'>
+                    <Card className='cardservicos'
+                        title="Folha de Pagamento">
+                        <p>
+                            Tercerização de toda a rotina do departamento pessoal
+                            de sua empresa ou da sua folha de pagamento pessoa física!
+                        </p>
+                    </Card>
+                    <Card className='cardservicos'
+                        title="Cálculos Trabalhistas">
+                        <p>
+                            Ficou com dúvida em alguma particulariedade?<br />
+                            Quer saber se sua empresa está realizando os pagamento corretamente?<br />
+                            Tudo isso fica fácil com a nossa ferramenta de cálculos trabalhistas, confira clicando no nosso card.
+                        </p>
+                    </Card>
+                    <Card className='cardservicos'
+                        title="Auditoria">
+                        <p>
+                            Quer a rotina do departamento pessoal da sua empresa segura e sem dores de cabeça futuras?<br />
+                            Contrate a nossa auditoria especializada e deixe a rotina do departamento pessoal
+                            de sua empresa mais segura e confiável.
+                        </p>
+                    </Card>
+                </div>
+            </div>
+        </div >
     );
 }
-

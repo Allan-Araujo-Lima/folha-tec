@@ -1,7 +1,15 @@
-* {
+html,
+body {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    overflow-x: hidden;
+    width: 100%;
+    height: auto;
+    background: rgb(187, 194, 255);
+    background: linear-gradient(315deg, rgba(187, 194, 255, 1) 0%, rgba(233, 239, 255, 1) 64%);
+}
+
+* {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
