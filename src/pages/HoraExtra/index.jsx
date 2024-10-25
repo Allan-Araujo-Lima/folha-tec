@@ -3,6 +3,7 @@ import { Form, Select, Card, Button, InputNumber, Space } from 'antd'
 import { MonetaryInput, MonetaryOutput } from '../../hooks/inputMask'
 
 import './styles.css'
+import { AvisoCalculo } from '../../components/Avisos'
 
 export const HoraExtra = () => {
     const [selectedOption, setSelectecOption] = useState("");
@@ -157,6 +158,7 @@ export const HoraExtra = () => {
                     </div>
                 )}
             </div>
+            <AvisoCalculo />
         </div>
     )
 }

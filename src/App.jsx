@@ -10,6 +10,8 @@ import { Contato } from './pages/Contato';
 import { Folha } from './pages/Folha';
 import { AdicionalNoturno } from './pages/AdicionalNoturno'
 import { Rescisao } from './pages/Rescisão';
+import { Politica } from './pages/Politica-termo/politica';
+import { TermosDeUso } from './pages/Politica-termo/termo';
 
 import './globals/styles.css'
 
@@ -51,6 +53,14 @@ function App() {
                 {
                     path: "/contato",
                     element: <Contato />
+                },
+                {
+                    path: "/politica-de-privacidade",
+                    element: <Politica />
+                },
+                {
+                    path: "/termo-de-uso",
+                    element: <TermosDeUso />
                 }
             ]
         },

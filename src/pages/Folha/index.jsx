@@ -6,6 +6,7 @@ const { Text } = Typography
 
 import { inss, irrf, dsr, SalarioMinimo } from "../../hooks/index";
 import { MonetaryInput, MonetaryOutput } from "../../hooks/inputMask";
+import { AvisoCalculo } from "../../components/Avisos";
 
 import "./styles.css"
 
@@ -249,6 +250,7 @@ export const Folha = () => {
                     </Card>
                 </div>
             )}
+            <AvisoCalculo />
         </div >
     )
 }

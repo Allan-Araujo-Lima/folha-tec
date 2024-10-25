@@ -6,6 +6,7 @@ import { StepsInfo } from "./steps/stepsInfo";
 import { StepsDecimo } from "./steps/stepsDecimo";
 import { StepsFgts } from "./steps/stepsFGTS";
 import { Calculo } from "./calculo";
+import { AvisoCalculo } from "../../components/Avisos";
 
 import "./styles.css";
 
@@ -112,6 +113,7 @@ export const Rescisao = () => {
                 </div>
                 : null
             }
+            <AvisoCalculo />
         </div>
     );
 };
