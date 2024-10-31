@@ -2,27 +2,71 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: auto;
-    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px;
     box-sizing: border-box;
 }
 
 .content-hora-extra {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    height: auto;
+    align-items: center;
+    width: 100%;
     margin-top: 24px;
 }
 
 .result {
     display: flex;
     flex-direction: column;
-    align-items: start;
-    justify-content: start;
-    align-content: start;
-    text-align: center;
+    align-items: center;
     width: 100%;
-    height: auto;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .container-hora-extra {
+        padding: 8px;
+    }
+
+    .content-hora-extra, .result {
+        width: 100%;
+        align-items: center;
+    }
+
+    .content-hora-extra.ant-card {
+        width: 100%;
+    }
+
+    .content-hora-extra.ant-form-item {
+        width: 100%;
+    }
+
+    .content-hora-extra.ant-space-item {
+        width: 100%;
+    }
+
+    .content-hora-extra.ant-input-number, .content-hora-extra.ant-select, .content-hora-extra.ant-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .container-hora-extra {
+        padding: 4px;
+    }
+
+    .content-hora-extra, .result {
+        width: 100%;
+    }
+
+    .calculate-btn {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    .content-hora-extra.ant-space-item {
+        flex-direction: column;
+        width: 100%;
+    }
 }
