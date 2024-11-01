@@ -24,12 +24,32 @@
     text-align: center;
 }
 
-@media (max-width: 768px) {
+.ant-form-item {
+    width: 100%;
+}
+
+.ant-input-number {
+    width: 100%;
+}
+
+.hora-dsr {
+    display: grid;
+    column-gap: 24px;
+}
+
+.hora-btns {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+@media (max-width: 570px) {
     .container-hora-extra {
         padding: 8px;
     }
 
-    .content-hora-extra, .result {
+    .content-hora-extra,
+    .result {
         width: 100%;
         align-items: center;
     }
@@ -38,35 +58,12 @@
         width: 100%;
     }
 
-    .content-hora-extra.ant-form-item {
-        width: 100%;
-    }
-
     .content-hora-extra.ant-space-item {
         width: 100%;
     }
 
-    .content-hora-extra.ant-input-number, .content-hora-extra.ant-select, .content-hora-extra.ant-btn {
-        width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    .container-hora-extra {
-        padding: 4px;
-    }
-
-    .content-hora-extra, .result {
-        width: 100%;
-    }
-
-    .calculate-btn {
-        width: 100%;
-        margin-bottom: 8px;
-    }
-
-    .content-hora-extra.ant-space-item {
-        flex-direction: column;
-        width: 100%;
+    .ant-form-item,
+    .ant.btn {
+        width: 60%;
     }
 }

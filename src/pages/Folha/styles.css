@@ -30,22 +30,7 @@ button {
     width: 100%;
 }
 
-@media (max-width: 768px) {
-    .content-folha {
-        padding: 10px;
-    }
-
-    .folha-form {
-        padding: 15px;
-    }
-
-    .content-folha.calculate-btn,
-    .content-folha.ant-btn {
-        width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
+@media (max-width: 570px) {
     .content-folha {
         padding: 5px;
     }

@@ -45,7 +45,6 @@ export const HoraExtra = () => {
                             <MonetaryInput
                                 placeholder="Digite seu salário atual"
                                 addonBefore="R$"
-                                style={{ width: '100%' }}
                                 value={amount}
                                 step="0,00"
                             />
@@ -115,27 +114,31 @@ export const HoraExtra = () => {
                             <InputNumber addonAfter="%" style={{ width: '100%' }} />
                         </Form.Item>
 
-                        <Form.Item
-                            label="Dias úteis"
-                            name="uteis"
-                            initialValue={25}
-                            style={{ width: '50%', display: 'inline-block' }}
-                            rules={[
-                                { required: true, message: "Por favor, digite os dias úteis do mês." },
-                                { type: 'number', min: 0, max: 30, message: "O valor deve estar entre 0 e 30." }
-                            ]}
-                        >
-                            <InputNumber max={30} onChange={(value) => setDias(value)} precision={0} />
-                        </Form.Item>
+                        <div className='hora-dsr'>
+                            <div>
 
-                        <Form.Item
-                            label="Dias não úteis"
-                            name="naouteis"
-                            initialValue={5}
-                            style={{ width: '50%', display: 'inline-block' }}
-                        >
-                            <InputNumber disabled style={{ width: '100%' }} />
-                        </Form.Item>
+                                <Form.Item
+                                    label="Dias úteis"
+                                    name="uteis"
+                                    initialValue={25}
+                                    rules={[
+                                        { required: true, message: "Por favor, digite os dias úteis do mês." },
+                                        { type: 'number', min: 0, max: 30, message: "O valor deve estar entre 0 e 30." }
+                                    ]}
+                                >
+                                    <InputNumber max={30} onChange={(value) => setDias(value)} precision={0} />
+                                </Form.Item>
+                            </div>
+                            <div>
+                                <Form.Item
+                                    label="Dias não úteis"
+                                    name="naouteis"
+                                    initialValue={5}
+                                >
+                                    <InputNumber disabled />
+                                </Form.Item>
+                            </div>
+                        </div>
 
                         <Form.Item
                             label="Quantidade de horas extras"
@@ -148,7 +151,7 @@ export const HoraExtra = () => {
                             <InputNumber addonAfter="Horas" style={{ width: '100%' }} />
                         </Form.Item>
 
-                        <Space style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Space style={{ display: 'flex', justifyContent: 'start', width: '100%' }}>
                             <Button type="primary" htmlType="submit" className="calculate-btn">
                                 Calcular
                             </Button>
