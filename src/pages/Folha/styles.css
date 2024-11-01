@@ -9,17 +9,38 @@
     box-sizing: border-box;
 }
 
-Form {
-    width: 500px;
+.folha-form {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-@media (max-width: 768px) {
-    .h1 {
-        font-size: 1.8em;
+.content-folha.ant-card {
+    width: 100%;
+    max-width: 900px;
+    margin-bottom: 20px;
+}
+
+.content-folha.ant-btn {
+    margin-bottom: 10px;
+}
+
+button {
+    width: 100%;
+}
+
+@media (max-width: 570px) {
+    .content-folha {
+        padding: 5px;
     }
 
-    .p {
-        font-size: 1em;
+    .folha-form {
         padding: 10px;
+    }
+
+    .content-folha.ant-card-head-title,
+    .content-folha.ant-form-item-label label {
+        font-size: 14px;
     }
 }

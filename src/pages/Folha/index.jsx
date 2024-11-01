@@ -107,7 +107,7 @@ export const Folha = () => {
     return (
         <div className="content-folha">
             <Card title="Folha" style={{ maxWidth: 900 }}>
-                <Form layout="vertical" onSubmit={submit} onFinish={submit} form={form}>
+                <Form className="folha-form" layout="vertical" onSubmit={submit} onFinish={submit} form={form}>
                     <Form.Item label="Tipo de Salário" required name="tiposalario" initialValue={"Mensalista"}>
                         <Select className="tiposalario"
                             onChange={(e) => setSelectecOption(e)}
@@ -197,7 +197,7 @@ export const Folha = () => {
                         <InputNumber type="number"
                             style={{ display: 'inline-block', width: 'calc(100% - 16px' }} />
                     </Form.Item>
-                    <Form.Item label="Dependentes imposto de renda" name="dependentesirrf"
+                    <Form.Item label="Dep. imposto de renda" name="dependentesirrf"
                         initialValue={0}
                         style={{ display: 'inline-block', width: '50%' }}>
                         <InputNumber type="number"

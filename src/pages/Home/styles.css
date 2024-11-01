@@ -84,7 +84,6 @@
 
 .servicoscard {
   display: flex;
-  flex-direction: row;
   width: 100%;
   height: auto;
   justify-content: space-around;
@@ -101,7 +100,12 @@
   text-align: justify;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 570px) {
+  .servicoscard {
+    display: flex;
+    flex-direction: column;
+  }
+
   .carousel-item h3 {
     font-size: 1.5em;
   }

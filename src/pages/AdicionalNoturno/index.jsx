@@ -103,8 +103,7 @@ export const AdicionalNoturno = () => {
                             >
                                 <InputNumber type="number"
                                     addonBefore="I"
-                                    addonAfter="%"
-                                    style={{ width: '100%' }} />
+                                    addonAfter="%" />
                             </Form.Item>
                             :
                             null
