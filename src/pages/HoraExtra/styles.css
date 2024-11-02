@@ -37,12 +37,6 @@
     column-gap: 24px;
 }
 
-.hora-btns {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-}
-
 @media (max-width: 570px) {
     .container-hora-extra {
         padding: 8px;

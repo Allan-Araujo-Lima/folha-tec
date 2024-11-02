@@ -3,30 +3,18 @@ import { Form, Select, Card, Button, InputNumber, Space } from 'antd';
 import { MonetaryInput, MonetaryOutput } from '../../hooks/inputMask';
 import './styles.css';
 import { AvisoCalculo } from '../../components/Avisos';
+import { CalcularHoraExtra } from '../../functions';
 
 export const HoraExtra = () => {
     const [selectedOption, setSelectedOption] = useState("");
-    const [horaExtraResult, setHoraExtraResult] = useState(null);
-    const [horas, setHoras] = useState(null);
     const [amount, setAmount] = useState("");
-    const [dsr, setDsr] = useState(0);
+    const [resultHorasExtras, setResultHorasExtras] = useState(false);
     const [form] = Form.useForm();
 
     const setDias = (e) => form.setFieldsValue({ naouteis: 30 - e });
 
     const submit = (values) => {
-        let salarioTotal = values.salario;
-        if (values.insalubridade) {
-            salarioTotal += 1412 * (values.insalubridade / 100);
-        } else if (values.periculosidade) {
-            salarioTotal += values.salario * (values.periculosidade / 100);
-        }
-        const result = (salarioTotal / values.horasmes) * ((values.percentualhorasextras / 100) + 1) * values.horasextras;
-        const dsr = (result / values.uteis) * values.naouteis;
-
-        setHoraExtraResult(result);
-        setHoras(values.horasextras);
-        setDsr(dsr);
+        setResultHorasExtras(CalcularHoraExtra(values));
     };
 
     const clear = () => form.resetFields();
@@ -162,17 +150,17 @@ export const HoraExtra = () => {
                     </Form>
                 </Card>
 
-                {horaExtraResult !== null && (
+                {resultHorasExtras !== null && (
                     <div className="result">
                         <Card title="Resultado" style={{ maxWidth: 800 }}>
                             <p>
-                                O colaborador receberá <b>R$ <MonetaryOutput value={horaExtraResult} /></b> referente a(s) {horas} hora(s) extra(s) trabalhada(s).
+                                O colaborador receberá <b>R$ <MonetaryOutput value={resultHorasExtras.result} /></b> referente a(s) {resultHorasExtras.horas} hora(s) extra(s) trabalhada(s).
                             </p>
                             <p>
-                                Além disso, o colaborador receberá <b>R$ <MonetaryOutput value={dsr} /></b> sobre os dias não úteis.
+                                Além disso, o colaborador receberá <b>R$ <MonetaryOutput value={resultHorasExtras.dsr} /></b> sobre os dias não úteis.
                             </p>
                             <h2 style={{ backgroundColor: 'lightgrey' }}>
-                                <b>Total geral: R$ <MonetaryOutput value={horaExtraResult + dsr} /></b>
+                                <b>Total geral: R$ <MonetaryOutput value={resultHorasExtras.result + resultHorasExtras.dsr} /></b>
                             </h2>
                         </Card>
                     </div>
