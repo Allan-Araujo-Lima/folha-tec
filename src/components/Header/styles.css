@@ -35,14 +35,13 @@ img.header-img {
   padding: 0 20px;
 }
 
-
 .ant-menu-item-selected {
   padding: 0 20px;
   background-color: transparent !important;
   color: #a2a9e9 !important;
 }
 
-@media (max-width: 570px) {
+@media (max-width: 576px) {
   .ant-layout-header {
     height: auto;
     padding: 20px;
