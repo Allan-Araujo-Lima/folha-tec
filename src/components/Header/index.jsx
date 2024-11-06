@@ -13,14 +13,18 @@ const items = ['Sobre', 'Calculadoras'].map((key) => ({
 export const HeaderExp = () => {
     return (
         <Header className="header">
-            <Link to='/' className='link'>
-                <img className="header-img" src={LogoMarca} alt="Logo" />
-            </Link>
-            <Menu
-                theme="dark"
-                mode="horizontal"
-                items={items}
-            />
+            <div className='header-logo'>
+                <Link to='/' className='link'>
+                    <img className="header-img" src={LogoMarca} alt="Logo" />
+                </Link>
+            </div>
+            <div className='header-content'>
+                <Menu
+                    theme="dark"
+                    mode="horizontal"
+                    items={items}
+                />
+            </div>
         </Header>
     );
 }

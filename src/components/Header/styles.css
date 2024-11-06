@@ -6,15 +6,10 @@
   display: flex;
   align-items: center;
   background-color: #4d5891;
+  justify-content: flex-start;
 }
 
 .ant-menu {
-  height: 100%;
-  border: none;
-  flex-grow: 1;
-  display: flex;
-  justify-content: start;
-  align-items: center;
   background-color: #4d5891;
 }
 
@@ -41,12 +36,27 @@ img.header-img {
   color: #a2a9e9 !important;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 578px) {
   .ant-layout-header {
     height: auto;
-    padding: 20px;
-    flex-direction: column;
+    width: 100%;
+    padding: 20px 8px;
+    flex-wrap: wrap;
+  }
+
+  .header-logo {
+    display: flex;
     align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 8px;
   }
 
   img.header-img {
