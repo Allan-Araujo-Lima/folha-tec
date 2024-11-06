@@ -41,7 +41,7 @@ img.header-img {
     height: auto;
     width: 100%;
     padding: 20px 8px;
-    flex-wrap: wrap;
+    display: block;
   }
 
   .header-logo {
@@ -49,6 +49,7 @@ img.header-img {
     align-items: center;
     justify-content: center;
     width: 100%;
+    background-color: red;
   }
 
   .header-content {
@@ -57,6 +58,7 @@ img.header-img {
     justify-content: center;
     width: 100%;
     margin-bottom: 8px;
+    background-color: blue;
   }
 
   img.header-img {
