@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Form, message, Steps, Button, Checkbox, Collapse } from "antd";
-import ".././styles.css";
+
 import { MonetaryInput } from "../../../hooks/inputMask";
+import "../../styles.css";
 
 export const StepsDecimo = ({ info, changeStep }) => {
     const [current, setCurrent] = useState(0);

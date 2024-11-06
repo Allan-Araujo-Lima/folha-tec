@@ -3,7 +3,7 @@ import { useState } from "react";
 import { MonetaryInput } from "../../../hooks/inputMask";
 import { Form, message, Steps, Select, Button, InputNumber, Checkbox, Input } from "antd";
 
-import ".././styles.css";
+import "../../styles.css";
 
 export const StepsRem = ({ info, changeStep }) => {
     const [amount, setAmount] = useState("");

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Form, message, Steps, Button, Checkbox, Collapse } from "antd";
-import ".././styles.css";
 import { DaysInput } from "../../../hooks/inputMask";
+
+import "../../styles.css";
 
 export const StepsFerias = ({ info, changeStep }) => {
     const [current, setCurrent] = useState(0);

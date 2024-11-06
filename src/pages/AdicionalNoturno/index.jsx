@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { MaskedInput, MonetaryInput } from "../../hooks/inputMask";
 import { AvisoCalculo } from "../../components/Avisos";
-import "./styles.css"
+import "../styles.css"
 
 const { Content } = Layout;
 
@@ -75,7 +75,7 @@ export const AdicionalNoturno = () => {
     }
 
     return (
-        <div className="content-noturno">
+        <div className="container">
             <Card title="Adicional Noturno">
                 <Form layout="vertical" onSubmit={submit} onFinish={submit} form={form}>
                     <Form.Item label="Salário base" name="salario" required

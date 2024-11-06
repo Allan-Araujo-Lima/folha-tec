@@ -1,8 +1,8 @@
 .AvisoCalculo .ant-card-head {
-    border-bottom: none;
+    border-bottom: none !important;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 570px) {
     .h1 {
         font-size: 1.8em;
     }

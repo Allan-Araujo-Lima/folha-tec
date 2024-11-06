@@ -1,0 +1,21 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ant-card {
+    margin: 12px;
+    min-width: 400px;
+    width: 60vh;
+}
+
+.ant-btn-primary {
+    background-color: #4d5891;
+}
+
+@media (max-width: 570px) {
+    .ant-card {
+        width: 100%;
+    }
+}

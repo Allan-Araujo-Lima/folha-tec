@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Form, message, Steps, Button, Collapse, Tooltip } from "antd";
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import ".././styles.css";
+import "../../styles.css";
 import { MonetaryInput } from "../../../hooks/inputMask";
 
 export const StepsFgts = ({ info }) => {

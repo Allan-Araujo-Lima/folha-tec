@@ -7,6 +7,8 @@ const { Text } = Typography
 import { rescisao } from "../../hooks/rescisao";
 import { MonetaryOutput } from "../../hooks/inputMask"
 
+import '../styles.css'
+
 export const Calculo = ({ info }) => {
 
     const [tableData, setTableData] = useState([]);
