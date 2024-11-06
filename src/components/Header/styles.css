@@ -2,7 +2,6 @@
   max-width: 100%;
   height: 64px;
   padding: 0;
-  line-height: 0px;
   display: flex;
   align-items: center;
   background-color: #4d5891;
@@ -13,17 +12,14 @@
   background-color: #4d5891;
 }
 
+.header-logo {
+  line-height: 1;
+}
+
 img.header-img {
   height: 50px;
   width: auto;
   margin: 0px 12px 0px 30px;
-}
-
-.link {
-  color: white;
-  text-decoration: none;
-  font-size: 16px;
-  background-color: #4d5891;
 }
 
 .ant-menu-horizontal>.ant-menu-item {
@@ -31,7 +27,6 @@ img.header-img {
 }
 
 .ant-menu-item-selected {
-  padding: 0 20px;
   background-color: transparent !important;
   color: #a2a9e9 !important;
 }
@@ -40,7 +35,7 @@ img.header-img {
   .ant-layout-header {
     height: auto;
     width: 100%;
-    padding: 20px 8px;
+    padding: 20px 0px 0px;
     display: block;
   }
 
@@ -49,7 +44,6 @@ img.header-img {
     align-items: center;
     justify-content: center;
     width: 100%;
-    background-color: red;
   }
 
   .header-content {
@@ -58,7 +52,12 @@ img.header-img {
     justify-content: center;
     width: 100%;
     margin-bottom: 8px;
-    background-color: blue;
+  }
+
+  .header-content .ant-menu {
+    width: 100%;
+    justify-content: center;
+    line-height: 46px;
   }
 
   img.header-img {
