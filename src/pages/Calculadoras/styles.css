@@ -31,12 +31,3 @@ a {
 p {
     text-align: center;
 }
-
-.boxStyle {
-    width: 100%;
-    height: auto;
-    border-radius: 6px;
-    border: 1px solid #E9EFFF;
-    margin-top: 14px;
-    padding: 14px;
-}
