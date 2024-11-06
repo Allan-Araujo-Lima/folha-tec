@@ -8,7 +8,7 @@ import { StepsFgts } from "./steps/stepsFGTS";
 import { Calculo } from "./calculo";
 import { AvisoCalculo } from "../../components/Avisos";
 
-import "./styles.css";
+import "../styles.css";
 
 export const Rescisao = () => {
     const [form] = Form.useForm();
@@ -75,7 +75,7 @@ export const Rescisao = () => {
     }
 
     return (
-        <div className="rescisaocontainer">
+        <div className="container">
             <Card title="Simulação de Rescisão">
                 <Form
                     className="rescisaoForm"
@@ -105,12 +105,10 @@ export const Rescisao = () => {
                 </Form>
             </Card>
             {result === true ?
-                <div>
+                <>
                     <Divider />
-                    <Card>
-                        <Calculo info={info} />
-                    </Card>
-                </div>
+                    <Calculo info={info} />
+                </>
                 : null
             }
             <AvisoCalculo />

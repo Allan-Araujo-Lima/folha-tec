@@ -8,7 +8,7 @@ import { inss, irrf, dsr, SalarioMinimo } from "../../hooks/index";
 import { MonetaryInput, MonetaryOutput } from "../../hooks/inputMask";
 import { AvisoCalculo } from "../../components/Avisos";
 
-import "./styles.css"
+import "../styles.css"
 
 export const Folha = () => {
     const [amount, setAmount] = useState("");
@@ -105,7 +105,7 @@ export const Folha = () => {
     }
 
     return (
-        <div className="content-folha">
+        <div className="container">
             <Card title="Folha" style={{ maxWidth: 900 }}>
                 <Form className="folha-form" layout="vertical" onSubmit={submit} onFinish={submit} form={form}>
                     <Form.Item label="Tipo de Salário" required name="tiposalario" initialValue={"Mensalista"}>

@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { Form, Steps, Select, Button, DatePicker, Checkbox, Tooltip } from "antd";
 import dayjs from "dayjs";
-import ".././styles.css";
+import "../../styles.css";
 
 const experiencia = ["rescisaoAntecipaContratoExperienciaEmpregador", "rescisaoAntecipaContratoExperienciaEmpregado"];
 const semAviso = ["porJustaCausa", "rescisaoContratoExperiencia", "morteEmpregado", ...experiencia];
-
-
 
 export const StepsInfo = ({ info, changeStep }) => {
     const [form] = Form.useForm();
