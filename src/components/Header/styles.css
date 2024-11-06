@@ -41,7 +41,7 @@ img.header-img {
   color: #a2a9e9 !important;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
   .ant-layout-header {
     height: auto;
     padding: 20px;
