@@ -106,6 +106,12 @@ export const Folha = () => {
 
     return (
         <div className="container">
+            <nav className="nav-container">
+                <p>
+                    Nesta página você poderá verificar qual o valor líquido do seu salário, além de verificar quais serão os impostos
+                    que serão descontados de sua folha de pagamento.
+                </p>
+            </nav>
             <Card title="Folha" style={{ maxWidth: 900 }}>
                 <Form className="folha-form" layout="vertical" onSubmit={submit} onFinish={submit} form={form}>
                     <Form.Item label="Tipo de Salário" required name="tiposalario" initialValue={"Mensalista"}>

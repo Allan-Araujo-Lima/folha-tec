@@ -76,6 +76,11 @@ export const AdicionalNoturno = () => {
 
     return (
         <div className="container">
+            <nav className="nav-container">
+                <p>
+                    Nessa calculadora você poderá calcular o adicional noturno devido para um funcionário que trabalha em horário noturno.
+                </p>
+            </nav>
             <Card title="Adicional Noturno">
                 <Form layout="vertical" onSubmit={submit} onFinish={submit} form={form}>
                     <Form.Item label="Salário base" name="salario" required

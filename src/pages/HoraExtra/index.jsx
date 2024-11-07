@@ -22,6 +22,12 @@ export const HoraExtra = () => {
 
     return (
         <div className="container">
+            <nav className='nav-container'>
+                <p>
+                    Nesta ferramenta é possivel calcular o valor das horas extras devidas ao colaborador, juntamente
+                    com o valor do DSR (Descanso Semanal Remunerado).
+                </p>
+            </nav>
             <Card title="Hora Extra">
                 <Form layout="vertical" onFinish={submit} form={form}>
                     <Form.Item

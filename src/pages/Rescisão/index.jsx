@@ -76,6 +76,14 @@ export const Rescisao = () => {
 
     return (
         <div className="container">
+            <nav className="nav-container">
+                <p>
+                    Na calculadora de rescisão é possível verificar o valor da cada verba devida separadamente, além da possibilidade
+                    de seleção do tipo de rescisão e a forma com que o aviso prévio foi realizado.<br />
+                    Além disso, também é possivel verificar o valor de FGTS devido sobre a rescisão contratual, calculando também a
+                    multa do FGTS para os tipos de rescisões em que ela é devida.
+                </p>
+            </nav>
             <Card title="Simulação de Rescisão">
                 <Form
                     className="rescisaoForm"

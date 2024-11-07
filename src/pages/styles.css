@@ -4,6 +4,19 @@
     align-items: center;
 }
 
+.container .nav-container {
+    width: 100%;
+    background-color: #4d58916e;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.container .nav-container p {
+    font-size: medium;
+    text-align: justify;
+    padding: 0 24px 0 24px;
+}
+
 .container .ant-card {
     margin: 12px;
     min-width: 400px;
