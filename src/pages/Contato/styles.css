@@ -1,0 +1,29 @@
+.contato-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contato-content {
+    width: 100%;
+    display: flex;
+    justify-content: space-around
+}
+
+.contato-content div {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.contato-content a {
+    color: rgb(32, 49, 101);
+}
+
+.contato-container .ant-card {
+    width: 80%;
+}
+
+.contato-container img {
+    width: 200px;
+}
