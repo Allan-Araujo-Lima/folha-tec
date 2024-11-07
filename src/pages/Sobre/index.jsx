@@ -4,7 +4,7 @@ import { Card } from "antd"
 
 export const Sobre = () => {
     return (
-        <div className="containersobre">
+        <div className="container-sobre">
             <Card className="sobre" title="Sobre">
                 <h2>História</h2>
                 <p>Nascida em Juazeiro do Norte - CE, em busca de uma fusão entre tecnolgia e folha de
@@ -15,7 +15,7 @@ export const Sobre = () => {
                 <h2>Cálculos</h2>
                 <p>
                     Sabemos que o pagamento de verbas trabalhistas em geral pode causar dúvidas até mesmo
-                    aos profissionais mais experiências, desta forma, também disponibilizados a nossa aba
+                    aos profissionais mais experiências, desta forma, também disponibilizamos a nossa aba
                     de <Link className="link" to={"/calculadoras"}>calculadoras</Link>, para que conferências e parametrizações
                     possam ser realizadas.
                 </p>

@@ -1,121 +1,36 @@
-.homeContent {
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-.homeContainer {
-  display: flex;
-  flex-direction: column;
-  padding-top: 16px;
-  max-width: 100%;
-  margin: 0 auto;
-  box-sizing: border-box;
-}
-
-.h1 {
-  font-size: 2.5em;
-  line-height: 1.2;
-  margin-bottom: 10px;
-  margin-top: 0;
-  text-align: center;
-}
-
-.p {
-  font-weight: 500;
-  padding: 10px 20px;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.introducao {
-  display: flex;
-  flex-direction: column;
-  background-color: #f0f2f5;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-  margin-bottom: 30px;
-  max-width: 100%;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.carousel-item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: auto;
-  min-height: 200px;
-  color: black;
-  background: #2d4de6;
-  border-radius: 8px;
-  padding: 10px;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-.carousel-item h3 {
-  margin: 0;
-  font-size: 2em;
-}
-
-.carousel-item p {
-  margin: 0;
-  font-size: 1.5em;
-}
-
-.carousel-item li {
-  display: inline-block;
-  padding: 20px;
-}
-
-.ant-layout-content {
-  padding: 24px;
-  min-height: 100vh;
-}
-
 .servicos {
   display: flex;
   flex-direction: column;
   text-align: center;
-  justify-content: center;
-}
-
-.servicoscard {
-  display: flex;
   width: 100%;
-  height: auto;
-  justify-content: space-around;
-  box-sizing: border-box;
-  align-content: center;
 }
 
-.cardservicos {
-  margin: 12px;
-  border-radius: 12px;
+.servicos-card {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
 }
 
-.cardservicos p {
+.servicos-card .ant-card {
+  margin: 6px;
+}
+
+.servicos-card p {
   text-align: justify;
 }
 
-@media (max-width: 570px) {
-  .servicoscard {
+@media (max-width: 578px) {
+  .servicos {
     display: flex;
     flex-direction: column;
+    text-align: center;
+    width: 100%;
   }
 
-  .carousel-item h3 {
-    font-size: 1.5em;
-  }
-
-  .carousel-item p {
-    font-size: 1.2em;
-  }
-
-  .carousel-item {
-    line-height: 1.5;
-    padding: 15px;
+  .servicos-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
   }
 }

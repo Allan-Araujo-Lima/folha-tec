@@ -14,7 +14,7 @@
     background-color: #4d5891;
 }
 
-@media (max-width: 570px) {
+@media (max-width: 578px) {
     .ant-card {
         width: 100%;
     }

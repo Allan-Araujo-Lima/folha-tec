@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Carousel, Divider, Card } from 'antd';
 
 import "./styles.css"
@@ -19,7 +20,7 @@ const contentStyle = {
 
 export const Home = () => {
     return (
-        <div className='homeContainer'>
+        <div className='home-container'>
             <div>
                 <h1>Bem-vindo(a) à <b>FolhaTec!</b></h1>
                 <p>Olá, somos a <b>Folhatec</b>, uma nova empresa que está preparada para revolucionar o mercado
@@ -54,25 +55,27 @@ export const Home = () => {
                     </div>
                 </div>
             </Carousel>
-            <div className='servicos'>
+            <section className='servicos'>
                 <h2>Nossos serviços</h2>
-                <div className='servicoscard'>
-                    <Card className='cardservicos'
+                <div className='servicos-card'>
+                    <Card
                         title="Folha de Pagamento">
                         <p>
                             Tercerização de toda a rotina do departamento pessoal
                             de sua empresa ou da sua folha de pagamento pessoa física!
                         </p>
                     </Card>
-                    <Card className='cardservicos'
-                        title="Cálculos Trabalhistas">
-                        <p>
-                            Ficou com dúvida em alguma particulariedade?<br />
-                            Quer saber se sua empresa está realizando os pagamento corretamente?<br />
-                            Tudo isso fica fácil com a nossa ferramenta de cálculos trabalhistas, confira clicando no nosso card.
-                        </p>
-                    </Card>
-                    <Card className='cardservicos'
+                    <Link to={"/calculadoras"}>
+                        <Card
+                            title="Cálculos Trabalhistas">
+                            <p>
+                                Ficou com dúvida em alguma particulariedade?<br />
+                                Quer saber se sua empresa está realizando os pagamento corretamente?<br />
+                                Tudo isso fica fácil com a nossa ferramenta de cálculos trabalhistas, confira clicando no nosso card.
+                            </p>
+                        </Card>
+                    </Link>
+                    <Card
                         title="Auditoria">
                         <p>
                             Quer a rotina do departamento pessoal da sua empresa segura e sem dores de cabeça futuras?<br />
@@ -81,7 +84,7 @@ export const Home = () => {
                         </p>
                     </Card>
                 </div>
-            </div>
+            </section>
         </div >
     );
 }

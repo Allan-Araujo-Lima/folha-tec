@@ -1,28 +1,28 @@
-.containersobre {
+.container-sobre {
     display: flex;
     justify-content: center;
 }
 
-.containersobre p {
+.container-sobre p {
     text-align: justify;
     margin: 18px;
 }
 
-.containersobre .link {
-    background-color: #20316552;
+.container-sobre .link {
+    color: #4d5891;
 }
 
-.containersobre .ant-card-head-title {
+.container-sobre .ant-card-head-title {
     font-size: xx-large;
 }
 
-.sobre {
+.container-sobre .sobre {
     display: flex;
     flex-direction: column;
     width: 100% !important;
     height: min-content;
     font-size: large;
-    margin-top: 24px;
+    margin: 12px;
 }
 
 .calculos:hover,
