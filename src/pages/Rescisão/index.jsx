@@ -116,7 +116,9 @@ export const Rescisao = () => {
             {result === true ?
                 <>
                     <Divider />
+
                     <Calculo info={info} />
+
                 </>
                 : null
             }

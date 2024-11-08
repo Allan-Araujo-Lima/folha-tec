@@ -175,13 +175,11 @@ export const AdicionalNoturno = () => {
                 </Form>
             </Card>
             {adicionalNoturnoResult !== false && (
-                <div className="result">
-                    <Card title="Resultado" style={{ maxWidth: 800 }}>
-                        <p>O colaborador receberá <b>R$ {adicionalNoturnoResult.toFixed(2)}</b> referente a(s) {horaNoturna[0]}:{horaNoturna[1]} hora(s) noturnas(s) </p>
-                        <Space> </Space>
-                        <h2 style={{ backgroundColor: 'lightgrey' }}><b>Total geral: R$ {(adicionalNoturnoResult).toFixed(2)}</b></h2>
-                    </Card>
-                </div>
+                <Card title="Resultado">
+                    <p>O colaborador receberá <b>R$ {adicionalNoturnoResult.toFixed(2)}</b> referente a(s) {horaNoturna[0]}:{horaNoturna[1]} hora(s) noturnas(s) </p>
+                    <Space> </Space>
+                    <h2 style={{ backgroundColor: 'lightgrey' }}><b>Total geral: R$ {(adicionalNoturnoResult).toFixed(2)}</b></h2>
+                </Card>
             )}
             <AvisoCalculo />
         </div>

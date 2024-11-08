@@ -157,19 +157,17 @@ export const HoraExtra = () => {
             </Card>
 
             {resultHorasExtras !== null && (
-                <div className="result">
-                    <Card title="Resultado" style={{ maxWidth: 800 }}>
-                        <p>
-                            O colaborador receberá <b>R$ <MonetaryOutput value={resultHorasExtras.result} /></b> referente a(s) {resultHorasExtras.horas} hora(s) extra(s) trabalhada(s).
-                        </p>
-                        <p>
-                            Além disso, o colaborador receberá <b>R$ <MonetaryOutput value={resultHorasExtras.dsr} /></b> sobre os dias não úteis.
-                        </p>
-                        <h2 style={{ backgroundColor: 'lightgrey' }}>
-                            <b>Total geral: R$ <MonetaryOutput value={resultHorasExtras.result + resultHorasExtras.dsr} /></b>
-                        </h2>
-                    </Card>
-                </div>
+                <Card title="Resultado">
+                    <p>
+                        O colaborador receberá <b>R$ <MonetaryOutput value={resultHorasExtras.result} /></b> referente a(s) {resultHorasExtras.horas} hora(s) extra(s) trabalhada(s).
+                    </p>
+                    <p>
+                        Além disso, o colaborador receberá <b>R$ <MonetaryOutput value={resultHorasExtras.dsr} /></b> sobre os dias não úteis.
+                    </p>
+                    <h2 style={{ backgroundColor: 'lightgrey' }}>
+                        <b>Total geral: R$ <MonetaryOutput value={resultHorasExtras.result + resultHorasExtras.dsr} /></b>
+                    </h2>
+                </Card>
             )}
             <AvisoCalculo />
         </div>
