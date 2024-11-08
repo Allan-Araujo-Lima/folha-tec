@@ -7,8 +7,6 @@ const { Text } = Typography
 import { rescisao } from "../../hooks/rescisao";
 import { MonetaryOutput } from "../../hooks/inputMask"
 
-import '../styles.css'
-
 export const Calculo = ({ info }) => {
 
     const [tableData, setTableData] = useState([]);
@@ -79,8 +77,8 @@ export const Calculo = ({ info }) => {
     ];
 
     return (
-        <div>
-            <Card title="Resultado">
+        <>
+            <Card title="Resultado" className="card-result-rescisao">
                 <Table columns={columns} dataSource={tableData} pagination={false}
                     summary={(pageData) => {
                         let totalProventos = 0;
@@ -118,7 +116,7 @@ export const Calculo = ({ info }) => {
                             <>
                                 <Table.Summary.Row style={{ textAlign: "center", fontSize: "18px" }}>
                                     <Table.Summary.Cell index={0} colSpan={3}>Total FGTS<Tooltip title='Para o cálculo correto da multa rescisória, o preenchimento do "Saldo do FGTS"
-                                    deve ser preenchido.'>
+                                    deve ser realizado.'>
                                         <QuestionCircleOutlined style={{ marginLeft: "6px", color: "rgba(0, 0, 0, 0.45)" }} />
                                     </Tooltip></Table.Summary.Cell>
                                     <Table.Summary.Cell index={3} colSpan={3}>R$ <MonetaryOutput value={totalFgts} /></Table.Summary.Cell>
@@ -127,6 +125,6 @@ export const Calculo = ({ info }) => {
                         )
                     }} />
             </Card>
-        </div>
+        </>
     )
 }

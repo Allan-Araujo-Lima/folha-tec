@@ -227,34 +227,32 @@ export const Folha = () => {
                 </Form>
             </Card>
             {result !== false && (
-                <div className="result">
-                    <Card title="Resultado">
-                        <Table columns={columns} dataSource={tableData} pagination={false}
-                            summary={(pageData) => {
-                                let totalProventos = 0;
-                                let totalDescontos = 0;
+                <Card title="Resultado">
+                    <Table columns={columns} dataSource={tableData} pagination={false}
+                        summary={(pageData) => {
+                            let totalProventos = 0;
+                            let totalDescontos = 0;
 
-                                pageData.forEach(({ valorProvento, valorDesconto }) => {
-                                    totalProventos += valorProvento ? valorProvento : 0;
-                                    totalDescontos += valorDesconto ? valorDesconto : 0;
-                                }
-                                );
-                                return (
-                                    <>
-                                        <Table.Summary.Row style={{ textAlign: "center", fontSize: "16px" }}>
-                                            <Table.Summary.Cell index={0} align="start">Total</Table.Summary.Cell>
-                                            <Table.Summary.Cell index={1}><Text>{<MonetaryOutput value={totalProventos} />}</Text></Table.Summary.Cell>
-                                            <Table.Summary.Cell index={2}><Text>{<MonetaryOutput value={totalDescontos} />}</Text></Table.Summary.Cell>
-                                        </Table.Summary.Row>
-                                        <Table.Summary.Row style={{ textAlign: "center", fontSize: "18px" }}>
-                                            <Table.Summary.Cell index={0}>Total líquido</Table.Summary.Cell>
-                                            <Table.Summary.Cell index={1} colSpan={2}>R$ {<MonetaryOutput value={totalProventos - totalDescontos} />}</Table.Summary.Cell>
-                                        </Table.Summary.Row>
-                                    </>
-                                )
-                            }} />
-                    </Card>
-                </div>
+                            pageData.forEach(({ valorProvento, valorDesconto }) => {
+                                totalProventos += valorProvento ? valorProvento : 0;
+                                totalDescontos += valorDesconto ? valorDesconto : 0;
+                            }
+                            );
+                            return (
+                                <>
+                                    <Table.Summary.Row style={{ textAlign: "center", fontSize: "16px" }}>
+                                        <Table.Summary.Cell index={0} align="start">Total</Table.Summary.Cell>
+                                        <Table.Summary.Cell index={1}><Text>{<MonetaryOutput value={totalProventos} />}</Text></Table.Summary.Cell>
+                                        <Table.Summary.Cell index={2}><Text>{<MonetaryOutput value={totalDescontos} />}</Text></Table.Summary.Cell>
+                                    </Table.Summary.Row>
+                                    <Table.Summary.Row style={{ textAlign: "center", fontSize: "18px" }}>
+                                        <Table.Summary.Cell index={0}>Total líquido</Table.Summary.Cell>
+                                        <Table.Summary.Cell index={1} colSpan={2}>R$ {<MonetaryOutput value={totalProventos - totalDescontos} />}</Table.Summary.Cell>
+                                    </Table.Summary.Row>
+                                </>
+                            )
+                        }} />
+                </Card>
             )}
             <AvisoCalculo />
         </div >

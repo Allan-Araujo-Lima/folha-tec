@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }
 
 .container .nav-container {
@@ -19,7 +20,7 @@
 
 .container .ant-card {
     margin: 12px;
-    min-width: 400px;
+    min-width: 200px;
     width: 60vh;
 }
 
@@ -28,7 +29,27 @@
 }
 
 @media (max-width: 578px) {
-    .ant-card {
+    .container .ant-card {
         width: 100%;
+    }
+
+    .container .ant-card-body {
+        padding: 4px;
+    }
+
+    .container .ant-table-content {
+        display: flex;
+        justify-content: center;
+        font-size: 12px;
+    }
+
+    .container .ant-btn {
+        margin-bottom: 6px;
+    }
+
+    ;
+
+    .ant-table-summary {
+        font-size: 12px !important;
     }
 }

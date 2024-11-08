@@ -2,7 +2,12 @@
     border-bottom: none !important;
 }
 
-@media (max-width: 570px) {
+.AvisoCalculo {
+    padding: 12px;
+}
+
+@media (max-width: 578px) {
+
     .h1 {
         font-size: 1.8em;
     }
