@@ -1,18 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Layout, Flex } from 'antd';
-import { SnippetsOutlined, PlusOutlined, MoonOutlined, UsergroupDeleteOutlined, DollarOutlined, SunOutlined } from '@ant-design/icons';
+import { Flex } from 'antd';
+import { SnippetsOutlined, PlusOutlined, MoonOutlined, UsergroupDeleteOutlined } from '@ant-design/icons';
 
 import "./styles.css"
-
-const { Content } = Layout;
 
 export const Calculadoras = () => {
 
     return (
         <div className='container'>
             <h1>Calculadoras</h1>
-            <p>Nesta aba você poderia encontrar diversas calculadoras para a conferência das mais diversas vérbas trabalhistas de sua empresa!</p>
+            <p>Nesta aba você poderia encontrar diversas calculadoras para a conferência das mais diversas verbas trabalhistas de sua empresa!</p>
             <Flex className='boxStyle'
                 justify='space-evenly'
                 align='center'

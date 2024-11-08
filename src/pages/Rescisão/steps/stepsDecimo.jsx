@@ -31,7 +31,23 @@ export const StepsDecimo = ({ info, changeStep }) => {
                     </Checkbox>
                     {
                         checkerDecimo === true ?
-                            <Form.Item name={"adiantamentoDecimo"} label="Valor adiantado ao empregado">
+                            <Form.Item name={"adiantamentoDecimo"} label="Valor adiantado ao empregado"
+                                rules={[({ getFieldValue }) => ({
+                                    validator(_, value) {
+                                        if (!value) {
+                                            return Promise.resolve();
+                                        }
+                                        let maxDecimo = info.salarioBase;
+                                        maxDecimo += info.insalubridade ? info.insalubridade : 0;
+                                        maxDecimo += info.periculosidade ? info.periculosidade : 0;
+                                        maxDecimo += info.variavelDecimo ? info.variavelDecimo : 0
+                                        console.log(maxDecimo)
+                                        if (getFieldValue("adiantamentoDecimo") > maxDecimo * 0.80) {
+                                            return Promise.reject(new Error('O valor do adiantamento de 13° são pode ser maior do que 80% da sua base de cálculo.'))
+                                        }
+                                        return Promise.resolve();
+                                    }
+                                })]}>
                                 <MonetaryInput
                                     value={amount}
                                     onChange={(value) => setAmount(value)}

@@ -23,7 +23,8 @@ export const Rescisao = () => {
     };
 
     // Função chamada ao submeter o formulário
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
+        await form.validateFields();
         setInfo(values); // Atualiza o estado com os valores do formulário
         setResult(true)
     };
@@ -52,7 +53,7 @@ export const Rescisao = () => {
         {
             key: "4",
             label: "13° Salário",
-            children: <StepsDecimo changeStep={openPanel} />
+            children: <StepsDecimo info={info} changeStep={openPanel} />
         },
         {
             key: "5",

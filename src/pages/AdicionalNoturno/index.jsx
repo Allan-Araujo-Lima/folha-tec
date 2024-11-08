@@ -1,12 +1,10 @@
-import { Card, Form, InputNumber, Layout, Select, Space, Button } from "antd"
+import { Card, Form, InputNumber, Select, Space, Button } from "antd"
 
 import { useState } from "react";
 
 import { MaskedInput, MonetaryInput } from "../../hooks/inputMask";
 import { AvisoCalculo } from "../../components/Avisos";
 import "../styles.css"
-
-const { Content } = Layout;
 
 export const AdicionalNoturno = () => {
 
@@ -39,7 +37,6 @@ export const AdicionalNoturno = () => {
     }
 
     const submit = async (values) => {
-
 
         await form.validateFields();
 

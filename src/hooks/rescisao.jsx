@@ -19,6 +19,7 @@ export function rescisao(info) {
     const insalubridade = info.adicionais == "insalubridade" ? SalarioMinimo * info.insalubridade / 100 : 0;
     const periculosidade = info.adicionais == "periculosidade" ? salarioBase * info.periculosidade / 100 : 0;
     const salarioBaseAdicionais = salarioBase + insalubridade + periculosidade;
+    const adiantamentoDecimo = info.adiantamentoDecimo ? info.adiantamentoDecimo : 0;
 
     // Datas e quantidade de dias
     let diasAvisoPrevio = info?.dataDemissao && info?.dataAdmissao ? dayjs(info.dataDemissao, dataFormat).diff(info.dataAdmissao, "year") * 3 + 30 : 30;
@@ -96,7 +97,6 @@ export function rescisao(info) {
             }
             counter++;
         }
-        console.log(dayjs(projecaoAviso).diff(dayjs(inicioFeriasProporcionais).add(periodoProporcionalMes + counter, "month"), "day") + 1)
         feriasIndenizadas = baseFeriasProporcionais / 12 * avosFeriasIndenizadas;
         tercoFeriasIndenizadas = feriasIndenizadas / 3;
     };
@@ -168,7 +168,7 @@ export function rescisao(info) {
 
     // FGTS
     const aliquotaFgts = info.categoriaEmpregado !== "aprendiz" ? 8 : 2;
-    const baseCalculoFgts = saldoSalario + saldoInsalubridade + saldoPericulosidade + valorAviso + valorDecimo + valorDecimoIndenizado;
+    const baseCalculoFgts = saldoSalario + saldoInsalubridade + saldoPericulosidade + valorAviso + valorDecimo + valorDecimoIndenizado - adiantamentoDecimo;
     const fgtsRescisao = fgts(baseCalculoFgts, aliquotaFgts)
 
     // Multa FGTS
@@ -259,6 +259,12 @@ export function rescisao(info) {
             referencia: `${avosDecimoIndenizado}/12`,
             valor: valorDecimoIndenizado,
             provento: true,
+        },
+        {
+            evento: "Adiantamento de 13° Salário",
+            referencia: null,
+            valor: adiantamentoDecimo,
+            provento: false,
         },
         {
             evento: "INSS Rescisão",
