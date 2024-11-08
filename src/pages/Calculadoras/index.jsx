@@ -22,9 +22,9 @@ export const Calculadoras = () => {
                                 style={{ fontSize: '20px' }} />
                         </div>
                         <div className='calc'>
-                            <a>
+                            <span>
                                 Folha de Pagamento
-                            </a>
+                            </span>
                         </div>
                     </div>
                 </Link>
@@ -35,9 +35,9 @@ export const Calculadoras = () => {
                                 style={{ fontSize: '20px' }} />
                         </div>
                         <div className='calc'>
-                            <a>
+                            <span>
                                 Hora Extra
-                            </a>
+                            </span>
                         </div>
                     </div>
                 </Link>
@@ -48,9 +48,9 @@ export const Calculadoras = () => {
                                 style={{ fontSize: '20px' }} />
                         </div>
                         <div className='calc'>
-                            <a>
+                            <span>
                                 Adicional Noturno
-                            </a>
+                            </span>
                         </div>
                     </div>
                 </Link>
@@ -61,9 +61,9 @@ export const Calculadoras = () => {
                                 style={{ fontSize: '20px' }} />
                         </div>
                         <div className='calc'>
-                            <a>
+                            <span>
                                 Rescisão
-                            </a>
+                            </span>
                         </div>
                     </div>
                 </Link>
